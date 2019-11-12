@@ -79,6 +79,7 @@ ID				= [a-z]+([0-9]|[a-z])*
 STRING          = "([a-z]|[A-Z])*"
 COMMENTS_CONTENT = ({PARANTHESIS}|{SPECIAL_CHARS}|[a-z]|[A-Z]|[0-9]|{WhiteSpace})*
 COMMENTS         = \/\*{COMMENTS_CONTENT}\*\/|\/\/{COMMENTS_CONTENT}
+// ERROR = ^(LineTerminator || WhiteSpace || PARANTHESIS || SPECIAL_CHARS || INTEGER || ID ||
 
 
 /******************************/
@@ -129,4 +130,5 @@ COMMENTS         = \/\*{COMMENTS_CONTENT}\*\/|\/\/{COMMENTS_CONTENT}
 {WhiteSpace}		{ /* just skip what was found, do nothing */ }
 {STRING}            { return symbol(TokenNames.STRING, new String( yytext()));}
 <<EOF>>				{ return symbol(TokenNames.EOF);}
+.					{ return symbol(TokenNames.ERROR);}
 }

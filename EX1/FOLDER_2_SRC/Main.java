@@ -39,7 +39,8 @@ public class Main
 			/********************************/
 			/* [5] Main reading tokens loop */
 			/********************************/
-			while (s.sym != TokenNames.EOF)
+			StringBuilder file_contnet = new StringBuilder();
+			while (s.sym != TokenNames.EOF && s.sym != TokenNames.ERROR)
 			{
 				/************************/
 				/* [6] Print to console */
@@ -59,29 +60,33 @@ public class Main
 				file_writer.print(": ");
 				file_writer.print(s.value);
 				file_writer.print("\n");*/
-				String nameToken = TokenNames.getTokenName(s.sym);
-				file_writer.print(nameToken);
+				file_contnet.append(TokenNames.getTokenName(s.sym));
 				if (s.value != null) {
-					file_writer.print("(");
-					if (nameToken.equals("ID") || nameToken.equals("STRING"))
-						file_writer.print("\"");
-					file_writer.print(s.value);
-					if (nameToken.equals("ID") || nameToken.equals("STRING"))
-						file_writer.print("\"");
-					file_writer.print(")");
+					file_contnet.append("(");
+					if (s.sym == TokenNames.STRING)
+						file_contnet.append("\"");
+					file_contnet.append(s.value);
+					if (s.sym == TokenNames.STRING)
+						file_contnet.append("\"");
+					file_contnet.append(")");
 				}
-				file_writer.print("[");
-				file_writer.print(l.getLine());
-				file_writer.print(",");
-				file_writer.print(l.getTokenStartPosition());
-				file_writer.print("]");
-				file_writer.print("\n");
+				file_contnet.append("[");
+				file_contnet.append(l.getLine());
+				file_contnet.append(",");
+				file_contnet.append(l.getTokenStartPosition());
+				file_contnet.append("]");
+				file_contnet.append("\n");
 				
 				/***********************/
 				/* [8] Read next token */
 				/***********************/
 				s = l.next_token();
 			}
+			
+			if (s.sym == TokenNames.ERROR)
+				file_writer.print("ERROR");
+			else
+				file_writer.print(file_contnet);
 			
 			/******************************/
 			/* [9] Close lexer input file */

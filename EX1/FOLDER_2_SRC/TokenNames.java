@@ -29,6 +29,7 @@ public interface TokenNames {
     public static final int STRING = 27;
     public static final int ID = 28;
     public static final int EOF = 29;
+	public static final int ERROR = 30;
 
     public static String getTokenName(int token_number) {
       switch(token_number) {
