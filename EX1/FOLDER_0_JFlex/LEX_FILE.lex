@@ -70,16 +70,16 @@ import java_cup.runtime.*;
 /***********************/
 /* MACRO DECALARATIONS */
 /***********************/
-LineTerminator	= \r|\n|\r\n
-WhiteSpace		= {LineTerminator} | [ \t\f]
-PARANTHESIS     = \(|\)|\{|\}|\[|\]
-SPECIAL_CHARS   = \?|\!|\-|\+|\*|\/|\.|\;
-INTEGER			= 0 | -?[1-9][0-9]*
-ID				= [a-z]+([0-9]|[a-z])*
-STRING          = "([a-z]|[A-Z])*"
-COMMENTS_CONTENT = ({PARANTHESIS}|{SPECIAL_CHARS}|[a-z]|[A-Z]|[0-9]|{WhiteSpace})*
-COMMENTS         = \/\*{COMMENTS_CONTENT}\*\/|\/\/{COMMENTS_CONTENT}
-// ERROR = ^(LineTerminator || WhiteSpace || PARANTHESIS || SPECIAL_CHARS || INTEGER || ID ||
+LineTerminator	 = \r|\n|\r\n
+SimpleWhiteSpace = [ \t\f]
+WhiteSpace	 = {LineTerminator} | {SimpleWhiteSpace}
+PARANTHESIS      = \(|\)|\{|\}|\[|\]
+SPECIAL_CHARS    = \?|\!|\-|\+|\*|\/|\.|\;
+INTEGER		 = 0 | -?[1-9][0-9]*
+ID		 = ([a-z]|[A-Z])+([0-9]|[a-z]|[A-Z])*
+STRING           = "([a-z]|[A-Z])*"
+COMMENTS_CONTENT = ({PARANTHESIS}|{SPECIAL_CHARS}|[a-z]|[A-Z]|[0-9]|{SimpleWhiteSpace})*
+COMMENTS         = \/\*({COMMENTS_CONTENT}|{LineTerminator}\*\/|\/\/{COMMENTS_CONTENT}
 
 
 /******************************/
@@ -100,12 +100,12 @@ COMMENTS         = \/\*{COMMENTS_CONTENT}\*\/|\/\/{COMMENTS_CONTENT}
 
 <YYINITIAL> {
 {COMMENTS}          { /* just skip what was found, do nothing */ }
-"+"					{ return symbol(TokenNames.PLUS);}
-"-"					{ return symbol(TokenNames.MINUS);}
-"*"				    { return symbol(TokenNames.TIMES);}
-"/"					{ return symbol(TokenNames.DIVIDE);}
-"("					{ return symbol(TokenNames.LPAREN);}
-")"					{ return symbol(TokenNames.RPAREN);}
+"+"		    { return symbol(TokenNames.PLUS);}
+"-"	   	    { return symbol(TokenNames.MINUS);}
+"*"		    { return symbol(TokenNames.TIMES);}
+"/"  		    { return symbol(TokenNames.DIVIDE);}
+"("		    { return symbol(TokenNames.LPAREN);}
+")"		    { return symbol(TokenNames.RPAREN);}
 "["                 { return symbol(TokenNames.LBRACK);}
 "]"                 { return symbol(TokenNames.RBRACK);}
 "{"                 { return symbol(TokenNames.LBRACE);}
@@ -125,10 +125,10 @@ COMMENTS         = \/\*{COMMENTS_CONTENT}\*\/|\/\/{COMMENTS_CONTENT}
 "while"             { return symbol(TokenNames.WHILE);}
 "if"                { return symbol(TokenNames.IF);}
 "new"               { return symbol(TokenNames.NEW);}
-{INTEGER}			{ return symbol(TokenNames.INT, new Integer(yytext()));}
-{ID}				{ return symbol(TokenNames.ID,     new String( yytext()));}   
-{WhiteSpace}		{ /* just skip what was found, do nothing */ }
+{INTEGER}	    { return symbol(TokenNames.INT, new Integer(yytext()));}
+{ID}		    { return symbol(TokenNames.ID,     new String( yytext()));}   
+{WhiteSpace}	    { /* just skip what was found, do nothing */ }
 {STRING}            { return symbol(TokenNames.STRING, new String( yytext()));}
-<<EOF>>				{ return symbol(TokenNames.EOF);}
-.					{ return symbol(TokenNames.ERROR);}
+<<EOF>>		    { return symbol(TokenNames.EOF);}
+.		    { return symbol(TokenNames.ERROR);}
 }
