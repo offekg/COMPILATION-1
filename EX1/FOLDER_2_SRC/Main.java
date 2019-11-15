@@ -8,11 +8,13 @@ public class Main
 	static public void main(String argv[])
 	{
 		Lexer l;
-		Symbol s;
+		Symbol s = null;
 		FileReader file_reader;
 		PrintWriter file_writer;
 		String inputFilename = argv[0];
 		String outputFilename = argv[1];
+		boolean int_out_of_range = false;
+		int int_value;
 		
 		try
 		{
@@ -34,14 +36,30 @@ public class Main
 			/***********************/
 			/* [4] Read next token */
 			/***********************/
+		
 			s = l.next_token();
-
+	
 			/********************************/
 			/* [5] Main reading tokens loop */
 			/********************************/
 			StringBuilder file_contnet = new StringBuilder();
-			while (s.sym != TokenNames.EOF && s.sym != TokenNames.ERROR)
+			while (!int_out_of_range && s.sym != TokenNames.EOF && s.sym != TokenNames.ERROR)
 			{
+				System.out.println("inside loop");
+				try {
+					if (s.sym == TokenNames.INT) {
+						int_value = Integer.parseInt((s.value).toString()); 
+						if (int_value > (Math.pow(2,15) -1) || int_value < -(Math.pow(2,15))) {
+							int_out_of_range = true;
+							break;
+						}
+					}
+				} catch(Exception e){
+					int_out_of_range = true;
+					System.out.println("inside catch");
+					break;
+				}
+			
 				/************************/
 				/* [6] Print to console */
 				/************************/
@@ -56,18 +74,14 @@ public class Main
 				/*********************/
 				/* [7] Print to file */
 				/*********************/
-			/*file_writer.print(l.getLine());
+				/*file_writer.print(l.getLine());
 				file_writer.print(": ");
 				file_writer.print(s.value);
 				file_writer.print("\n");*/
 				file_contnet.append(TokenNames.getTokenName(s.sym));
 				if (s.value != null) {
 					file_contnet.append("(");
-					if (s.sym == TokenNames.STRING)
-						file_contnet.append("\"");
 					file_contnet.append(s.value);
-					if (s.sym == TokenNames.STRING)
-						file_contnet.append("\"");
 					file_contnet.append(")");
 				}
 				file_contnet.append("[");
@@ -76,14 +90,14 @@ public class Main
 				file_contnet.append(l.getTokenStartPosition());
 				file_contnet.append("]");
 				file_contnet.append("\n");
+
 				
 				/***********************/
 				/* [8] Read next token */
 				/***********************/
 				s = l.next_token();
 			}
-			
-			if (s.sym == TokenNames.ERROR)
+			if (int_out_of_range || s.sym == TokenNames.ERROR)
 				file_writer.print("ERROR");
 			else
 				file_writer.print(file_contnet);

@@ -77,9 +77,9 @@ PARANTHESIS      = \(|\)|\{|\}|\[|\]
 SPECIAL_CHARS    = \?|\!|\-|\+|\*|\/|\.|\;
 INTEGER		 = 0 | -?[1-9][0-9]*
 ID		 = ([a-z]|[A-Z])+([0-9]|[a-z]|[A-Z])*
-STRING           = "([a-z]|[A-Z])*"
+STRING           = \"([a-z]|[A-Z])*\"
 COMMENTS_CONTENT = ({PARANTHESIS}|{SPECIAL_CHARS}|[a-z]|[A-Z]|[0-9]|{SimpleWhiteSpace})*
-COMMENTS         = \/\*({COMMENTS_CONTENT}|{LineTerminator}\*\/|\/\/{COMMENTS_CONTENT}
+COMMENTS         = \/\*({COMMENTS_CONTENT}|{LineTerminator})*\*\/|\/\/{COMMENTS_CONTENT}
 
 
 /******************************/
@@ -125,7 +125,7 @@ COMMENTS         = \/\*({COMMENTS_CONTENT}|{LineTerminator}\*\/|\/\/{COMMENTS_CO
 "while"             { return symbol(TokenNames.WHILE);}
 "if"                { return symbol(TokenNames.IF);}
 "new"               { return symbol(TokenNames.NEW);}
-{INTEGER}	    { return symbol(TokenNames.INT, new Integer(yytext()));}
+{INTEGER}	    { return symbol(TokenNames.INT, yytext());}
 {ID}		    { return symbol(TokenNames.ID,     new String( yytext()));}   
 {WhiteSpace}	    { /* just skip what was found, do nothing */ }
 {STRING}            { return symbol(TokenNames.STRING, new String( yytext()));}
