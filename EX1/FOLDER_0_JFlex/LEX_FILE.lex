@@ -119,7 +119,7 @@ COMMENTS         = \/\*({COMMENTS_CONTENT}|{LineTerminator})*\*\/|\/\/{COMMENTS_
 "<"                 { return symbol(TokenNames.LT);}
 ">"                 { return symbol(TokenNames.GT);}
 "array"             { return symbol(TokenNames.ARRAY);}
-"nil"				{ return symbol(TokenNames.NIL);}
+"nil"		    { return symbol(TokenNames.NIL);}
 "class"             { return symbol(TokenNames.CLASS);}
 "extends"           { return symbol(TokenNames.EXTENDS);}
 "return"            { return symbol(TokenNames.RETURN);}
