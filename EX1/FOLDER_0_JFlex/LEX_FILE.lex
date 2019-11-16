@@ -72,11 +72,12 @@ import java_cup.runtime.*;
 /***********************/
 LineTerminator	 = \r|\n|\r\n
 SimpleWhiteSpace = [ \t\f]
-WhiteSpace	 = {LineTerminator} | {SimpleWhiteSpace}
+WhiteSpace	     = {LineTerminator} | {SimpleWhiteSpace}
 PARANTHESIS      = \(|\)|\{|\}|\[|\]
 SPECIAL_CHARS    = \?|\!|\-|\+|\*|\/|\.|\;
-INTEGER		 = 0 | -?[1-9][0-9]*
-ID		 = ([a-z]|[A-Z])+([0-9]|[a-z]|[A-Z])*
+INTEGER		     = 0 | -?[1-9][0-9]*
+INTEGER_ERROR    = -?0[0-9]+|-0
+ID		         = ([a-z]|[A-Z])+([0-9]|[a-z]|[A-Z])*
 STRING           = \"([a-z]|[A-Z])*\"
 COMMENTS_CONTENT = ({PARANTHESIS}|{SPECIAL_CHARS}|[a-z]|[A-Z]|[0-9]|{SimpleWhiteSpace})*
 COMMENTS         = \/\*({COMMENTS_CONTENT}|{LineTerminator})*\*\/|\/\/{COMMENTS_CONTENT}
@@ -119,17 +120,18 @@ COMMENTS         = \/\*({COMMENTS_CONTENT}|{LineTerminator})*\*\/|\/\/{COMMENTS_
 "<"                 { return symbol(TokenNames.LT);}
 ">"                 { return symbol(TokenNames.GT);}
 "array"             { return symbol(TokenNames.ARRAY);}
-"nil"		    { return symbol(TokenNames.NIL);}
+"nil"		        { return symbol(TokenNames.NIL);}
 "class"             { return symbol(TokenNames.CLASS);}
 "extends"           { return symbol(TokenNames.EXTENDS);}
 "return"            { return symbol(TokenNames.RETURN);}
 "while"             { return symbol(TokenNames.WHILE);}
 "if"                { return symbol(TokenNames.IF);}
 "new"               { return symbol(TokenNames.NEW);}
-{INTEGER}	    { return symbol(TokenNames.INT, yytext());}
-{ID}		    { return symbol(TokenNames.ID,     new String( yytext()));}   
+{INTEGER}	        { return symbol(TokenNames.INT, yytext());}
+{ID}		        { return symbol(TokenNames.ID,     new String( yytext()));}   
 {WhiteSpace}	    { /* just skip what was found, do nothing */ }
 {STRING}            { return symbol(TokenNames.STRING, new String( yytext()));}
-<<EOF>>		    { return symbol(TokenNames.EOF);}
-.		    { return symbol(TokenNames.ERROR);}
+<<EOF>>		        { return symbol(TokenNames.EOF);}
+{INTEGER_ERROR}     { return symbol(TokenNames.ERROR);}
+.		            { return symbol(TokenNames.ERROR);}
 }
