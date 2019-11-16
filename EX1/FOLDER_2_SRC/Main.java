@@ -53,7 +53,7 @@ public class Main
 							break;
 						}
 					}
-				} catch(Exception e){
+				} catch(NumberFormatException e){
 					int_out_of_range = true;
 					break;
 				}
