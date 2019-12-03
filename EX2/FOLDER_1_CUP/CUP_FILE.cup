@@ -111,10 +111,10 @@ non terminal AST_STMT_LIST stmtList;
 /* OPERATOR PRECEDENCE */
 /***********************/
 precedence left DOT;
-precedence left RPAERN;
-precedence left LPAREN;
-precedence left RBRACK;
-precedence left LBRACK;
+//precedence RPAERN;
+precedence LPAREN;
+//precedence left RBRACK;
+precedence LBRACK;
 precedence left DIVIDE;
 precedence left TIMES;
 precedence left MINUS;
@@ -122,7 +122,7 @@ precedence left PLUS;
 precedence left GT;
 precedence left LT;
 precedence left EQ;	
-precedence left ASSIGN;
+precedence ASSIGN;
 
 /************************/
 /* START WITH: stmtList */
