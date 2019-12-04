@@ -1,17 +1,11 @@
-package AST;
+package EX2.FOLDER_2_SRC.AST;
 
-public class AST_STMT_ASSIGN extends AST_STMT
+public class AST_STMT_ASSIGN_EXP extends AST_STMT
 {
-	/***************/
-	/*  var := exp */
-	/***************/
 	public AST_VAR var;
 	public AST_EXP exp;
 
-	/*******************/
-	/*  CONSTRUCTOR(S) */
-	/*******************/
-	public AST_STMT_ASSIGN(AST_VAR var,AST_EXP exp)
+	public AST_STMT_ASSIGN_EXP(AST_VAR var,AST_EXP exp)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
