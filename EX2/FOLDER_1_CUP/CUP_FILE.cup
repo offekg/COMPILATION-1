@@ -133,29 +133,36 @@ start with stmtList;
 /* DERIVATION RULES */
 /********************/
 
-/*how to handle conflicts: 
-	with correct precedences.
-	or by hand
-	
-*/
 
-//Program :== dec+  ??????????????????????? //give both options
+Program     ::=     decList:d {: RESULT = new AST_DEC(d);    :}
+					; 
 
+decList		::=		dec:d	decList:l		{: RESULT = new AST_DEC_LIST(d,l);    :}
+					| dec:d					{: RESULT = new AST_DEC_LIST(d,null); :}
+					;
+					
+					
 dec 	    ::=     varDec:vd 					{: RESULT = new AST_DEC_VARDEC(vd);    :}
-					| funcDec:fd				{: RESULT = new AST_DEC_FUNCDEC(fd);    :}
-					| funcDec:cd				{: RESULT = new AST_DEC_CLASSDEC(cd);    :}
-					| funcDec:ad				{: RESULT = new AST_DEC_ARRAYDEC(ad);    :}
+					| funcDec:fd				{: RESULT = new AST_DEC_FUNCDEC(fd);   :}
+					| funcDec:cd				{: RESULT = new AST_DEC_CLASSDEC(cd);  :}
+					| funcDec:ad				{: RESULT = new AST_DEC_ARRAYDEC(ad);  :}
 					;
 
-varDec 	    ::=     ID:name1 ID:name2  ASSIGN exp:e SEMICOLON		{: RESULT = new AST_DEC_VARDEC_OLD(name1, name2, e);    :}
+varDec 	    ::=     ID:name1 ID:name2 SEMICOLON						{: RESULT = new AST_DEC_VARDEC_OLD(name1, name2, null);    :}
+					| ID:name1 ID:name2  ASSIGN exp:e SEMICOLON		{: RESULT = new AST_DEC_VARDEC_OLD(name1, name2, e);
 					| ID:name1 ID:name2  ASSIGN newExp:e SEMICOLON	{: RESULT = new AST_DEC_VARDEC_NEW(name1, name2, e);    :}
 					;
 
-funcDec		::= 	ID:name1 ID:name2 LPAREN					///????????regexxxx
+funcDec		::= 	ID:name1 ID:name2 LPAREN RPAERN LBRACE stmtList:body RBRACE {: RESULT = new AST_DEC_FUNCDEC(name1,name2,null,null,null,body); :}					
+					| ID:name1 ID:name2 LPAREN ID:name3 ID:name4 RPAERN LBRACE stmtList:body RBRACE {: RESULT = new AST_DEC_FUNCDEC(name1,name2,name3,name4,null,body); :}	
+					| ID:name1 ID:name2 LPAREN ID:name3 ID:name4 twoIdList:body1 RPAERN LBRACE stmtList:body2 RBRACE {: RESULT = new AST_DEC_FUNCDEC(name1,name2,name3,name4,body1,body2); :}	
 					;
-
+twoIdList ::=     COMMA ID:name1 ID:name2 twoIdList:l	{: RESULT = new AST_TWO_ID_LIST(name1,name2,l);    :}
+					| COMMA ID:name1 ID:name2 				{: RESULT = new AST_TWO_ID_LIST(name1,name2,null); :}
+					;
+					
 classDec    ::=     CLASS ID:name1 EXTENDS ID:name2 LBRACE cFieldList:body RBRACE {: RESULT = new AST_DEC_CLASSDEC(name1,name2,body); :}
-
+					CLASS ID:name1 LBRACE cFieldList:body RBRACE {: RESULT = new AST_DEC_CLASSDEC(name1,null,body); :}
 					;
 					
 cFieldList	::=		cField:cf	cFieldList:l		{: RESULT = new AST_CFIELD_LIST(cf,l);    :}
@@ -168,11 +175,20 @@ arrayDec    ::=     ARRAY ID:name1 EQ ID:name2 LBRACK RBRACK {: RESULT = new AST
 exp			::=		var:v								{: RESULT = new AST_EXP_VAR(v);          :}
 					| LPAREN exp:e RPAERN				{: RESULT = new AST_EXP_EXP(e);			 :}
 					| exp:e1 BINOP:b exp:e2				{: RESULT = new AST_EXP_BINOP(e1, b, e2);	 :}
-					//| var:v DOT ID:name LPAREN .ef;lgmrlrgmmerlkgnelkrgnlkerg????????????
+					| var:v DOT ID:name LPAREN RPAERN   {: RESULT = new AST_EXP_ID(v,name,null,null);:}
+					| var:v DOT ID:name LPAREN exp:e RPAERN   					  {: RESULT = new AST_EXP_ID(v,name,e,null);:}
+					| var:v DOT ID:name LPAREN LPAREN exp:e expList:l RPAERN      {: RESULT = new AST_EXP_ID(v,name,e,l);:}
+					| ID:name LPAREN exp:e RPAERN   							  {: RESULT = new AST_EXP_ID(,name,e,null);:}
+					| ID:name LPAREN LPAREN RPAERN      						  {: RESULT = new AST_EXP_ID(v,name,null,null);:} 
+					| ID:name LPAREN LPAREN exp:e expList:l RPAERN                {: RESULT = new AST_EXP_ID(,name,e,l);:}
 					| MINUS INT:i 						{: RESULT = new AST_EXP_MINUS(i);		 :}
+					| INT:i 							{: RESULT = new AST_EXP_MINUS(i);		 :}
 					| NIL								{: RESULT = new AST_EXP_NIL();			 :}
 					| STRING:s 							{: RESULT = new AST_EXP_STRING(s);		 :}
-					;  
+					; 
+					
+expList     ::=     COMMA exp:e expList:l				{: RESULT = new AST_EXP_LIST(e,l);       :}
+					| COMMA exp:e						{: RESULT = new AST_EXP_LIST(e,null);       :}
 					
 
 var			::=		ID:name								{: RESULT = new AST_VAR_SIMPLE(name);       :}
@@ -183,10 +199,16 @@ var			::=		ID:name								{: RESULT = new AST_VAR_SIMPLE(name);       :}
 stmt		::=		varDec:vd							{: RESULT = new AST_VARDEC(vd); :}
 					| var:v ASSIGN exp:e SEMICOLON      {: RESULT = new AST_STMT_ASSIGN_OLD(v,e);  :}
 					| var:v ASSIGN newExp:en SEMICOLON	{: RESULT = new AST_STMT_ASSIGN_NEW(v,en); :}
-					| RETURN exp:e SEMICOLON            {: RESULT = new AST_RETURN(e);  			   :}
+					| RETURN exp:e SEMICOLON            {: RESULT = new AST_RETURN(e);  		   :}
+					| RETURN SEMICOLON            		{: RESULT = new AST_RETURN(null);  		   :}   
 					| IF    LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE	{: RESULT = new AST_STMT_IF(cond,body); :}
 					| WHILE LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE	{: RESULT = new AST_STMT_WHILE(cond,body); :}
-					//| var:v DOT ID:name LPAREN exp list?!?!??!?
+					| var:v DOT ID:name LPAREN RPAERN   						{: RESULT = new AST_STMT_ID(v,name,null,null);:}
+					| var:v DOT ID:name LPAREN exp:e RPAERN   					{: RESULT = new AST_STMT_ID(v,name,e,null);:}
+					| var:v DOT ID:name LPAREN LPAREN exp:e expList:l RPAERN    {: RESULT = new AST_STMT_ID(v,name,e,l);:}
+					| ID:name LPAREN exp:e RPAERN   							{: RESULT = new AST_STMT_ID(,name,e,null);:}
+					| ID:name LPAREN LPAREN RPAERN      						{: RESULT = new AST_STMT_ID(v,name,null,null);:} 
+					| ID:name LPAREN LPAREN exp:e expList:l RPAERN              {: RESULT = new AST_STMT_ID(,name,e,l);:}
 					;
 
 					
@@ -205,10 +227,10 @@ cField      ::=     varDec:vd 					{: RESULT = new AST_DEC_VARDEC(vd);    :}
 BINOP       ::=		PLUS						{: RESULT = new AST_BINOP(0);    :}
 					| MINUS						{: RESULT = new AST_BINOP(1);    :}	
 					| TIMES						{: RESULT = new AST_BINOP(2);    :}
-					| DIVIDE						{: RESULT = new AST_BINOP(3);    :}
-					| GT							{: RESULT = new AST_BINOP(4);    :}
-					| RT							{: RESULT = new AST_BINOP(5);    :}
-					| EQ							{: RESULT = new AST_BINOP(6);    :}
+					| DIVIDE					{: RESULT = new AST_BINOP(3);    :}
+					| GT						{: RESULT = new AST_BINOP(4);    :}
+					| RT						{: RESULT = new AST_BINOP(5);    :}
+					| EQ						{: RESULT = new AST_BINOP(6);    :}
 					;
 					
 
