@@ -178,9 +178,9 @@ exp			::=		var:v								{: RESULT = new AST_EXP_VAR(v);          :}
 					| var:v DOT ID:name LPAREN RPAERN   {: RESULT = new AST_EXP_ID(v,name,null,null);:}
 					| var:v DOT ID:name LPAREN exp:e RPAERN   					  {: RESULT = new AST_EXP_ID(v,name,e,null);:}
 					| var:v DOT ID:name LPAREN LPAREN exp:e expList:l RPAERN      {: RESULT = new AST_EXP_ID(v,name,e,l);:}
-					| ID:name LPAREN exp:e RPAERN   							  {: RESULT = new AST_EXP_ID(,name,e,null);:}
-					| ID:name LPAREN LPAREN RPAERN      						  {: RESULT = new AST_EXP_ID(v,name,null,null);:} 
-					| ID:name LPAREN LPAREN exp:e expList:l RPAERN                {: RESULT = new AST_EXP_ID(,name,e,l);:}
+					| ID:name LPAREN exp:e RPAERN   							  {: RESULT = new AST_EXP_ID(null,name,e,null);:}
+					| ID:name LPAREN LPAREN RPAERN      						  {: RESULT = new AST_EXP_ID(null,name,null,null);:} 
+					| ID:name LPAREN LPAREN exp:e expList:l RPAERN                {: RESULT = new AST_EXP_ID(null,name,e,l);:}
 					| MINUS INT:i 						{: RESULT = new AST_EXP_MINUS(i);		 :}
 					| INT:i 							{: RESULT = new AST_EXP_MINUS(i);		 :}
 					| NIL								{: RESULT = new AST_EXP_NIL();			 :}
@@ -199,16 +199,16 @@ var			::=		ID:name								{: RESULT = new AST_VAR_SIMPLE(name);       :}
 stmt		::=		varDec:vd							{: RESULT = new AST_VARDEC(vd); :}
 					| var:v ASSIGN exp:e SEMICOLON      {: RESULT = new AST_STMT_ASSIGN_OLD(v,e);  :}
 					| var:v ASSIGN newExp:en SEMICOLON	{: RESULT = new AST_STMT_ASSIGN_NEW(v,en); :}
-					| RETURN exp:e SEMICOLON            {: RESULT = new AST_RETURN(e);  		   :}
-					| RETURN SEMICOLON            		{: RESULT = new AST_RETURN(null);  		   :}   
+					| RETURN exp:e SEMICOLON            {: RESULT = new AST_STMT_RETURN(e);  		   :}
+					| RETURN SEMICOLON            		{: RESULT = new AST_STMT_RETURN(null);  		   :}   
 					| IF    LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE	{: RESULT = new AST_STMT_IF(cond,body); :}
 					| WHILE LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE	{: RESULT = new AST_STMT_WHILE(cond,body); :}
 					| var:v DOT ID:name LPAREN RPAERN   						{: RESULT = new AST_STMT_ID(v,name,null,null);:}
 					| var:v DOT ID:name LPAREN exp:e RPAERN   					{: RESULT = new AST_STMT_ID(v,name,e,null);:}
 					| var:v DOT ID:name LPAREN LPAREN exp:e expList:l RPAERN    {: RESULT = new AST_STMT_ID(v,name,e,l);:}
-					| ID:name LPAREN exp:e RPAERN   							{: RESULT = new AST_STMT_ID(,name,e,null);:}
-					| ID:name LPAREN LPAREN RPAERN      						{: RESULT = new AST_STMT_ID(v,name,null,null);:} 
-					| ID:name LPAREN LPAREN exp:e expList:l RPAERN              {: RESULT = new AST_STMT_ID(,name,e,l);:}
+					| ID:name LPAREN exp:e RPAERN   							{: RESULT = new AST_STMT_ID(null,name,e,null);:}
+					| ID:name LPAREN LPAREN RPAERN      						{: RESULT = new AST_STMT_ID(null,name,null,null);:} 
+					| ID:name LPAREN LPAREN exp:e expList:l RPAERN              {: RESULT = new AST_STMT_ID(null,name,e,l);:}
 					;
 
 					
