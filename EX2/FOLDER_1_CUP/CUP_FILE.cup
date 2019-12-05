@@ -92,20 +92,27 @@ termianl String STRING;
 /*****************/
 /* NON TERMINALS */
 /*****************/
+non terminal AST_Program Program;
 non terminal AST_DEC dec;
-non terminal AST_VARDEC varDec;
-non terminal AST_FUNCDEC funcDec;
-non terminal AST_CLASSDEC classDec;
+non terminal AST_DEC_LIST decList;
+non terminal AST_DEC_VARDEC varDec;
+non terminal AST_DEC_FUNCDEC funcDec;
+non terminal AST_TWO_ID twoId;
+non terminal AST_TWO_ID_LIST twoIdList;
+non terminal AST_DEC_CLASSDEC classDec;
+non terminal AST_CFIELD_LIST cFieldList;
 non terminal AST_ARRAYDEC arrayDec;
 non terminal AST_EXP exp;
+non terminal AST_EXP_LIST expList;
 non terminal AST_VAR var;
 non terminal AST_STMT stmt;
+non terminal AST_STMT_LIST stmtList;
 non terminal AST_NEWEXP newExp;
 non terminal AST_CFIELD cField;
 non terminal AST_BINOP BINOP;
 // non terminal AST_INT INT; (?)
 
-non terminal AST_STMT_LIST stmtList;
+
 
 /***********************/
 /* OPERATOR PRECEDENCE */
@@ -125,16 +132,16 @@ precedence left EQ;
 precedence ASSIGN;
 
 /************************/
-/* START WITH: stmtList */
+/* START WITH: Program */
 /************************/
-start with stmtList;
+start with Program;
 
 /********************/
 /* DERIVATION RULES */
 /********************/
 
 
-Program     ::=     decList:d {: RESULT = new AST_DEC(d);    :}
+Program     ::=     decList:d {: RESULT = new AST_PROGRAM(d);    :}
 					; 
 
 decList		::=		dec:d	decList:l		{: RESULT = new AST_DEC_LIST(d,l);    :}
@@ -157,8 +164,11 @@ funcDec		::= 	ID:name1 ID:name2 LPAREN RPAERN LBRACE stmtList:body RBRACE {: RES
 					| ID:name1 ID:name2 LPAREN ID:name3 ID:name4 RPAERN LBRACE stmtList:body RBRACE {: RESULT = new AST_DEC_FUNCDEC(name1,name2,name3,name4,null,body); :}	
 					| ID:name1 ID:name2 LPAREN ID:name3 ID:name4 twoIdList:body1 RPAERN LBRACE stmtList:body2 RBRACE {: RESULT = new AST_DEC_FUNCDEC(name1,name2,name3,name4,body1,body2); :}	
 					;
-twoIdList ::=     COMMA ID:name1 ID:name2 twoIdList:l	{: RESULT = new AST_TWO_ID_LIST(name1,name2,l);    :}
-					| COMMA ID:name1 ID:name2 				{: RESULT = new AST_TWO_ID_LIST(name1,name2,null); :}
+
+twoID	  ::=       COMMA ID:name1 ID:name2     {: RESULT = new AST_TWO_ID(name1,name2);    :}
+					
+twoIDList ::=       twoID:tid twoIDList:l       {: RESULT = new AST_TWO_ID_LIST(tid,l);    :}
+					| twoID:tid                 {: RESULT = new AST_TWO_ID_LIST(tid,null); :}
 					;
 					
 classDec    ::=     CLASS ID:name1 EXTENDS ID:name2 LBRACE cFieldList:body RBRACE {: RESULT = new AST_DEC_CLASSDEC(name1,name2,body); :}
@@ -233,6 +243,5 @@ BINOP       ::=		PLUS						{: RESULT = new AST_BINOP(0);    :}
 					| EQ						{: RESULT = new AST_BINOP(6);    :}
 					;
 					
-
 
 
