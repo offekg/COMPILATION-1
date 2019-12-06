@@ -1,4 +1,4 @@
-package EX2.FOLDER_2_SRC.AST;
+package AST;
 
 public class AST_STMT_ASSIGN_EXP extends AST_STMT
 {
