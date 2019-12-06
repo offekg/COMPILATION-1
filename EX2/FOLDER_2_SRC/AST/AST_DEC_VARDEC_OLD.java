@@ -8,5 +8,6 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 		this.name1 = name1;
 		this.name2 = name2;
 		this.exp = exp;
+		SerialNumber = AST_Node_Serial_Number.getFresh();
 	}
 }

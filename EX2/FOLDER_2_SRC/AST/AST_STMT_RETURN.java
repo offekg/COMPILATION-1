@@ -11,5 +11,6 @@ public class AST_STMT_RETURN extends AST_STMT {
 		this.name = name;
 		this.exp = exp;
 		this.expList = expList;
+		SerialNumber = AST_Node_Serial_Number.getFresh();
 	}
 }

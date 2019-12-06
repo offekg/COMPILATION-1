@@ -12,5 +12,6 @@ public class AST_STMT_WHILE extends AST_STMT
 	{
 		this.cond = cond;
 		this.body = body;
+		SerialNumber = AST_Node_Serial_Number.getFresh();
 	}
 }

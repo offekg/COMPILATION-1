@@ -8,5 +8,6 @@ public class AST_EXP_ID extends AST_EXP {
 		this.exp = exp;
 		this.name = name;
 		this.expList = expList;
+		SerialNumber = AST_Node_Serial_Number.getFresh();
 	}
 }

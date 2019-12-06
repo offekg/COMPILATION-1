@@ -5,5 +5,6 @@ public class AST_STMT_ID extends AST_STMT {
 
 	public AST_STMT_ID(AST_VAR var, AST_EXP exp) {
 		this.exp = exp;
+		SerialNumber = AST_Node_Serial_Number.getFresh();
 	}
 }
