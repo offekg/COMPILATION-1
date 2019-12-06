@@ -2,14 +2,14 @@ package AST;
 
 public class AST_EXP_BINOP extends AST_EXP
 {
-	int OP;
+	AST_BINOP OP;
 	public AST_EXP left;
 	public AST_EXP right;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AST_EXP_BINOP(AST_EXP left,AST_EXP right,int OP)
+	public AST_EXP_BINOP(AST_EXP left,AST_EXP right,AST_BINOP OP)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
@@ -39,8 +39,8 @@ public class AST_EXP_BINOP extends AST_EXP
 		/*********************************/
 		/* CONVERT OP to a printable sOP */
 		/*********************************/
-		if (OP == 0) {sOP = "+";}
-		if (OP == 1) {sOP = "-";}
+		if (OP.OP == 0) {sOP = "+";}
+		if (OP.OP == 1) {sOP = "-";}
 		
 		/*************************************/
 		/* AST NODE TYPE = AST SUBSCRIPT VAR */

@@ -1,6 +1,6 @@
 package AST;
 
-public abstract class AST_TWO_ID extends AST_Node
+public class AST_TWO_ID extends AST_Node
 {
 	public String name1;
 	public String name2;
