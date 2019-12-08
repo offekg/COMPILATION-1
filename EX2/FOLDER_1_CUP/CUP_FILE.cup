@@ -233,8 +233,8 @@ newExp      ::=     NEW ID:name				{: RESULT = new AST_NEWEXP_ID1(name);        
 					| NEW ID:name LBRACK exp:e RBRACK	{: RESULT = new AST_NEWEXP_ID2(name,e); :}
 					;
 
-cField      ::=     varDec:vd 				
-					| funcDec:fd			
+cField      ::=     varDec:vd 				{: RESULT = new AST_CFIELD_VARDEC(vd);       :}		
+					| funcDec:fd	                        {: RESULT = new AST_CFIELD_FUNCDEC(vd); :}		
 					;
 
 BINOP       ::=		PLUS						{: RESULT = new AST_BINOP(0);    :} 
