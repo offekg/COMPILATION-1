@@ -1,11 +1,9 @@
 package AST;
 
-public class AST_BINOP extends AST_Node {
-	public int OP;
-	public AST_BINOP(int op){
-		this.OP = op;
-		/* SET A UNIQUE SERIAL NUMBER */
-		/******************************/
+public class AST_DEC_VAR extends AST_DEC {
+	public AST_DEC_VARDEC vd;
+	public AST_DEC_VAR(AST_DEC_VARDEC vd) {
+		this.vd = vd;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
 	}
 
@@ -17,13 +15,23 @@ public class AST_BINOP extends AST_Node {
 		/**************************************/
 		/* AST NODE TYPE = AST STATEMENT LIST */
 		/**************************************/
-		System.out.print("AST NODE BINOP\n");
+		System.out.print("AST NODE VAR\n");
+
+		/*************************************/
+		/* RECURSIVELY PRINT HEAD + TAIL ... */
+		/*************************************/
+		if (vd != null) vd.PrintMe();
 
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
 		/**********************************/
 		AST_GRAPHVIZ.getInstance().logNode(
 			SerialNumber,
-			"BINOP\n");
+			"VAR\n");
+
+		/****************************************/
+		/* PRINT Edges to AST GRAPHVIZ DOT file */
+		/****************************************/
+		if (vd != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,vd.SerialNumber);
 	}
 }

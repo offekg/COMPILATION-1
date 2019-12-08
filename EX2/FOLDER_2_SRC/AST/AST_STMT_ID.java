@@ -12,4 +12,36 @@ public class AST_STMT_ID extends AST_STMT {
 		this.expList = expList;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
 	}
+
+	/******************************************************/
+	/* The printing message for a statement list AST node */
+	/******************************************************/
+	public void PrintMe()
+	{
+		/**************************************/
+		/* AST NODE TYPE = AST STATEMENT LIST */
+		/**************************************/
+		System.out.print("AST NODE STMT ID\n");
+
+		/*************************************/
+		/* RECURSIVELY PRINT HEAD + TAIL ... */
+		/*************************************/
+		if (exp != null) exp.PrintMe();
+		if (var != null) var.PrintMe();
+		if (expList != null) expList.PrintMe();
+
+		/**********************************/
+		/* PRINT to AST GRAPHVIZ DOT file */
+		/**********************************/
+		AST_GRAPHVIZ.getInstance().logNode(
+			SerialNumber,
+			"STMT\nID\n");
+		
+		/****************************************/
+		/* PRINT Edges to AST GRAPHVIZ DOT file */
+		/****************************************/
+		if (exp != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,exp.SerialNumber);
+		if (var != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,var.SerialNumber);
+		if (expList != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,expList.SerialNumber);
+	}
 }

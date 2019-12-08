@@ -6,4 +6,32 @@ public abstract class AST_CFIELD_VARDEC extends AST_CFIELD {
 		this.vardec = vardec;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
 	}
+
+	/******************************************************/
+	/* The printing message for a statement list AST node */
+	/******************************************************/
+	public void PrintMe()
+	{
+		/**************************************/
+		/* AST NODE TYPE = AST STATEMENT LIST */
+		/**************************************/
+		System.out.print("AST NODE CFIELD VAR DEC\n");
+
+		/*************************************/
+		/* RECURSIVELY PRINT HEAD + TAIL ... */
+		/*************************************/
+		if (vardec != null) vardec.PrintMe();
+
+		/**********************************/
+		/* PRINT to AST GRAPHVIZ DOT file */
+		/**********************************/
+		AST_GRAPHVIZ.getInstance().logNode(
+			SerialNumber,
+			"CFIELD\nVAR DEC\n");
+		
+		/****************************************/
+		/* PRINT Edges to AST GRAPHVIZ DOT file */
+		/****************************************/
+		if (vardec != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,vardec.SerialNumber);
+	}
 }

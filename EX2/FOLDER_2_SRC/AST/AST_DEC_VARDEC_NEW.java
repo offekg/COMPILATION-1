@@ -10,4 +10,32 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 		this.exp = exp;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
 	}
+
+	/******************************************************/
+	/* The printing message for a statement list AST node */
+	/******************************************************/
+	public void PrintMe()
+	{
+		/**************************************/
+		/* AST NODE TYPE = AST STATEMENT LIST */
+		/**************************************/
+		System.out.print("AST NODE VAR DEC NEW\n");
+
+		/*************************************/
+		/* RECURSIVELY PRINT HEAD + TAIL ... */
+		/*************************************/
+		if (exp != null) exp.PrintMe();
+
+		/**********************************/
+		/* PRINT to AST GRAPHVIZ DOT file */
+		/**********************************/
+		AST_GRAPHVIZ.getInstance().logNode(
+			SerialNumber,
+			"VAR DEC\nNEW\n");
+		
+		/****************************************/
+		/* PRINT Edges to AST GRAPHVIZ DOT file */
+		/****************************************/
+		if (exp != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,exp.SerialNumber);
+	}
 }
