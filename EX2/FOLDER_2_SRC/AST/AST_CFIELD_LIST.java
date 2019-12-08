@@ -22,7 +22,7 @@ public class AST_CFIELD_LIST extends AST_CFIELD
 		/* PRINT CORRESPONDING DERIVATION RULE */
 		/***************************************/
 		if (tail != null) System.out.print("====================== cFieldList -> cField cFieldList\n");
-		if (tail == null) System.out.print("====================== dec -> cField      \n");
+		if (tail == null) System.out.print("====================== cFieldList -> cField      \n");
 
 		/*******************************/
 		/* COPY INPUT DATA NENBERS ... */
