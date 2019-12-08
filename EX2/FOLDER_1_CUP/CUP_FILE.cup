@@ -20,7 +20,7 @@ parser code
 		System.out.print("[");
 		System.out.print(lexer.getLine());
 		System.out.print(":");
-		//System.out.print(lexer.getCharPos());
+		System.out.print(lexer.getTokenStartPosition());
 		System.out.print("] ");
 		System.out.println("\n Error is: " + message);	
 		System.exit(0);
@@ -38,7 +38,7 @@ scan with
 	System.out.print("[");
 	System.out.print(lexer.getLine());
 	System.out.print(":");
-	//System.out.print(lexer.getCharPos());
+	System.out.print(lexer.getTokenStartPosition());
 	System.out.print("] ");
 	System.out.print(TokenNames.terminalNames[s.sym]);
 	if (s.value != null)
@@ -151,10 +151,10 @@ decList		::=		dec:d	decList:l		{: RESULT = new AST_DEC_LIST(d,l);    :}
 					;
 					
 					
-dec 	    ::=     varDec:vd 					
-					| funcDec:fd				
-					| classDec:cd				
-					| arrayDec:ad				
+dec 	    ::=     varDec:vd 	{: RESULT = new AST_DEC_VAR(vd); :}				
+					| funcDec:fd	{: RESULT = new AST_DEC_FUNC(fd); :}				
+					| classDec:cd	{: RESULT = new AST_DEC_CLASS(cd); :}				
+					| arrayDec:ad	{: RESULT = new AST_DEC_ARRAY(ad); :}				
 					;
 
 varDec 	    ::=     ID:name1 ID:name2 SEMICOLON						{: RESULT = new AST_DEC_VARDEC_OLD(name1, name2, null); :}

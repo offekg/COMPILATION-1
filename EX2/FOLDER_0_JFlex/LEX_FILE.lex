@@ -131,7 +131,7 @@ COMMENTS         = \/\*({COMMENTS_CONTENT}|{LineTerminator})*\*\/|\/\/{COMMENTS_
 {ID}		        { return symbol(TokenNames.ID,     new String( yytext()));}   
 {WhiteSpace}	    { /* just skip what was found, do nothing */ }
 {STRING}            { return symbol(TokenNames.STRING, new String( yytext()));}
-<<EOF>>		        { return symbol(TokenNames.EOF);}
+//<<EOF>>		        { return symbol(TokenNames.EOF);}
 {INTEGER_ERROR}     { return symbol(TokenNames.ERROR);}
 .		            { return symbol(TokenNames.ERROR);}
 }
