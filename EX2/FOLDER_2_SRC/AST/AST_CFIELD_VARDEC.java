@@ -2,9 +2,14 @@ package AST;
 
 public abstract class AST_CFIELD_VARDEC extends AST_CFIELD {
 	public AST_DEC_VARDEC vardec;
+	
 	public AST_CFIELD_VARDEC(AST_DEC_VARDEC vardec) {
 		this.vardec = vardec;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
+		/***************************************/
+		/* PRINT CORRESPONDING DERIVATION RULE */
+		/***************************************/
+		System.out.print("====================== CFIELD -> VARDEC"\n");
 	}
 
 	/******************************************************/
@@ -13,7 +18,7 @@ public abstract class AST_CFIELD_VARDEC extends AST_CFIELD {
 	public void PrintMe()
 	{
 		/**************************************/
-		/* AST NODE TYPE = AST STATEMENT LIST */
+		/* AST NODE TYPE = AST CFIELD_VARDEC  */
 		/**************************************/
 		System.out.print("AST NODE CFIELD VAR DEC\n");
 
