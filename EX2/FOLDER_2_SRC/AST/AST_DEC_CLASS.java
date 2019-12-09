@@ -2,9 +2,15 @@ package AST;
 
 public class AST_DEC_CLASS extends AST_DEC {
 	public AST_DEC_CLASSDEC cd;
+	
 	public AST_DEC_CLASS(AST_DEC_CLASSDEC cd) {
 		this.cd = cd;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
+		/***************************************/
+		/* PRINT CORRESPONDING DERIVATION RULE */
+		/***************************************/
+		System.out.print("====================== Dec -> CLASS (DEC)"\n");
+	}
 	}
 
 	/******************************************************/
@@ -13,9 +19,9 @@ public class AST_DEC_CLASS extends AST_DEC {
 	public void PrintMe()
 	{
 		/**************************************/
-		/* AST NODE TYPE = AST STATEMENT LIST */
+		/* AST NODE TYPE = AST CLASS          */
 		/**************************************/
-		System.out.print("AST NODE CLASS\n");
+		System.out.print("AST NODE DEC (CLASS)\n");
 
 		/*************************************/
 		/* RECURSIVELY PRINT HEAD + TAIL ... */
@@ -27,7 +33,7 @@ public class AST_DEC_CLASS extends AST_DEC {
 		/**********************************/
 		AST_GRAPHVIZ.getInstance().logNode(
 			SerialNumber,
-			"CLASS\n");
+			"DEC (CLASS)\n");
 
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
