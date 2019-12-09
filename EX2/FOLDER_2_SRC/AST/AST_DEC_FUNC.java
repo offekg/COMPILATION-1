@@ -2,9 +2,14 @@ package AST;
 
 public class AST_DEC_FUNC extends AST_DEC {
 	public AST_DEC_FUNCDEC fd;
+	
 	public AST_DEC_FUNC(AST_DEC_FUNCDEC fd) {
 		this.fd = fd;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
+		/***************************************/
+		/* PRINT CORRESPONDING DERIVATION RULE */
+		/***************************************/
+		System.out.print("====================== Dec -> FUNC (DEC)\n");
 	}
 
 	/******************************************************/
@@ -13,9 +18,9 @@ public class AST_DEC_FUNC extends AST_DEC {
 	public void PrintMe()
 	{
 		/**************************************/
-		/* AST NODE TYPE = AST STATEMENT LIST */
+		/* AST NODE TYPE = AST FUNC (DEC)     */
 		/**************************************/
-		System.out.print("AST NODE FUNC\n");
+		System.out.print("AST NODE DEC (FUNC)\n");
 
 		/*************************************/
 		/* RECURSIVELY PRINT HEAD + TAIL ... */
@@ -27,7 +32,7 @@ public class AST_DEC_FUNC extends AST_DEC {
 		/**********************************/
 		AST_GRAPHVIZ.getInstance().logNode(
 			SerialNumber,
-			"FUNC\n");
+			"DEC (FUNC)\n");
 
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
