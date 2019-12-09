@@ -2,27 +2,33 @@
 /* IMPORT(S) */
 /*************/
 import java_cup.runtime.*;
+import java.io.PrintWriter;
 import AST.*;
 import java.util.*;
 
 parser code 
 {:
 	public Lexer lexer;
+	public PrintWriter file_writer;
 
-	public Parser(Lexer lexer)
+	public Parser(Lexer lexer, PrintWriter file_writer)
 	{
 		super(lexer);
 		this.lexer = lexer;
+		this.file_writer = file_writer;
 	}
 	public void report_error(String message, Object info)
 	{
-		System.out.print("ERROR >> ");		
+		String str = String.format("ERROR(%d)",lexer.getLine());
+		this.file_writer.println(str);		
+		file_writer.close();
+		// consoul prints
+		System.out.print("ERROR >> ");
 		System.out.print("[");
 		System.out.print(lexer.getLine());
 		System.out.print(":");
 		System.out.print(lexer.getTokenStartPosition());
 		System.out.print("] ");
-		System.out.println("\n Error is: " + message);	
 		System.exit(0);
 	}
 :}
@@ -190,10 +196,10 @@ exp			::=		var:v								{: RESULT = new AST_EXP_VAR(v);          :}
 					| exp:e1 BINOP:b exp:e2				{: RESULT = new AST_EXP_BINOP(e1,e2, b);	 :}
 					| var:v DOT ID:name LPAREN RPAREN   {: RESULT = new AST_EXP_ID(v,name,null,null);:}
 					| var:v DOT ID:name LPAREN exp:e RPAREN   					  {: RESULT = new AST_EXP_ID(v,name,e,null);      :}
-					| var:v DOT ID:name LPAREN LPAREN exp:e expList:l RPAREN     {: RESULT = new AST_EXP_ID(v,name,e,l);         :}
+					| var:v DOT ID:name LPAREN exp:e expList:l RPAREN     {: RESULT = new AST_EXP_ID(v,name,e,l);         :}
 					| ID:name LPAREN exp:e RPAREN   							  {: RESULT = new AST_EXP_ID(null,name,e,null);   :}
-					| ID:name LPAREN LPAREN RPAREN      						  {: RESULT = new AST_EXP_ID(null,name,null,null);:} 
-					| ID:name LPAREN LPAREN exp:e expList:l RPAREN                {: RESULT = new AST_EXP_ID(null,name,e,l);      :}
+					| ID:name LPAREN RPAREN      						  {: RESULT = new AST_EXP_ID(null,name,null,null);:} 
+					| ID:name LPAREN exp:e expList:l RPAREN                {: RESULT = new AST_EXP_ID(null,name,e,l);      :}
 					| MINUS INT:i 						{: RESULT = new AST_EXP_MINUS(i);		 :}
 					| INT:i 							{: RESULT = new AST_EXP_INT(i);		 :}
 					| NIL								{: RESULT = new AST_EXP_NIL();			 :}
