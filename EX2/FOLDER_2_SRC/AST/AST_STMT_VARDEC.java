@@ -27,7 +27,7 @@ public class AST_STMT_VARDEC extends AST_STMT {
 		/**********************************/
 		AST_GRAPHVIZ.getInstance().logNode(
 			SerialNumber,
-			"STMT\nVARDEC\n");
+			"STMT\n->VARDEC\n");
 		
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
