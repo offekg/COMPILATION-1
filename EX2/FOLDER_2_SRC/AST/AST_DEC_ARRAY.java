@@ -9,7 +9,7 @@ public class AST_DEC_ARRAY extends AST_DEC {
 		/***************************************/
 		/* PRINT CORRESPONDING DERIVATION RULE */
 		/***************************************/
-		System.out.print("====================== Dec -> Dec Array"\n");
+		System.out.print("====================== Dec -> Dec Array\n");
 	}
 
 	/******************************************************/

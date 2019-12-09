@@ -40,6 +40,6 @@ public class AST_BINOP extends AST_Node {
 		/**********************************/
 		AST_GRAPHVIZ.getInstance().logNode(
 			SerialNumber,
-			String.format("BINOP(%s)\n",this.sOP)");
+			String.format("BINOP(%s)\n",this.sOP));
 	}
 }

@@ -1,6 +1,6 @@
 package AST;
 
-public abstract class AST_CFIELD_FUNCDEC extends AST_CFIELD {
+public class AST_CFIELD_FUNCDEC extends AST_CFIELD {
 	public AST_DEC_FUNCDEC funcdec;
 	
 	public AST_CFIELD_FUNCDEC(AST_DEC_FUNCDEC funcdec) {
@@ -10,7 +10,7 @@ public abstract class AST_CFIELD_FUNCDEC extends AST_CFIELD {
 		/***************************************/
 		/* PRINT CORRESPONDING DERIVATION RULE */
 		/***************************************/
-		System.out.print("====================== CFIELD -> FUNCDEC"\n");
+		System.out.print("====================== CFIELD -> FUNCDEC\n");
 	}
 
 	/******************************************************/

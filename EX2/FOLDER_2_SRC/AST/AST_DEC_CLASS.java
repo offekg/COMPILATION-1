@@ -9,9 +9,9 @@ public class AST_DEC_CLASS extends AST_DEC {
 		/***************************************/
 		/* PRINT CORRESPONDING DERIVATION RULE */
 		/***************************************/
-		System.out.print("====================== Dec -> CLASS (DEC)"\n");
+		System.out.print("====================== Dec -> CLASS (DEC)\n");
 	}
-	}
+	
 
 	/******************************************************/
 	/* The printing message for a statement list AST node */

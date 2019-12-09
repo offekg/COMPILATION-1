@@ -11,7 +11,7 @@ public class AST_DEC_ARRAYDEC extends AST_DEC {
 		/***************************************/
 		/* PRINT CORRESPONDING DERIVATION RULE */
 		/***************************************/
-		System.out.print("====================== Dec (Array) -> ARRAY DEC"\n");
+		System.out.print("====================== Dec (Array) -> ARRAY DEC\n");
 	}
 
 	/******************************************************/
@@ -22,7 +22,7 @@ public class AST_DEC_ARRAYDEC extends AST_DEC {
 		/**************************************/
 		/* AST NODE TYPE = AST ARRAY DEC      */
 		/**************************************/
-		System.out.print("AST NODE ARRAY DEC: ARRAY"+ this.name1 + " = " = this.name2 + "[]\n");
+		System.out.print("AST NODE ARRAY DEC: ARRAY"+ this.name1 + " = " + this.name2 + "[]\n");
 
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */

@@ -13,9 +13,9 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 		/***************************************/
 		/* PRINT CORRESPONDING DERIVATION RULE */
 		/***************************************/
-		System.out.print("====================== Dec (CLASS) -> CLASS DEC"\n");
+		System.out.print("====================== Dec (CLASS) -> CLASS DEC\n");
 	}
-	}
+	
 
 	/******************************************************/
 	/* The printing message for a statement list AST node */
@@ -25,10 +25,10 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 		/**************************************/
 		/* AST NODE TYPE = AST DEC  CLASS DEC */
 		/**************************************/
-		if (name2 == null) 
-		    System.out.print("AST NODE CLASS DEC:\n Class %s\n",this.name1);
+		if (this.name2 == null) 
+		    System.out.printf("AST NODE CLASS DEC:\n Class %s\n",this.name1);
 		else  
-		    System.out.print("AST NODE CLASS DEC:\n Class %s Extends %s\n",this.name1,this.name2);
+		    System.out.printf("AST NODE CLASS DEC:\n Class %s Extends %s\n",this.name1,this.name2);
 
 		/*************************************/
 		/* RECURSIVELY PRINT HEAD + TAIL ... */

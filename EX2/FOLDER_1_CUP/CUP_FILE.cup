@@ -234,7 +234,7 @@ newExp      ::=     NEW ID:name				{: RESULT = new AST_NEWEXP_ID1(name);        
 					;
 
 cField      ::=     varDec:vd 				{: RESULT = new AST_CFIELD_VARDEC(vd);       :}		
-					| funcDec:fd	                        {: RESULT = new AST_CFIELD_FUNCDEC(vd); :}		
+					| funcDec:fd	                        {: RESULT = new AST_CFIELD_FUNCDEC(fd); :}		
 					;
 
 BINOP       ::=		PLUS						{: RESULT = new AST_BINOP(0);    :} 
