@@ -2,9 +2,14 @@ package AST;
 
 public class AST_DEC_ARRAY extends AST_DEC {
 	public AST_DEC_ARRAYDEC ad;
+	
 	public AST_DEC_ARRAY(AST_DEC_ARRAYDEC ad) {
 		this.ad = ad;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
+		/***************************************/
+		/* PRINT CORRESPONDING DERIVATION RULE */
+		/***************************************/
+		System.out.print("====================== Dec -> Dec Array"\n");
 	}
 
 	/******************************************************/
@@ -13,9 +18,9 @@ public class AST_DEC_ARRAY extends AST_DEC {
 	public void PrintMe()
 	{
 		/**************************************/
-		/* AST NODE TYPE = AST STATEMENT LIST */
+		/* AST NODE TYPE = AST DEC_ARRAY       */
 		/**************************************/
-		System.out.print("AST NODE ARRAY\n");
+		System.out.print("AST NODE (Dec) ARRAY\n");
 
 		/*************************************/
 		/* RECURSIVELY PRINT HEAD + TAIL ... */
@@ -27,7 +32,7 @@ public class AST_DEC_ARRAY extends AST_DEC {
 		/**********************************/
 		AST_GRAPHVIZ.getInstance().logNode(
 			SerialNumber,
-			"ARRAY\n");
+			"DEC ARRAY\n");
 
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
