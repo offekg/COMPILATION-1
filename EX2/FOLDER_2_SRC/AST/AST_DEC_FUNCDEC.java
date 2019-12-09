@@ -48,7 +48,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		/**********************************/
 		AST_GRAPHVIZ.getInstance().logNode(
 			SerialNumber,
-			String.format("FUNC DEC\n %s %s()\n",this.name1,this.name2);
+			String.format("FUNC DEC\n %s %s()\n",this.name1,this.name2));
 		
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
