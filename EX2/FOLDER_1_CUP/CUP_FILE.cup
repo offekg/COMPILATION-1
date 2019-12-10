@@ -22,7 +22,7 @@ parser code
 		String str = String.format("ERROR(%d)",lexer.getLine());
 		this.file_writer.println(str);		
 		file_writer.close();
-		// consoul prints
+		// console prints
 		System.out.print("ERROR >> ");
 		System.out.print("[");
 		System.out.print(lexer.getLine());

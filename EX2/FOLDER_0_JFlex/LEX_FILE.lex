@@ -127,7 +127,7 @@ COMMENTS         = \/\*({COMMENTS_CONTENT}|{LineTerminator})*\*\/|\/\/{COMMENTS_
 "while"             { return symbol(TokenNames.WHILE);}
 "if"                { return symbol(TokenNames.IF);}
 "new"               { return symbol(TokenNames.NEW);}
-{INTEGER}	        { return symbol(TokenNames.INT, new Integer(yytext()));}
+{INTEGER}	        { return symbol(TokenNames.INT, yytext());}
 {ID}		        { return symbol(TokenNames.ID,     new String( yytext()));}   
 {WhiteSpace}	    { /* just skip what was found, do nothing */ }
 {STRING}            { return symbol(TokenNames.STRING, new String( yytext()));}
