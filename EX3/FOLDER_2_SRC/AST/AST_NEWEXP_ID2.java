@@ -1,5 +1,8 @@
 package AST;
 
+import TYPES.*;
+import SYMBOL_TABLE.*;
+
 public class AST_NEWEXP_ID2 extends AST_NEWEXP {
 	String name;
 	AST_EXP exp;

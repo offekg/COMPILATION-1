@@ -1,5 +1,8 @@
 package AST;
 
+import TYPES.*;
+import SYMBOL_TABLE.*;
+
 public class AST_DEC_VAR extends AST_DEC {
 	public AST_DEC_VARDEC vd;
 	public AST_DEC_VAR(AST_DEC_VARDEC vd) {

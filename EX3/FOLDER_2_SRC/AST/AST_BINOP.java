@@ -1,5 +1,8 @@
 package AST;
 
+import TYPES.*;
+import SYMBOL_TABLE.*;
+
 public class AST_BINOP extends AST_Node {
 	public int OP;
 	public String sOP="";

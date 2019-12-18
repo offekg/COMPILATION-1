@@ -49,14 +49,19 @@ public class Main
 			/*************************/
 			AST.PrintMe();
 			
+			/**************************/
+			/* [7] Semant the AST ... */
+			/**************************/
+			AST.SemantMe();
+			
 			/*************************/
-			/* [7] Close output file */
+			/* [8] Close output file */
 			/*************************/
 			file_writer.println("OK");
 			file_writer.close();
 			
 			/*************************************/
-			/* [8] Finalize AST GRAPHIZ DOT file */
+			/* [9] Finalize AST GRAPHIZ DOT file */
 			/*************************************/
 			AST_GRAPHVIZ.getInstance().finalizeFile();
     	}

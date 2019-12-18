@@ -1,5 +1,8 @@
 package AST;
 
+import TYPES.*;
+import SYMBOL_TABLE.*;
+
 public class AST_STMT_ID extends AST_STMT {
 	public AST_EXP exp;
 	public AST_VAR var;

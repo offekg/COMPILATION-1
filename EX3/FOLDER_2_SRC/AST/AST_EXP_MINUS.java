@@ -1,5 +1,8 @@
 package AST;
 
+import TYPES.*;
+import SYMBOL_TABLE.*;
+
 public class AST_EXP_MINUS extends AST_EXP {
 	public int i;
 	public AST_EXP_MINUS(int i) {

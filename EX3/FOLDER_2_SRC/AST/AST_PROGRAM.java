@@ -1,5 +1,8 @@
 package AST;
 
+import TYPES.*;
+import SYMBOL_TABLE.*;
+
 public class AST_PROGRAM extends AST_Node
 {
 	public AST_DEC_LIST decList;
@@ -37,5 +40,15 @@ public class AST_PROGRAM extends AST_Node
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
 		if (decList != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,decList.SerialNumber);
+	}
+	
+	public TYPE SemantMe()
+	{		
+		/*************************************/
+		/* RECURSIVELY PRINT DECLIST ... */
+		/*************************************/
+		if (decList != null) decList.SemantMe();
+		
+		return null;	
 	}
 }

@@ -1,5 +1,8 @@
 package AST;
 
+import TYPES.*;
+import SYMBOL_TABLE.*;
+
 public class AST_DEC_ARRAY extends AST_DEC {
 	public AST_DEC_ARRAYDEC ad;
 	

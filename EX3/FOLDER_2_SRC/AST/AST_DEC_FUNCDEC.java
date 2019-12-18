@@ -1,5 +1,8 @@
 package AST;
 
+import TYPES.*;
+import SYMBOL_TABLE.*;
+
 public class AST_DEC_FUNCDEC extends AST_DEC {
 	public String name1;
 	public String name2;
