@@ -1,17 +1,17 @@
-package AST;
+package EX3.FOLDER_2_SRC.AST;
 
 import TYPES.*;
 import SYMBOL_TABLE.*;
 
-public class AST_STMT_ID extends AST_STMT {
-	public AST_EXP exp;
+public class AST_EXP_FUNC_CALL extends AST_EXP {
 	public AST_VAR var;
 	public String name;
+	public AST_EXP exp;
 	public AST_EXP_LIST expList;
-	public AST_STMT_ID(AST_VAR var,String name, AST_EXP exp, AST_EXP_LIST expList) {
-		this.exp = exp;
+	public AST_EXP_FUNC_CALL(AST_VAR var, String name, AST_EXP exp,AST_EXP_LIST expList) {
 		this.var = var;
 		this.name = name;
+		this.exp = exp;
 		this.expList = expList;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
 	}
@@ -24,13 +24,13 @@ public class AST_STMT_ID extends AST_STMT {
 		/**************************************/
 		/* AST NODE TYPE = AST STATEMENT LIST */
 		/**************************************/
-		System.out.print("AST NODE STMT ID\n");
+		System.out.print("AST NODE EXP ID\n");
 
 		/*************************************/
 		/* RECURSIVELY PRINT HEAD + TAIL ... */
 		/*************************************/
-		if (exp != null) exp.PrintMe();
 		if (var != null) var.PrintMe();
+		if (exp != null) exp.PrintMe();
 		if (expList != null) expList.PrintMe();
 
 		/**********************************/
@@ -38,13 +38,13 @@ public class AST_STMT_ID extends AST_STMT {
 		/**********************************/
 		AST_GRAPHVIZ.getInstance().logNode(
 			SerialNumber,
-			"STMT\nID\n");
+			"EXP\nID\n");
 		
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		if (exp != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,exp.SerialNumber);
 		if (var != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,var.SerialNumber);
+		if (exp != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,exp.SerialNumber);
 		if (expList != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,expList.SerialNumber);
 	}
 }

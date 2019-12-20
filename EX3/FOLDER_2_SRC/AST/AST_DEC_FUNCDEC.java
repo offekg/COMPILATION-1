@@ -8,11 +8,11 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 	public String name2;
 	public String name3;
 	public String name4;
-	public AST_TWO_ID_LIST twoIdList;
+	public AST_FUNC_INPUT_VARS_LIST twoIdList;
 	public AST_STMT_LIST stmtList;
 	
 	public AST_DEC_FUNCDEC(String name1, String name2, 
-	String name3, String name4, AST_TWO_ID_LIST twoIdList, AST_STMT_LIST stmtList) {
+	String name3, String name4, AST_FUNC_INPUT_VARS_LIST twoIdList, AST_STMT_LIST stmtList) {
 		this.name1 = name1;
 		this.name2 = name2;	
 		this.name3 = name3;

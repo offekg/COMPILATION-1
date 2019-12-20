@@ -105,8 +105,8 @@ non terminal AST_DEC dec;
 non terminal AST_DEC_LIST decList;
 non terminal AST_DEC_VARDEC varDec;
 non terminal AST_DEC_FUNCDEC funcDec;
-non terminal AST_TWO_ID twoID;
-non terminal AST_TWO_ID_LIST twoIDList;
+non terminal AST_FUNC_INPUT_VARS funcInputVars;
+non terminal AST_FUNC_INPUT_VARS_LIST funcInputVarsList;
 non terminal AST_DEC_CLASSDEC classDec;
 non terminal AST_CFIELD_LIST cFieldList;
 non terminal AST_DEC_ARRAYDEC arrayDec;
@@ -170,14 +170,14 @@ varDec 	    ::=     ID:name1 ID:name2 SEMICOLON						{: RESULT = new AST_DEC_VAR
 
 funcDec		::= 	ID:name1 ID:name2 LPAREN RPAREN LBRACE stmtList:body RBRACE {: RESULT = new AST_DEC_FUNCDEC(name1,name2,null,null,null,body); :}					
 					| ID:name1 ID:name2 LPAREN ID:name3 ID:name4 RPAREN LBRACE stmtList:body RBRACE {: RESULT = new AST_DEC_FUNCDEC(name1,name2,name3,name4,null,body); :}	
-					| ID:name1 ID:name2 LPAREN ID:name3 ID:name4 twoIDList:body1 RPAREN LBRACE stmtList:body2 RBRACE {: RESULT = new AST_DEC_FUNCDEC(name1,name2,name3,name4,body1,body2); :}	
+					| ID:name1 ID:name2 LPAREN ID:name3 ID:name4 funcInputVarsList:body1 RPAREN LBRACE stmtList:body2 RBRACE {: RESULT = new AST_DEC_FUNCDEC(name1,name2,name3,name4,body1,body2); :}	
 					;
 
-twoID	    ::=     COMMA ID:name1 ID:name2     {: RESULT = new AST_TWO_ID(name1,name2);   :}
+funcInputVars	    ::=     COMMA ID:name1 ID:name2     {: RESULT = new AST_FUNC_INPUT_VARS(name1,name2);   :}
 					;
 					
-twoIDList   ::=     twoID:tid twoIDList:l       {: RESULT = new AST_TWO_ID_LIST(tid,l);    :}
-					| twoID:tid                 {: RESULT = new AST_TWO_ID_LIST(tid,null); :}
+funcInputVarsList   ::=     funcInputVars:tid funcInputVarsList:l       {: RESULT = new AST_FUNC_INPUT_VARS_LIST(tid,l);    :}
+					| funcInputVars:tid                 {: RESULT = new AST_FUNC_INPUT_VARS_LIST(tid,null); :}
 					;
 					
 classDec    ::=     CLASS ID:name1 EXTENDS ID:name2 LBRACE cFieldList:body RBRACE {: RESULT = new AST_DEC_CLASSDEC(name1,name2,body); :}
@@ -194,12 +194,12 @@ arrayDec    ::=     ARRAY ID:name1 EQ ID:name2 LBRACK RBRACK {: RESULT = new AST
 exp			::=		var:v								{: RESULT = new AST_EXP_VAR(v);          :}
 					| LPAREN exp:e RPAREN				{: RESULT = new AST_EXP_EXP(e);			 :}
 					| exp:e1 BINOP:b exp:e2				{: RESULT = new AST_EXP_BINOP(e1,e2,b);	 :}
-					| var:v DOT ID:name LPAREN RPAREN   {: RESULT = new AST_EXP_ID(v,name,null,null);:}
-					| var:v DOT ID:name LPAREN exp:e RPAREN   			  {: RESULT = new AST_EXP_ID(v,name,e,null);      :}
-					| var:v DOT ID:name LPAREN exp:e expList:l RPAREN     {: RESULT = new AST_EXP_ID(v,name,e,l);         :}
-					| ID:name LPAREN exp:e RPAREN   					  {: RESULT = new AST_EXP_ID(null,name,e,null);   :}
-					| ID:name LPAREN RPAREN      						  {: RESULT = new AST_EXP_ID(null,name,null,null);:} 
-					| ID:name LPAREN exp:e expList:l RPAREN               {: RESULT = new AST_EXP_ID(null,name,e,l);      :}
+					| var:v DOT ID:name LPAREN RPAREN   {: RESULT = new AST_EXP_FUNC_CALL(v,name,null,null);:}
+					| var:v DOT ID:name LPAREN exp:e RPAREN   			  {: RESULT = new AST_EXP_FUNC_CALL(v,name,e,null);      :}
+					| var:v DOT ID:name LPAREN exp:e expList:l RPAREN     {: RESULT = new AST_EXP_FUNC_CALL(v,name,e,l);         :}
+					| ID:name LPAREN exp:e RPAREN   					  {: RESULT = new AST_EXP_FUNC_CALL(null,name,e,null);   :}
+					| ID:name LPAREN RPAREN      						  {: RESULT = new AST_EXP_FUNC_CALL(null,name,null,null);:} 
+					| ID:name LPAREN exp:e expList:l RPAREN               {: RESULT = new AST_EXP_FUNC_CALL(null,name,e,l);      :}
 					| MINUS INT:i 						{: RESULT = new AST_EXP_MINUS(i);		 :}
 					| INT:i 							{: RESULT = new AST_EXP_INT(i);		     :}
 					| NIL								{: RESULT = new AST_EXP_NIL();			 :}
@@ -222,12 +222,12 @@ stmt		::=		varDec:vd							{: RESULT = new AST_STMT_VARDEC(vd);          :}
 					| RETURN SEMICOLON            		{: RESULT = new AST_STMT_RETURN(null);        :}   
 					| IF    LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE	{: RESULT = new AST_STMT_IF(cond,body);       	 :}
 					| WHILE LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE	{: RESULT = new AST_STMT_WHILE(cond,body);    	 :}
-					| var:v DOT ID:name LPAREN RPAREN   						{: RESULT = new AST_STMT_ID(v,name,null,null);   :}
-					| var:v DOT ID:name LPAREN exp:e RPAREN   					{: RESULT = new AST_STMT_ID(v,name,e,null);      :}
-					| var:v DOT ID:name LPAREN exp:e expList:l RPAREN    		{: RESULT = new AST_STMT_ID(v,name,e,l);         :}
-					| ID:name LPAREN exp:e RPAREN SEMICOLON					 	{: RESULT = new AST_STMT_ID(null,name,e,null);   :}
-					| ID:name LPAREN RPAREN SEMICOLON  							{: RESULT = new AST_STMT_ID(null,name,null,null);:} 
-					| ID:name LPAREN exp:e expList:l RPAREN SEMICOLON           {: RESULT = new AST_STMT_ID(null,name,e,l); 	 :}
+					| var:v DOT ID:name LPAREN RPAREN   						{: RESULT = new AST_AST_STMT_FUNC_CALL(v,name,null,null);   :}
+					| var:v DOT ID:name LPAREN exp:e RPAREN   					{: RESULT = new AST_AST_STMT_FUNC_CALL(v,name,e,null);      :}
+					| var:v DOT ID:name LPAREN exp:e expList:l RPAREN    		{: RESULT = new AST_AST_STMT_FUNC_CALL(v,name,e,l);         :}
+					| ID:name LPAREN exp:e RPAREN SEMICOLON					 	{: RESULT = new AST_AST_STMT_FUNC_CALL(null,name,e,null);   :}
+					| ID:name LPAREN RPAREN SEMICOLON  							{: RESULT = new AST_AST_STMT_FUNC_CALL(null,name,null,null);:} 
+					| ID:name LPAREN exp:e expList:l RPAREN SEMICOLON           {: RESULT = new AST_AST_STMT_FUNC_CALL(null,name,e,l); 	 :}
 					;
 
 					

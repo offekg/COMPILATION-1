@@ -1,20 +1,20 @@
-package AST;
+package EX3.FOLDER_2_SRC.AST;
 
 import TYPES.*;
 import SYMBOL_TABLE.*;
 
-public class AST_TWO_ID_LIST extends AST_Node
+public class AST_FUNC_INPUT_VARS_LIST extends AST_Node
 {
 	/****************/
 	/* DATA MEMBERS */
 	/****************/
-	public AST_TWO_ID head;
-	public AST_TWO_ID_LIST tail;
+	public AST_FUNC_INPUT_VARS head;
+	public AST_FUNC_INPUT_VARS_LIST tail;
 
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AST_TWO_ID_LIST(AST_TWO_ID head,AST_TWO_ID_LIST tail)
+	public AST_FUNC_INPUT_VARS_LIST(AST_FUNC_INPUT_VARS head,AST_FUNC_INPUT_VARS_LIST tail)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
