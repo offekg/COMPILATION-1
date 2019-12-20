@@ -27,4 +27,9 @@ public class AST_EXP_STRING extends AST_EXP {
 			SerialNumber,
 			"EXP\nSTRING\n");
 	}
+	
+	public TYPE SemantMe()
+	{
+		return TYPE_STRING.getInstance();
+	}
 }

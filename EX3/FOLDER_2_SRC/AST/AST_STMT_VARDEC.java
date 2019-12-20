@@ -37,4 +37,9 @@ public class AST_STMT_VARDEC extends AST_STMT {
 		/****************************************/
 		if (vardec != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,vardec.SerialNumber);
 	}
+	
+	public TYPE SemantMe()
+	{
+		return vardec.SemantMe();
+	}
 }
