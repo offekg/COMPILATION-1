@@ -1,4 +1,4 @@
-package EX3.FOLDER_2_SRC.AST;
+package AST;
 
 import TYPES.*;
 import SYMBOL_TABLE.*;
