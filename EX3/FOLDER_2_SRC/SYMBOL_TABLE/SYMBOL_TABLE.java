@@ -119,6 +119,7 @@ public class SYMBOL_TABLE {
 			if (e.name.equals(name)) {
 				return true;
 			}
+			e = e.next;
 		}
 
 		return false;

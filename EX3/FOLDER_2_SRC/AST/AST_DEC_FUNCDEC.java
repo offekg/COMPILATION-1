@@ -4,21 +4,21 @@ import TYPES.*;
 import SYMBOL_TABLE.*;
 
 public class AST_DEC_FUNCDEC extends AST_DEC {
-	public String name1;
-	public String name2;
-	public String name3;
-	public String name4;
-	public AST_FUNC_INPUT_VARS_LIST twoIdList;
-	public AST_STMT_LIST stmtList;
-	
-	public AST_DEC_FUNCDEC(String name1, String name2, 
-	String name3, String name4, AST_FUNC_INPUT_VARS_LIST twoIdList, AST_STMT_LIST stmtList) {
-		this.name1 = name1;
-		this.name2 = name2;	
-		this.name3 = name3;
-		this.name4 = name4;	
-		this.twoIdList = twoIdList;
-		this.stmtList = stmtList;
+	public String returnType;
+	public String funcName;
+	public String firstParamType;
+	public String firstParamName;
+	public AST_FUNC_INPUT_VARS_LIST otherParamsList;
+	public AST_STMT_LIST funcBody;
+
+	public AST_DEC_FUNCDEC(String returnType, String funcName, String firstParamType, String firstParamName,
+			AST_FUNC_INPUT_VARS_LIST otherParamsList, AST_STMT_LIST funcBody) {
+		this.returnType = returnType;
+		this.funcName = funcName;
+		this.firstParamType = firstParamType;
+		this.firstParamName = firstParamName;
+		this.otherParamsList = otherParamsList;
+		this.funcBody = funcBody;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
 		/***************************************/
 		/* PRINT CORRESPONDING DERIVATION RULE */
@@ -26,37 +26,74 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		System.out.print("====================== Dec (FUNC) -> FUNC DEC\n");
 	}
 
+	public TYPE SemantMe() {
+		/*************************/
+		/* [1] Begin Class Scope */
+		/*************************/
+		SYMBOL_TABLE.getInstance().beginScope();
+
+		// Check return type exists
+		TYPE typeOfReturn = SYMBOL_TABLE.getInstance().find(returnType);
+		if (!(typeOfReturn instanceof TYPE_VOID || typeOfReturn instanceof TYPE_INT
+				|| typeOfReturn instanceof TYPE_STRING)) {
+			return null;
+		}
+		/***************************/
+		/* [2] Semant Data Members */
+		/***************************/
+		AST_FUNC_INPUT_VARS firstParam = new AST_FUNC_INPUT_VARS(firstParamType, firstParamName);
+		TYPE_FUNCTION t = new TYPE_FUNCTION(this.returnType, this.funcName, firstParam.SemantMe(),
+				otherParamsList.SemantMe());
+
+		/*****************/
+		/* [3] End Scope */
+		/*****************/
+		SYMBOL_TABLE.getInstance().endScope();
+
+		/************************************************/
+		/* [4] Enter the Class Type to the Symbol Table */
+		/************************************************/
+		SYMBOL_TABLE.getInstance().enter(funcName, t);
+
+		/*********************************************************/
+		/* [5] Return value is irrelevant for class declarations */
+		/*********************************************************/
+		return null;
+	}
+
 	/******************************************************/
 	/* The printing message for a statement list AST node */
 	/******************************************************/
-	public void PrintMe()
-	{
+	public void PrintMe() {
 		/**************************************/
 		/* AST NODE TYPE = AST STATEMENT LIST */
 		/**************************************/
 		System.out.print("AST NODE FUNC DEC:\n");
-		System.out.printf("%s %s()\n",this.name1,this.name2);
-		if (this.name3 != null){
-			System.out.printf("params: %s %s\n",this.name1,this.name2);
+		System.out.printf("%s %s()\n", this.returnType, this.funcName);
+		if (this.firstParamType != null) {
+			System.out.printf("params: %s %s\n", this.returnType, this.funcName);
 		}
 
 		/*************************************/
 		/* RECURSIVELY PRINT HEAD + TAIL ... */
 		/*************************************/
-		if (twoIdList != null) twoIdList.PrintMe();
-		if (stmtList != null) stmtList.PrintMe();
+		if (otherParamsList != null)
+			otherParamsList.PrintMe();
+		if (funcBody != null)
+			funcBody.PrintMe();
 
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
 		/**********************************/
-		AST_GRAPHVIZ.getInstance().logNode(
-			SerialNumber,
-			String.format("FUNC DEC\n %s %s()\n",this.name1,this.name2));
-		
+		AST_GRAPHVIZ.getInstance().logNode(SerialNumber,
+				String.format("FUNC DEC\n %s %s()\n", this.returnType, this.funcName));
+
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		if (twoIdList != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,twoIdList.SerialNumber);
-		if (stmtList != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,stmtList.SerialNumber);
+		if (otherParamsList != null)
+			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, otherParamsList.SerialNumber);
+		if (funcBody != null)
+			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, funcBody.SerialNumber);
 	}
 }
