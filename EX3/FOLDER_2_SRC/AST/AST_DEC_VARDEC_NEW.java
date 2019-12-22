@@ -4,14 +4,50 @@ import TYPES.*;
 import SYMBOL_TABLE.*;
 
 public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
-	public String name1;
-	public String name2;
-	public AST_EXP exp;
-	public AST_DEC_VARDEC_NEW(String name1, String name2, AST_NEWEXP newExp) {
-		this.name1 = name1;
-		this.name2 = name2;
-		this.exp = exp;
+	public String type;
+	public String name;
+	public AST_NEWEXP newExp;
+	public AST_DEC_VARDEC_NEW(String type, String name, AST_NEWEXP newExp) {
+		this.type = type;
+		this.name = name;
+		this.newExp = newExp;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
+	}
+	
+	public TYPE SemantMe() {
+		TYPE t;
+
+		/****************************/
+		/* [1] Check If Type exists */
+		/****************************/
+		t = SYMBOL_TABLE.getInstance().find(type);
+		if (t == null) {
+			System.out.format(">> ERROR [%d:%d] non existing type %s\n", 2, 2, type);
+			System.exit(0);
+		}
+
+		/**************************************/
+		/* [2] Check That Name does NOT exist */
+		/**************************************/
+		if (SYMBOL_TABLE.getInstance().isInScope(name)) {
+			System.out.format(">> ERROR [%d:%d] variable %s already exists in scope\n", 2, 2, name);
+			System.exit(0);
+		}
+		
+		if(newExp != null && t != newExp.SemantMe()) {
+			System.out.format(">> ERROR [%d:%d] variable %s type doesn't fit assignment\n", 2, 2, name);
+			System.exit(0);
+		}
+
+		/***************************************************/
+		/* [3] Enter the Function Type to the Symbol Table */
+		/***************************************************/
+		SYMBOL_TABLE.getInstance().enter(name, t);
+
+		/*********************************************************/
+		/* [4] Return value is irrelevant for class declarations */
+		/*********************************************************/
+		return t;
 	}
 
 	/******************************************************/
@@ -27,7 +63,7 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 		/*************************************/
 		/* RECURSIVELY PRINT HEAD + TAIL ... */
 		/*************************************/
-		if (exp != null) exp.PrintMe();
+		if (newExp != null) newExp.PrintMe();
 
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
@@ -39,6 +75,6 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		if (exp != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,exp.SerialNumber);
+		if (newExp != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,newExp.SerialNumber);
 	}
 }
