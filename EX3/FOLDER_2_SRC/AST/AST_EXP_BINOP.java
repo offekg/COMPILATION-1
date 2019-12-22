@@ -76,6 +76,13 @@ public class AST_EXP_BINOP extends AST_EXP
 		{
 			return TYPE_INT.getInstance();
 		}
+		
+		// add check that if binop is + then also concatination between two strings is allowed
+		if (this.OP.OP == 0){
+			if ((t1 == TYPE_STRING.getInstance()) && (t2 == TYPE_STRING.getInstance())){
+				return TYPE_STRING.getInstance();
+			}
+		}
 		System.exit(0);
 		return null;
 	}
