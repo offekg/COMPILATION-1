@@ -58,7 +58,6 @@ public class AST_BINOP extends AST_Node {
 		{
 			return TYPE_INT.getInstance();
 		}
-		System.exit(0);
 		return null;
 	}
 }
