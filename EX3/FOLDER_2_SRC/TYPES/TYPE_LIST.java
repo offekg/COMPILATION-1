@@ -1,7 +1,6 @@
 package TYPES;
 
-public class TYPE_LIST
-{
+public class TYPE_LIST {
 	/****************/
 	/* DATA MEMBERS */
 	/****************/
@@ -11,8 +10,7 @@ public class TYPE_LIST
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public TYPE_LIST(TYPE head,TYPE_LIST tail)
-	{
+	public TYPE_LIST(TYPE head, TYPE_LIST tail) {
 		this.head = head;
 		this.tail = tail;
 	}

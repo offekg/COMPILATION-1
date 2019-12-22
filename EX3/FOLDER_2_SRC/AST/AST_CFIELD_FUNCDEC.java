@@ -15,6 +15,10 @@ public class AST_CFIELD_FUNCDEC extends AST_CFIELD {
 		/***************************************/
 		System.out.print("====================== CFIELD -> FUNCDEC\n");
 	}
+	
+	public TYPE SemantMe() {
+		return funcdec.SemantMe();
+	}
 
 	/******************************************************/
 	/* The printing message for a CFIELD_FUNCDEC AST node */
