@@ -5,8 +5,10 @@ public class TYPE_FOR_SCOPE_BOUNDARIES extends TYPE
 	/****************/
 	/* CTROR(S) ... */
 	/****************/
-	public TYPE_FOR_SCOPE_BOUNDARIES(String name)
+	ScopeType type;
+	
+	public TYPE_FOR_SCOPE_BOUNDARIES(ScopeType type)
 	{
-		this.name = name;
+		this.type = type;
 	}
 }

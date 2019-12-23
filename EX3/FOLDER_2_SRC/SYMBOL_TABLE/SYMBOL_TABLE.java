@@ -128,14 +128,14 @@ public class SYMBOL_TABLE {
 	/***************************************************************************/
 	/* begine scope = Enter the <SCOPE-BOUNDARY> element to the data structure */
 	/***************************************************************************/
-	public void beginScope() {
+	public void beginScope(ScopeType scopeType) {
 		/************************************************************************/
 		/* Though <SCOPE-BOUNDARY> entries are present inside the symbol table, */
 		/* they are not really types. In order to be ablt to debug print them, */
 		/* a special TYPE_FOR_SCOPE_BOUNDARIES was developed for them. This */
 		/* class only contain their type name which is the bottom sign: _|_ */
 		/************************************************************************/
-		enter("SCOPE-BOUNDARY", new TYPE_FOR_SCOPE_BOUNDARIES("NONE"));
+		enter("SCOPE-BOUNDARY", new TYPE_FOR_SCOPE_BOUNDARIES(scopeType));
 
 		/*********************************************/
 		/* Print the symbol table after every change */
