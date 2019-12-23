@@ -27,4 +27,9 @@ public class AST_EXP_MINUS extends AST_EXP {
 			SerialNumber,
 			"EXP\nMINUS\n");
 	}
+	public TYPE SemantMe()
+	{
+		return TYPE_INT.getInstance();
+	}
+
 }

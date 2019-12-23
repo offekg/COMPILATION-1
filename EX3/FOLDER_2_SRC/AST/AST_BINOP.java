@@ -46,6 +46,7 @@ public class AST_BINOP extends AST_Node {
 			String.format("BINOP(%s)\n",this.sOP));
 	}
 	
+	// probably unnecessary, consider to remove
 	public TYPE SemantMe()
 	{
 		TYPE t1 = null;

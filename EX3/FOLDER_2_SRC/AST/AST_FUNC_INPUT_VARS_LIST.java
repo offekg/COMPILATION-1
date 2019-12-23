@@ -1,4 +1,5 @@
 package EX3.FOLDER_2_SRC.AST;
+package AST;
 
 import TYPES.*;
 import SYMBOL_TABLE.*;
@@ -32,6 +33,14 @@ public class AST_FUNC_INPUT_VARS_LIST extends AST_Node
 		/*******************************/
 		this.head = head;
 		this.tail = tail;
+	}
+	
+	public TYPE_LIST SemantMe() {
+		if (tail == null) {
+			return new TYPE_LIST(head.SemantMe(), null);
+		} else {
+			return new TYPE_LIST(head.SemantMe(), tail.SemantMe());
+		}
 	}
 
 	/******************************************************/
