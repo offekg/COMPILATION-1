@@ -39,10 +39,13 @@ public class AST_DEC_ARRAYDEC extends AST_DEC {
 		TYPE t;
 		TYPE_ARRAY new_type;
 
-		/****************************/
+		/******************************************/
 		/* [0] Check If Currently In Global Scope */
-		/****************************/
-		//to do after deciding on scope type tracking method
+		/******************************************/
+		if (SYMBOL_TABLE.getInstance().getCurrentScopeType() != ScopeType.GLOBAL_SCOPE) {
+			System.out.format(">> ERROR [%d:%d] Array decleration not in global scope\n", 2, 2);
+			System.exit(0);
+		}
 		
 		/****************************/
 		/* [1] Check If Type exists */
