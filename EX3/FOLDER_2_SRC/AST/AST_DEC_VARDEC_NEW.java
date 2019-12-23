@@ -34,10 +34,21 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 			System.exit(0);
 		}
 		
-		if(newExp != null && t != newExp.SemantMe()) {
-			System.out.format(">> ERROR [%d:%d] variable %s type doesn't fit assignment\n", 2, 2, name);
-			System.exit(0);
+		// Check that the new instance is of the same type
+		if(newExp != null) {
+			TYPE assignmentType = newExp.SemantMe();
+			if (assignmentType == null) {
+				System.out.format(">> ERROR [%d:%d] could not resolve assignment\n", 2, 2);
+				System.exit(0);
+			}
+			if (t instanceof TYPE_CLASS) {
+				if (!TYPE_CLASS.isSubClassOf(assignmentType, t)) {
+					System.out.format(">> ERROR [%d:%d] type mismatch for var := exp\n", 6, 6);
+					System.exit(0);
+				}
+			}
 		}
+			
 
 		/***************************************************/
 		/* [3] Enter the Function Type to the Symbol Table */

@@ -62,9 +62,21 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 			System.exit(0);
 		}
 		
-		if(exp != null && t != exp.SemantMe()) {
-			System.out.format(">> ERROR [%d:%d] variable %s type doesn't fit assignment\n", 2, 2, name);
-			System.exit(0);
+		if(exp != null) {
+			TYPE assignmentType = exp.SemantMe();
+			if (assignmentType == null) {
+				System.out.format(">> ERROR [%d:%d] could not resolve assignment\n", 2, 2);
+				System.exit(0);
+			}
+			if (t instanceof TYPE_CLASS) {
+				if (!TYPE_CLASS.isSubClassOf(assignmentType, t)) {
+					System.out.format(">> ERROR [%d:%d] type mismatch for var := exp\n", 6, 6);
+					System.exit(0);
+				}
+			} else if (t != assignmentType) {
+				System.out.format(">> ERROR [%d:%d] variable %s type doesn't fit assignment\n", 2, 2, name);
+				System.exit(0);
+			}
 		}
 
 		/***************************************************/
