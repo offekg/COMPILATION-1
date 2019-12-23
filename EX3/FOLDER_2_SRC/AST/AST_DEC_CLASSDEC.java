@@ -23,7 +23,7 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 		/*************************/
 		/* [1] Begin Class Scope */
 		/*************************/
-		SYMBOL_TABLE.getInstance().beginScope();
+		SYMBOL_TABLE.getInstance().beginScope(ScopeType.CLASS_SCOPE);
 
 		TYPE_CLASS t;
 		// Check father is a class

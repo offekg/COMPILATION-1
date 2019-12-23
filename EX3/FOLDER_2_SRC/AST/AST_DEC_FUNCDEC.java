@@ -30,7 +30,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		/*************************/
 		/* [1] Begin Class Scope */
 		/*************************/
-		SYMBOL_TABLE.getInstance().beginScope();
+		SYMBOL_TABLE.getInstance().beginScope(ScopeType.FUNCTION_SCOPE);
 
 		// Check return type exists
 		TYPE typeOfReturn = SYMBOL_TABLE.getInstance().find(returnType);
