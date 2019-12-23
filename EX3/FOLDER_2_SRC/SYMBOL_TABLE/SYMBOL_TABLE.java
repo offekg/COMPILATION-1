@@ -124,6 +124,26 @@ public class SYMBOL_TABLE {
 
 		return false;
 	}
+	
+	/***********************************************/
+	/* Get the type of current scope               */
+	/***********************************************/
+	public ScopeType getCurrentScopeType() {
+		SYMBOL_TABLE_ENTRY e = top;
+		TYPE_FOR_SCOPE_BOUNDARIES scope;
+
+		while(!(e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES)) {
+
+			e = e.next;
+		}
+
+		if(e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES) {
+			scope = (TYPE_FOR_SCOPE_BOUNDARIES) e.type;
+			return scope.scopeType;
+		}
+		return ScopeType.ERROR_SCOPE;
+	}
+	
 
 	/***************************************************************************/
 	/* begine scope = Enter the <SCOPE-BOUNDARY> element to the data structure */
@@ -131,7 +151,7 @@ public class SYMBOL_TABLE {
 	public void beginScope(ScopeType scopeType) {
 		/************************************************************************/
 		/* Though <SCOPE-BOUNDARY> entries are present inside the symbol table, */
-		/* they are not really types. In order to be ablt to debug print them, */
+		/* they are not really types. In order to be able to debug print them, */
 		/* a special TYPE_FOR_SCOPE_BOUNDARIES was developed for them. This */
 		/* class only contain their type name which is the bottom sign: _|_ */
 		/************************************************************************/
