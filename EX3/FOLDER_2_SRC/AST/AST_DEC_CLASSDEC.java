@@ -25,19 +25,18 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 		/*************************/
 		SYMBOL_TABLE.getInstance().beginScope();
 
+		TYPE_CLASS t;
 		// Check father is a class
-		TYPE fatherType = SYMBOL_TABLE.getInstance().find(father);
-		if (!(fatherType instanceof TYPE_CLASS)) {
-			return null;
+		if (father != null) {
+			TYPE fatherType = SYMBOL_TABLE.getInstance().find(father);
+			if (!(fatherType instanceof TYPE_CLASS)) {
+				return null;
+			}
+			t = new TYPE_CLASS(name, (TYPE_CLASS)fatherType, cFieldList.SemantMe());
+		} else {
+			t = new TYPE_CLASS(name, null, cFieldList.SemantMe());			
 		}
-		/***************************/
-		/* [2] Semant Data Members */
-		/***************************/
-		TYPE_CLASS t = new TYPE_CLASS(name, (TYPE_CLASS)fatherType, cFieldList.SemantMe());
 
-		/*****************/
-		/* [3] End Scope */
-		/*****************/
 		SYMBOL_TABLE.getInstance().endScope();
 
 		/************************************************/
