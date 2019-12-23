@@ -4,13 +4,13 @@ import TYPES.*;
 import SYMBOL_TABLE.*;
 
 public class AST_DEC_CLASSDEC extends AST_DEC {
-	public String name1;
-	public String name2;
+	public String name;
+	public String father;
 	public AST_CFIELD_LIST cFieldList;
-	
-	public AST_DEC_CLASSDEC(String name1, String name2, AST_CFIELD_LIST cFieldList) {
-		this.name1 = name1;
-		this.name2 = name2;
+
+	public AST_DEC_CLASSDEC(String name, String father, AST_CFIELD_LIST cFieldList) {
+		this.name = name;
+		this.father = father;
 		this.cFieldList = cFieldList;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
 		/***************************************/
@@ -18,44 +18,70 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 		/***************************************/
 		System.out.print("====================== Dec (CLASS) -> CLASS DEC\n");
 	}
-	
+
+	public TYPE SemantMe() {
+		/*************************/
+		/* [1] Begin Class Scope */
+		/*************************/
+		SYMBOL_TABLE.getInstance().beginScope();
+
+		TYPE_CLASS t;
+		// Check father is a class
+		if (father != null) {
+			TYPE fatherType = SYMBOL_TABLE.getInstance().find(father);
+			if (!(fatherType instanceof TYPE_CLASS)) {
+				return null;
+			}
+			t = new TYPE_CLASS(name, (TYPE_CLASS)fatherType, cFieldList.SemantMe());
+		} else {
+			t = new TYPE_CLASS(name, null, cFieldList.SemantMe());			
+		}
+
+		SYMBOL_TABLE.getInstance().endScope();
+
+		/************************************************/
+		/* [4] Enter the Class Type to the Symbol Table */
+		/************************************************/
+		SYMBOL_TABLE.getInstance().enter(name, t);
+
+		/*********************************************************/
+		/* [5] Return value is irrelevant for class declarations */
+		/*********************************************************/
+		return null;
+	}
 
 	/******************************************************/
 	/* The printing message for a statement list AST node */
 	/******************************************************/
-	public void PrintMe()
-	{
+	public void PrintMe() {
 		/**************************************/
-		/* AST NODE TYPE = AST DEC  CLASS DEC */
+		/* AST NODE TYPE = AST DEC CLASS DEC */
 		/**************************************/
-		if (this.name2 == null) 
-		    System.out.printf("AST NODE CLASS DEC:\n Class %s\n",this.name1);
-		else  
-		    System.out.printf("AST NODE CLASS DEC:\n Class %s Extends %s\n",this.name1,this.name2);
+		if (this.father == null)
+			System.out.printf("AST NODE CLASS DEC:\n Class %s\n", this.name);
+		else
+			System.out.printf("AST NODE CLASS DEC:\n Class %s Extends %s\n", this.name, this.father);
 
 		/*************************************/
 		/* RECURSIVELY PRINT HEAD + TAIL ... */
 		/*************************************/
-		if (cFieldList != null) cFieldList.PrintMe();
+		if (cFieldList != null)
+			cFieldList.PrintMe();
 
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
 		/**********************************/
-		if (name2 == null) {
-		    AST_GRAPHVIZ.getInstance().logNode(
-			SerialNumber,
-			String.format("CLASS DEC\n Class %s\n",this.name1));
+		if (father == null) {
+			AST_GRAPHVIZ.getInstance().logNode(SerialNumber, String.format("CLASS DEC\n Class %s\n", this.name));
+		} else {
+			AST_GRAPHVIZ.getInstance().logNode(SerialNumber,
+					String.format("CLASS DEC\n Class %s Extends %s\n", this.name, this.father));
 		}
-		else  {
-		    AST_GRAPHVIZ.getInstance().logNode(
-			SerialNumber,
-			String.format("CLASS DEC\n Class %s Extends %s\n",this.name1,this.name2));
-		}
-		
-		
+
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		if (cFieldList != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,cFieldList.SerialNumber);
+		if (cFieldList != null)
+			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, cFieldList.SerialNumber);
 	}
 }

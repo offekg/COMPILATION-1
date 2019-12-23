@@ -45,20 +45,4 @@ public class AST_BINOP extends AST_Node {
 			SerialNumber,
 			String.format("BINOP(%s)\n",this.sOP));
 	}
-	
-	// probably unnecessary, consider to remove
-	public TYPE SemantMe()
-	{
-		TYPE t1 = null;
-		TYPE t2 = null;
-		
-		if (left  != null) t1 = left.SemantMe();
-		if (right != null) t2 = right.SemantMe();
-		
-		if ((t1 == TYPE_INT.getInstance()) && (t2 == TYPE_INT.getInstance()))
-		{
-			return TYPE_INT.getInstance();
-		}
-		return null;
-	}
 }

@@ -1,4 +1,3 @@
-package EX3.FOLDER_2_SRC.AST;
 package AST;
 
 import TYPES.*;

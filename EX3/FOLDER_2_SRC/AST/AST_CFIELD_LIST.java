@@ -3,8 +3,7 @@ package AST;
 import TYPES.*;
 import SYMBOL_TABLE.*;
 
-public class AST_CFIELD_LIST extends AST_CFIELD
-{
+public class AST_CFIELD_LIST extends AST_Node {
 	/****************/
 	/* DATA MEMBERS */
 	/****************/
@@ -14,8 +13,7 @@ public class AST_CFIELD_LIST extends AST_CFIELD
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AST_CFIELD_LIST(AST_CFIELD head,AST_CFIELD_LIST tail)
-	{
+	public AST_CFIELD_LIST(AST_CFIELD head, AST_CFIELD_LIST tail) {
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
@@ -24,8 +22,10 @@ public class AST_CFIELD_LIST extends AST_CFIELD
 		/***************************************/
 		/* PRINT CORRESPONDING DERIVATION RULE */
 		/***************************************/
-		if (tail != null) System.out.print("====================== cFieldList -> cField cFieldList\n");
-		if (tail == null) System.out.print("====================== cFieldList -> cField      \n");
+		if (tail != null)
+			System.out.print("====================== cFieldList -> cField cFieldList\n");
+		if (tail == null)
+			System.out.print("====================== cFieldList -> cField      \n");
 
 		/*******************************/
 		/* COPY INPUT DATA NENBERS ... */
@@ -34,11 +34,18 @@ public class AST_CFIELD_LIST extends AST_CFIELD
 		this.tail = tail;
 	}
 
+	public TYPE_LIST SemantMe() {
+		if (tail == null) {
+			return new TYPE_LIST(head.SemantMe(), null);
+		} else {
+			return new TYPE_LIST(head.SemantMe(), tail.SemantMe());
+		}
+	}
+
 	/******************************************************/
 	/* The printing message for a cField list AST node */
 	/******************************************************/
-	public void PrintMe()
-	{
+	public void PrintMe() {
 		/**************************************/
 		/* AST NODE TYPE = AST DECLERATION LIST */
 		/**************************************/
@@ -47,21 +54,23 @@ public class AST_CFIELD_LIST extends AST_CFIELD
 		/*************************************/
 		/* RECURSIVELY PRINT HEAD + TAIL ... */
 		/*************************************/
-		if (head != null) head.PrintMe();
-		if (tail != null) tail.PrintMe();
+		if (head != null)
+			head.PrintMe();
+		if (tail != null)
+			tail.PrintMe();
 
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
 		/**********************************/
-		AST_GRAPHVIZ.getInstance().logNode(
-			SerialNumber,
-			"cField\nLIST\n");
-		
+		AST_GRAPHVIZ.getInstance().logNode(SerialNumber, "cField\nLIST\n");
+
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		if (head != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,head.SerialNumber);
-		if (tail != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,tail.SerialNumber);
+		if (head != null)
+			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, head.SerialNumber);
+		if (tail != null)
+			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, tail.SerialNumber);
 	}
-	
+
 }

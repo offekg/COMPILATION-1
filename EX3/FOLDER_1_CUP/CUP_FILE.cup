@@ -157,10 +157,10 @@ decList		::=		dec:d	decList:l		{: RESULT = new AST_DEC_LIST(d,l);    :}
 					;
 					
 					
-dec 	    ::=     varDec:vd 				{: RESULT = new AST_DEC_VAR(vd); :}				
-					| funcDec:fd			{: RESULT = new AST_DEC_FUNC(fd); :}				
-					| classDec:cd			{: RESULT = new AST_DEC_CLASS(cd); :}				
-					| arrayDec:ad			{: RESULT = new AST_DEC_ARRAY(ad); :}				
+dec 	    ::=     varDec:vd 				{: RESULT = vd; :}				
+					| funcDec:fd			{: RESULT = fd; :}				
+					| classDec:cd			{: RESULT = cd; :}				
+					| arrayDec:ad			{: RESULT = ad; :}				
 					;
 
 varDec 	    ::=     ID:name1 ID:name2 SEMICOLON						{: RESULT = new AST_DEC_VARDEC_OLD(name1, name2, null); :}
@@ -222,12 +222,12 @@ stmt		::=		varDec:vd							{: RESULT = new AST_STMT_VARDEC(vd);          :}
 					| RETURN SEMICOLON            		{: RESULT = new AST_STMT_RETURN(null);        :}   
 					| IF    LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE	{: RESULT = new AST_STMT_IF(cond,body);       	 :}
 					| WHILE LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE	{: RESULT = new AST_STMT_WHILE(cond,body);    	 :}
-					| var:v DOT ID:name LPAREN RPAREN   						{: RESULT = new AST_AST_STMT_FUNC_CALL(v,name,null,null);   :}
-					| var:v DOT ID:name LPAREN exp:e RPAREN   					{: RESULT = new AST_AST_STMT_FUNC_CALL(v,name,e,null);      :}
-					| var:v DOT ID:name LPAREN exp:e expList:l RPAREN    		{: RESULT = new AST_AST_STMT_FUNC_CALL(v,name,e,l);         :}
-					| ID:name LPAREN exp:e RPAREN SEMICOLON					 	{: RESULT = new AST_AST_STMT_FUNC_CALL(null,name,e,null);   :}
-					| ID:name LPAREN RPAREN SEMICOLON  							{: RESULT = new AST_AST_STMT_FUNC_CALL(null,name,null,null);:} 
-					| ID:name LPAREN exp:e expList:l RPAREN SEMICOLON           {: RESULT = new AST_AST_STMT_FUNC_CALL(null,name,e,l); 	 :}
+					| var:v DOT ID:name LPAREN RPAREN   						{: RESULT = new AST_STMT_FUNC_CALL(v,name,null,null);   :}
+					| var:v DOT ID:name LPAREN exp:e RPAREN   					{: RESULT = new AST_STMT_FUNC_CALL(v,name,e,null);      :}
+					| var:v DOT ID:name LPAREN exp:e expList:l RPAREN    		{: RESULT = new AST_STMT_FUNC_CALL(v,name,e,l);         :}
+					| ID:name LPAREN exp:e RPAREN SEMICOLON					 	{: RESULT = new AST_STMT_FUNC_CALL(null,name,e,null);   :}
+					| ID:name LPAREN RPAREN SEMICOLON  							{: RESULT = new AST_STMT_FUNC_CALL(null,name,null,null);:} 
+					| ID:name LPAREN exp:e expList:l RPAREN SEMICOLON           {: RESULT = new AST_STMT_FUNC_CALL(null,name,e,l); 	 :}
 					;
 
 					
