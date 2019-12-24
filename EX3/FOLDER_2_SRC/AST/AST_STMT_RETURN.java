@@ -4,10 +4,10 @@ import TYPES.*;
 import SYMBOL_TABLE.*;
 
 public class AST_STMT_RETURN extends AST_STMT {
-	public AST_EXP exp;
+	public AST_EXP returnExp;
 
 	public AST_STMT_RETURN( AST_EXP exp) {
-		this.exp = exp;
+		this.returnExp = exp;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
 	}
 
@@ -24,7 +24,7 @@ public class AST_STMT_RETURN extends AST_STMT {
 		/*************************************/
 		/* RECURSIVELY PRINT HEAD + TAIL ... */
 		/*************************************/
-		if (exp != null) exp.PrintMe();
+		if (returnExp != null) returnExp.PrintMe();
 
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
@@ -36,6 +36,32 @@ public class AST_STMT_RETURN extends AST_STMT {
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		if (exp != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,exp.SerialNumber);
+		if (returnExp != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,returnExp.SerialNumber);
 	}
+	
+	public TYPE SemantMe()
+	{
+		TYPE_FOR_SCOPE_BOUNDARIES fatherFunc = SYMBOL_TABLE.getInstance().getFunctionScopeType();
+		
+		//
+		if(fatherFunc == null) {
+			OutputFileWriter.writeError(this.lineNumber,"Return statemenet out of function scope\n");
+		}
+		
+		//if function declared to return void, make sure there is no return value.
+		if(fatherFunc.returnType == TYPE_VOID.getInstance() && this.returnExp != null) {
+			OutputFileWriter.writeError(this.lineNumber,"Return statemenet has value, though declaired as void.\n");
+		}
+		
+		//check that actual return type matches functions declared return type
+		if(fatherFunc.returnType != this.returnExp.SemantMe()) {
+			OutputFileWriter.writeError(this.lineNumber,"Return type missmatch.\n");
+		}
+		
+		//don't care about return value
+		return null;
+		
+	}
+	
+	
 }
