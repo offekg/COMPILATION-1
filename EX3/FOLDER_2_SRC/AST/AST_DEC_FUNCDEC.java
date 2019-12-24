@@ -9,7 +9,8 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 	public AST_FUNC_INPUT_VARS_LIST params;
 	public AST_STMT_LIST funcBody;
 
-	public AST_DEC_FUNCDEC(String returnType, String funcName, AST_FUNC_INPUT_VARS_LIST params, AST_STMT_LIST funcBody) {
+	public AST_DEC_FUNCDEC(String returnType, String funcName, AST_FUNC_INPUT_VARS_LIST params,
+			AST_STMT_LIST funcBody) {
 		this.returnType = returnType;
 		this.funcName = funcName;
 		this.params = params;
@@ -25,14 +26,29 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		/*************************/
 		/* [1] Begin Class Scope */
 		/*************************/
+		
 		SYMBOL_TABLE.getInstance().beginScope(ScopeType.FUNCTION_SCOPE);
 
 		// Check return type exists
 		TYPE typeOfReturn = SYMBOL_TABLE.getInstance().find(returnType);
 		if (!(typeOfReturn instanceof TYPE_VOID || typeOfReturn instanceof TYPE_INT
 				|| typeOfReturn instanceof TYPE_STRING || typeOfReturn instanceof TYPE_ARRAY)) {
-			return null;
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("bad return type dec_funcdec %s %s", returnType, funcName));
 		}
+
+		// Check that we are in scope global
+		ScopeType currentScope = SYMBOL_TABLE.getInstance().getCurrentScope();
+		if (currentScope != ScopeType.GLOBAL_SCOPE || 
+				currentScope != ScopeType.CLASS_SCOP)
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("not global scope dec_funcdec %s %s", returnType, funcName));
+
+		// check that no other function/class/etc has the same name
+		TYPE typeOfName = SYMBOL_TABLE.getInstance().find(funcName);
+		if (typeOfName != null)
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("duplicate name dec_funcdec %s %s", returnType, funcName));
 		/***************************/
 		/* [2] Semant Data Members */
 		/***************************/

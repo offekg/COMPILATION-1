@@ -11,12 +11,16 @@ public class OutputFileWriter {
 		}
 		return file_writer;
 	}
-
-	public static void write(String s) {
-		file_writer.println(s);
-	}
 	
-	public static void close() {
+	public static void writeOk() {
+		file_writer.println("OK");
 		file_writer.close();
+	}
+
+	public static void writeError(int lineNumber, String errored_line) {
+		file_writer.println(String.format("ERROR(%d)", lineNumber));
+		System.out.println(errored_line);
+		file_writer.close();
+		System.exit(0);
 	}
 }

@@ -14,18 +14,14 @@ public class AST_FUNC_INPUT_VARS extends AST_Node {
 	}
 
 	public TYPE SemantMe() {
-		if (paramType != null && paramName != null) {
-			TYPE typeOfParam = SYMBOL_TABLE.getInstance().find(paramType);
-			if (!(typeOfParam instanceof TYPE_VOID || typeOfParam instanceof TYPE_INT
-					|| typeOfParam instanceof TYPE_STRING))
-				return null;
-			
-			AST_EXP_STRING paramTypeString = new AST_EXP_STRING(paramType);
-			AST_EXP_STRING paramNameString = new AST_EXP_STRING(paramName);
-			return new TYPE_LIST(paramTypeString.SemantMe(), paramNameString.SemantMe());
+		TYPE typeOfParam = SYMBOL_TABLE.getInstance().find(paramType);
+		if (typeOfParam == null) {
+			OutputFileWriter.writeError(this.lineNumber, String.format("func_vars_list %s, %s", paramType, paramName));
 		}
-		
-		return null;
+
+		AST_EXP_STRING paramTypeString = new AST_EXP_STRING(paramType);
+		AST_EXP_STRING paramNameString = new AST_EXP_STRING(paramName);
+		return new TYPE_LIST(paramTypeString.SemantMe(), paramNameString.SemantMe());
 	}
 
 	/******************************************************/

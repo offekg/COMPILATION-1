@@ -67,14 +67,10 @@ public class AST_STMT_ASSIGN_EXP extends AST_STMT {
 
 		if (t1 instanceof TYPE_CLASS) {
 			if (!TYPE_CLASS.isSubClassOf(t2, t1)) {
-				// TODO: Print correct error
-				System.out.format(">> ERROR [%d:%d] type mismatch for var := exp\n", 6, 6);
-				System.exit(0);
+				OutputFileWriter.writeError(this.lineNumber, "type mismatch for var := exp\\n");
 			}
 		} else if (t1 != t2) {
-			// TODO: Print correct error
-			System.out.format(">> ERROR [%d:%d] type mismatch for var := exp\n", 6, 6);
-			System.exit(0);
+			OutputFileWriter.writeError(this.lineNumber, "type mismatch for var := exp\\n");ssss
 		}
 
 		return null;
