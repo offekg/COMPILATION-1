@@ -58,7 +58,7 @@ public class Main
 			/*************************/
 			/* [8] Close output file */
 			/*************************/
-			OutputFileWriter.write_ok();
+			OutputFileWriter.writeOk();
 			
 			/*************************************/
 			/* [9] Finalize AST GRAPHIZ DOT file */
