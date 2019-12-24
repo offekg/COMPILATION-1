@@ -68,7 +68,6 @@ public class AST_STMT_ASSIGN_EXP extends AST_STMT {
 		if (!t1.equalsOrSubclass(t2)) {
 			OutputFileWriter.writeError(this.lineNumber, ">> ERROR type mismatch for var := exp\n");
 		}
-
 		return null;
 	}
 }

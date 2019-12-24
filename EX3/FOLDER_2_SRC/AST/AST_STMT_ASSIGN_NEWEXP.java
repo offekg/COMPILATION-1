@@ -54,16 +54,14 @@ public class AST_STMT_ASSIGN_NEWEXP extends AST_STMT {
 			t2 = exp.SemantMe();
 
 		// Check that the new instance is of the same type
-		if (t2 == null) {
-			System.out.format(">> ERROR [%d:%d] could not resolve assignment\n", 2, 2);
-			System.exit(0);
-		}
+		if (t2 == null) 
+			OutputFileWriter.writeError(this.lineNumber, "type mismatch for var := exp\\n");
+		
 		if (t1 instanceof TYPE_CLASS) {
-			if (!TYPE_CLASS.isSubClassOf(t2, t1)) {
-				System.out.format(">> ERROR [%d:%d] type mismatch for var := exp\n", 6, 6);
-				System.exit(0);
-			}
+			if (!TYPE_CLASS.isSubClassOf(t2, t1)) 
+				OutputFileWriter.writeError(this.lineNumber, "type mismatch for var := exp\\n");
 		}
+		
 		return null;
 	}
 }
