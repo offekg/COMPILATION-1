@@ -3,6 +3,7 @@ import java.io.*;
 import java.io.PrintWriter;
 import java_cup.runtime.Symbol;
 import AST.*;
+import SYMBOL_TABLE.OutputFileWriter;
 
 public class Main
 {
@@ -27,7 +28,7 @@ public class Main
 			/********************************/
 			/* [2] Initialize a file writer */
 			/********************************/
-			file_writer = new PrintWriter(outputFilename);
+			file_writer = OutputFileWriter.getInstance(outputFilename);
 			
 			/******************************/
 			/* [3] Initialize a new lexer */
@@ -57,8 +58,8 @@ public class Main
 			/*************************/
 			/* [8] Close output file */
 			/*************************/
-			file_writer.println("OK");
-			file_writer.close();
+			OutputFileWriter.write("OK");
+			OutputFileWriter.close();
 			
 			/*************************************/
 			/* [9] Finalize AST GRAPHIZ DOT file */
