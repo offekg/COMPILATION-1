@@ -38,9 +38,9 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		}
 
 		// Check that we are in scope global
-		ScopeType currentScope = SYMBOL_TABLE.getInstance().getCurrentScope();
+		ScopeType currentScope = SYMBOL_TABLE.getInstance().getCurrentScopeType();
 		if (currentScope != ScopeType.GLOBAL_SCOPE || 
-				currentScope != ScopeType.CLASS_SCOP)
+				currentScope != ScopeType.CLASS_SCOPE)
 			OutputFileWriter.writeError(this.lineNumber,
 					String.format("not global scope dec_funcdec %s %s", returnType, funcName));
 
