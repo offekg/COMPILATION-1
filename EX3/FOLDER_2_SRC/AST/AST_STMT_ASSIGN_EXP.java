@@ -65,14 +65,9 @@ public class AST_STMT_ASSIGN_EXP extends AST_STMT {
 		if (exp != null)
 			t2 = exp.SemantMe();
 
-		if (t1 instanceof TYPE_CLASS) {
-			if (!TYPE_CLASS.isSubClassOf(t2, t1)) {
-				OutputFileWriter.writeError(this.lineNumber, "type mismatch for var := exp\\n");
-			}
-		} else if (t1 != t2) {
-			OutputFileWriter.writeError(this.lineNumber, "type mismatch for var := exp\\n");ssss
+		if (!t1.equalsOrSubclass(t2)) {
+			OutputFileWriter.writeError(this.lineNumber, ">> ERROR type mismatch for var := exp\n");
 		}
-
 		return null;
 	}
 }

@@ -30,11 +30,32 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 		if (father != null) {
 			TYPE fatherType = SYMBOL_TABLE.getInstance().find(father);
 			if (!(fatherType instanceof TYPE_CLASS)) {
-				return null;
+				OutputFileWriter.writeError(this.lineNumber, "Could not resolve father's class");
 			}
-			t = new TYPE_CLASS(name, (TYPE_CLASS)fatherType, cFieldList.SemantMe());
+			for (AST_CFIELD_LIST field = this.cFieldList; field != null; field = field.tail) {
+				if (field.head instanceof AST_CFIELD_FUNCDEC) {
+					AST_CFIELD_FUNCDEC currentFunc = (AST_CFIELD_FUNCDEC) field.head;
+					TYPE_FUNCTION overidedMethod = ((TYPE_CLASS) fatherType)
+							.getOveridedMethod(currentFunc.funcdec.funcName);
+					TYPE returnType = SYMBOL_TABLE.getInstance().find(currentFunc.funcdec.returnType);
+					if (!returnType.equals(overidedMethod.returnType))
+						OutputFileWriter.writeError(this.lineNumber);
+					TYPE_LIST overidedParam = overidedMethod.paramTypes;
+					TYPE_LIST methodParam = currentFunc.funcdec.params.SemantMe();
+					for (TYPE currentType = methodParam.head; methodParam != null; methodParam = methodParam.tail) {
+						if (!currentType.equalsOrSubclass(overidedParam.head)) {
+							OutputFileWriter.writeError(this.lineNumber, "Error in method params");
+						}
+						overidedParam = overidedParam.tail;
+					}
+					if (overidedParam != null) {
+						OutputFileWriter.writeError(this.lineNumber, "Error in method params");
+					}
+				}
+			}
+			t = new TYPE_CLASS(name, (TYPE_CLASS) fatherType, cFieldList.SemantMe());
 		} else {
-			t = new TYPE_CLASS(name, null, cFieldList.SemantMe());			
+			t = new TYPE_CLASS(name, null, cFieldList.SemantMe());
 		}
 
 		SYMBOL_TABLE.getInstance().endScope();
