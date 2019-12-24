@@ -25,10 +25,6 @@ public class AST_EXP_NIL extends AST_EXP {
 			SerialNumber,
 			"EXP\nNIL\n");
 	}
-			public TYPE SemantMe()
-	{
-		return TYPE_INT.getInstance();
-	}
 
 	public TYPE SemantMe()
 	{
