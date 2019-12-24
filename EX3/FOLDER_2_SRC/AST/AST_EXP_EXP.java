@@ -41,6 +41,6 @@ public class AST_EXP_EXP extends AST_EXP {
 
 		public TYPE SemantMe()
 	{
-		return this.exp.SemantMe()
+		return this.exp.SemantMe();
 	}
 }
