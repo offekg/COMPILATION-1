@@ -1,3 +1,5 @@
+package TYPES;
+
 public class TYPE_NILL extends TYPE
 {
 	/**************************************/
@@ -13,7 +15,7 @@ public class TYPE_NILL extends TYPE
 	/******************************/
 	/* GET SINGLETON INSTANCE ... */
 	/******************************/
-	public static TYPE_INT getInstance()
+	public static TYPE_NILL getInstance()
 	{
 		if (instance == null)
 		{

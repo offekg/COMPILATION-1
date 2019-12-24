@@ -144,6 +144,21 @@ public class SYMBOL_TABLE {
 		return ScopeType.ERROR_SCOPE;
 	}
 	
+	/***********************************************/
+	/* Get the current function scope type             */
+	/***********************************************/
+	public TYPE_FOR_SCOPE_BOUNDARIES getFunctionScopeType() {
+		
+		SYMBOL_TABLE_ENTRY e = top;
+
+		while((e != null) && !(e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES)) {
+			e = e.next;
+		}
+		if(e != null)
+			return (TYPE_FOR_SCOPE_BOUNDARIES) e.type;
+		return null;
+	}
+	
 
 	/***************************************************************************/
 	/* begine scope = Enter the <SCOPE-BOUNDARY> element to the data structure */
