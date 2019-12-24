@@ -30,6 +30,13 @@ public class AST_VAR_SUBSCRIPT extends AST_VAR
 		this.subscript = subscript;
 	}
 
+	public TYPE SemantMe() {
+		TYPE varType = var.SemantMe();
+		if (!varType.isArray()) OutputFileWriter.writeError(this.lineNumber, "ERROR: var is not an array");
+		if (subscript.SemantMe() != TYPE_INT.getInstance()) OutputFileWriter.writeError(this.lineNumber, "ERROR: subscript is not an int");
+		return ((TYPE_ARRAY)varType).arrayType;
+	}
+
 	/*****************************************************/
 	/* The printing message for a subscript var AST node */
 	/*****************************************************/
