@@ -9,16 +9,14 @@ public class TYPE_FUNCTION extends TYPE {
 	/*************************/
 	/* types of input params */
 	/*************************/
-	public TYPE_LIST firstParam;
-	public TYPE_LIST otherParams;
+	public TYPE_LIST paramTypes;
 
 	/****************/
 	/* CTROR(S) ... */
 	/****************/
-	public TYPE_FUNCTION(TYPE returnType, String name, TYPE_LIST firstParam, TYPE_LIST otherParams) {
+	public TYPE_FUNCTION(TYPE returnType, String name, TYPE_LIST paramTypes) {
 		this.name = name;
 		this.returnType = returnType;
-		this.firstParam = firstParam;
-		this.otherParams = otherParams;
+		this.paramTypes = paramTypes;
 	}
 }

@@ -4,12 +4,10 @@ import TYPES.*;
 import SYMBOL_TABLE.*;
 
 public class AST_STMT_FUNC_CALL extends AST_STMT {
-	public AST_EXP exp;
 	public AST_VAR var;
 	public String name;
 	public AST_EXP_LIST expList;
-	public AST_STMT_FUNC_CALL(AST_VAR var,String name, AST_EXP exp, AST_EXP_LIST expList) {
-		this.exp = exp;
+	public AST_STMT_FUNC_CALL(AST_VAR var,String name, AST_EXP_LIST expList) {
 		this.var = var;
 		this.name = name;
 		this.expList = expList;
@@ -29,7 +27,6 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 		/*************************************/
 		/* RECURSIVELY PRINT HEAD + TAIL ... */
 		/*************************************/
-		if (exp != null) exp.PrintMe();
 		if (var != null) var.PrintMe();
 		if (expList != null) expList.PrintMe();
 
@@ -43,7 +40,6 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		if (exp != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,exp.SerialNumber);
 		if (var != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,var.SerialNumber);
 		if (expList != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,expList.SerialNumber);
 	}

@@ -6,18 +6,13 @@ import SYMBOL_TABLE.*;
 public class AST_DEC_FUNCDEC extends AST_DEC {
 	public String returnType;
 	public String funcName;
-	public String firstParamType;
-	public String firstParamName;
-	public AST_FUNC_INPUT_VARS_LIST otherParamsList;
+	public AST_FUNC_INPUT_VARS_LIST params;
 	public AST_STMT_LIST funcBody;
 
-	public AST_DEC_FUNCDEC(String returnType, String funcName, String firstParamType, String firstParamName,
-			AST_FUNC_INPUT_VARS_LIST otherParamsList, AST_STMT_LIST funcBody) {
+	public AST_DEC_FUNCDEC(String returnType, String funcName, AST_FUNC_INPUT_VARS_LIST params, AST_STMT_LIST funcBody) {
 		this.returnType = returnType;
 		this.funcName = funcName;
-		this.firstParamType = firstParamType;
-		this.firstParamName = firstParamName;
-		this.otherParamsList = otherParamsList;
+		this.params = params;
 		this.funcBody = funcBody;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
 		/***************************************/
@@ -41,9 +36,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		/***************************/
 		/* [2] Semant Data Members */
 		/***************************/
-		AST_FUNC_INPUT_VARS firstParam = new AST_FUNC_INPUT_VARS(firstParamType, firstParamName);
-		TYPE_FUNCTION t = new TYPE_FUNCTION(this.returnType, this.funcName, firstParam.SemantMe(),
-				otherParamsList.SemantMe());
+		TYPE_FUNCTION t = new TYPE_FUNCTION(typeOfReturn, this.funcName, params.SemantMe());
 
 		/*****************/
 		/* [3] End Scope */
@@ -70,15 +63,12 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		/**************************************/
 		System.out.print("AST NODE FUNC DEC:\n");
 		System.out.printf("%s %s()\n", this.returnType, this.funcName);
-		if (this.firstParamType != null) {
-			System.out.printf("params: %s %s\n", this.returnType, this.funcName);
-		}
 
 		/*************************************/
 		/* RECURSIVELY PRINT HEAD + TAIL ... */
 		/*************************************/
-		if (otherParamsList != null)
-			otherParamsList.PrintMe();
+		if (params != null)
+			params.PrintMe();
 		if (funcBody != null)
 			funcBody.PrintMe();
 
@@ -91,8 +81,8 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		if (otherParamsList != null)
-			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, otherParamsList.SerialNumber);
+		if (params != null)
+			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, params.SerialNumber);
 		if (funcBody != null)
 			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, funcBody.SerialNumber);
 	}
