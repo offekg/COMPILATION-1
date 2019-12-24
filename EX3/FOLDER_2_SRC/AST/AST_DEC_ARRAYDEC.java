@@ -43,8 +43,7 @@ public class AST_DEC_ARRAYDEC extends AST_DEC {
 		/* [0] Check If Currently In Global Scope */
 		/******************************************/
 		if (SYMBOL_TABLE.getInstance().getCurrentScopeType() != ScopeType.GLOBAL_SCOPE) {
-			System.out.format(">> ERROR [%d:%d] Array decleration not in global scope\n", 2, 2);
-			System.exit(0);
+			OutputFileWriter.writeError(this.lineNumber,"Array decleration not in global scope\n");
 		}
 		
 		/****************************/
@@ -52,16 +51,14 @@ public class AST_DEC_ARRAYDEC extends AST_DEC {
 		/****************************/
 		t = SYMBOL_TABLE.getInstance().find(arrayType);
 		if (t == null) {
-			System.out.format(">> ERROR [%d:%d] non existing type %s\n", 2, 2, arrayType);
-			System.exit(0);
+			OutputFileWriter.writeError(this.lineNumber,String.format("Array decleration using non existing type %s \n",arrayType));
 		}
 
 		/*******************************************************/
 		/* [2] Check That Name does NOT exist in current scope */
 		/*******************************************************/
 		if (SYMBOL_TABLE.getInstance().isInScope(arrayName)) {
-			System.out.format(">> ERROR [%d:%d] variable %s already exists in scope\n", 2, 2, arrayName);
-			System.exit(0);
+			OutputFileWriter.writeError(this.lineNumber,String.format("Array decleration variable name %s already exists in scope\n",arrayName));
 		}
 		
 
