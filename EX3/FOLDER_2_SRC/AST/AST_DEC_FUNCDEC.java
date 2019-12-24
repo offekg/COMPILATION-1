@@ -30,7 +30,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		// Check return type exists
 		TYPE typeOfReturn = SYMBOL_TABLE.getInstance().find(returnType);
 		if (!(typeOfReturn instanceof TYPE_VOID || typeOfReturn instanceof TYPE_INT
-				|| typeOfReturn instanceof TYPE_STRING)) {
+				|| typeOfReturn instanceof TYPE_STRING || typeOfReturn instanceof TYPE_ARRAY)) {
 			return null;
 		}
 		/***************************/
