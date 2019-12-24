@@ -55,7 +55,7 @@ public class AST_STMT_IF extends AST_STMT
 		/****************************/
 		if (cond.SemantMe() != TYPE_INT.getInstance())
 		{
-			System.out.format(">> ERROR [%d:%d] condition inside IF is not integral\n",2,2);
+			OutputFileWriter.writeError(this.lineNumber,"condition inside IF is not an int.\n");
 		}
 		
 		/*************************/
