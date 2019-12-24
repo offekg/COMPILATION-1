@@ -219,8 +219,8 @@ stmt		::=		varDec:vd							{: RESULT = new AST_STMT_VARDEC(vd); RESULT.setLineNu
 					| RETURN SEMICOLON            		{: RESULT = new AST_STMT_RETURN(null); RESULT.setLineNumber(lexer.getLine());        :}   
 					| IF    LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE	{: RESULT = new AST_STMT_IF(cond,body); RESULT.setLineNumber(lexer.getLine());       	 :}
 					| WHILE LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE	{: RESULT = new AST_STMT_WHILE(cond,body); RESULT.setLineNumber(lexer.getLine());    	 :}
-					| var:v DOT ID:name LPAREN RPAREN   						{: RESULT = new AST_STMT_FUNC_CALL(v,name,null); RESULT.setLineNumber(lexer.getLine());   :}
-					| var:v DOT ID:name LPAREN expList:l RPAREN    				{: RESULT = new AST_STMT_FUNC_CALL(v,name,l); RESULT.setLineNumber(lexer.getLine());         :}
+					| var:v DOT ID:name LPAREN RPAREN SEMICOLON						{: RESULT = new AST_STMT_FUNC_CALL(v,name,null); RESULT.setLineNumber(lexer.getLine());   :}
+					| var:v DOT ID:name LPAREN expList:l RPAREN SEMICOLON    				{: RESULT = new AST_STMT_FUNC_CALL(v,name,l); RESULT.setLineNumber(lexer.getLine());         :}
 					| ID:name LPAREN RPAREN SEMICOLON  							{: RESULT = new AST_STMT_FUNC_CALL(null,name,null); RESULT.setLineNumber(lexer.getLine());:} 
 					| ID:name LPAREN expList:l RPAREN SEMICOLON     	        {: RESULT = new AST_STMT_FUNC_CALL(null,name,l); RESULT.setLineNumber(lexer.getLine()); 	 :}
 					;
