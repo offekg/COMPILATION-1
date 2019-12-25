@@ -62,6 +62,7 @@ public class SYMBOL_TABLE {
 	/* Enter a variable, function, class type or array type to the symbol table */
 	/****************************************************************************/
 	public void enter(String name, TYPE t) {
+		System.out.println("~~entering into table: " + name);
 		/*************************************************/
 		/* [1] Compute the hash value for this new entry */
 		/*************************************************/
@@ -119,7 +120,7 @@ public class SYMBOL_TABLE {
 			if (e.name.equals(name)) {
 				return true;
 			}
-			e = e.next;
+			e = e.prevtop;
 		}
 
 		return false;
@@ -132,12 +133,12 @@ public class SYMBOL_TABLE {
 		SYMBOL_TABLE_ENTRY e = top;
 		TYPE_FOR_SCOPE_BOUNDARIES scope;
 
-		while(!(e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES)) {
-
-			e = e.next;
+		while(e.name != "SCOPE-BOUNDARY") { //  instanceof TYPE_FOR_SCOPE_BOUNDARIES)) {
+			System.out.println("in while: " + e.name);
+			e = e.prevtop;
 		}
 
-		if(e != null && e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES) {
+		if(e != null && e.name == "SCOPE-BOUNDARY") { //e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES) {
 			scope = (TYPE_FOR_SCOPE_BOUNDARIES) e.type;
 			return scope.scopeType;
 		}
@@ -151,8 +152,8 @@ public class SYMBOL_TABLE {
 		
 		SYMBOL_TABLE_ENTRY e = top;
 
-		while((e != null) && !(e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES)) {
-			e = e.next;
+		while((e != null) && !(e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES && ((TYPE_FOR_SCOPE_BOUNDARIES) e.type).scopeType == ScopeType.FUNCTION_SCOPE)) {
+			e = e.prevtop;
 		}
 		if(e != null)
 			return (TYPE_FOR_SCOPE_BOUNDARIES) e.type;
@@ -202,14 +203,17 @@ public class SYMBOL_TABLE {
 		/**************************************************************************/
 		/* Pop elements from the symbol table stack until a SCOPE-BOUNDARY is hit */
 		/**************************************************************************/
+		System.out.println("**Now ending scope and Popping**");
 		while (top.name != "SCOPE-BOUNDARY") {
 			table[top.index] = top.next;
 			top_index = top_index - 1;
+			System.out.println("now popping: "+ top.name);
 			top = top.prevtop;
 		}
 		/**************************************/
 		/* Pop the SCOPE-BOUNDARY sign itself */
 		/**************************************/
+		System.out.println("now popping: "+ top.name);
 		table[top.index] = top.next;
 		top_index = top_index - 1;
 		top = top.prevtop;

@@ -6,8 +6,8 @@ public class TYPE_FOR_SCOPE_BOUNDARIES extends TYPE
 	/* CTROR(S) ... */
 	/****************/
 	public ScopeType scopeType;
-	public TYPE returnType;
-	public String name;
+	public TYPE returnType; //for functions
+	public String name = "Scope Entry";
 	
 	public TYPE_FOR_SCOPE_BOUNDARIES(ScopeType type)
 	{
