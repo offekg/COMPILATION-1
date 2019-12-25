@@ -177,6 +177,20 @@ public class SYMBOL_TABLE {
 		/*********************************************/
 		PrintMe();
 	}
+	
+	/***************************************************************************/
+	/* begine scope = Enter the <SCOPE-BOUNDARY> element to the data structure */
+	/***************************************************************************/
+	public void beginScope(ScopeType scopeType, String name,  TYPE returnType) {
+		
+		
+		enter("SCOPE-BOUNDARY", new TYPE_FOR_SCOPE_BOUNDARIES(scopeType, name, returnType));
+
+		/*********************************************/
+		/* Print the symbol table after every change */
+		/*********************************************/
+		PrintMe();
+	}
 
 	/********************************************************************************/
 	/* end scope = Keep popping elements out of the data structure, */

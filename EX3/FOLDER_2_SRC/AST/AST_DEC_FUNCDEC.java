@@ -27,7 +27,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		/* [1] Begin Class Scope */
 		/*************************/
 		
-		SYMBOL_TABLE.getInstance().beginScope(ScopeType.FUNCTION_SCOPE);
+		
 
 		// Check return type exists
 		TYPE typeOfReturn = SYMBOL_TABLE.getInstance().find(returnType);
@@ -37,6 +37,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 					String.format("bad return type dec_funcdec %s %s", returnType, funcName));
 		}
 
+		
 		// Check that we are in scope global
 		ScopeType currentScope = SYMBOL_TABLE.getInstance().getFunctionScopeType().scopeType;
 		if (currentScope != ScopeType.GLOBAL_SCOPE || 
@@ -49,6 +50,8 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		if (typeOfName != null)
 			OutputFileWriter.writeError(this.lineNumber,
 					String.format("duplicate name dec_funcdec %s %s", returnType, funcName));
+		
+		SYMBOL_TABLE.getInstance().beginScope(ScopeType.FUNCTION_SCOPE, funcName, typeOfReturn);
 		/***************************/
 		/* [2] Semant Data Members */
 		/***************************/
