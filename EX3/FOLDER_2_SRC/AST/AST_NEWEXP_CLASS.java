@@ -3,10 +3,10 @@ package AST;
 import TYPES.*;
 import SYMBOL_TABLE.*;
 
-public class AST_NEWEXP_ID1 extends AST_NEWEXP {
+public class AST_NEWEXP_CLASS extends AST_NEWEXP {
 	String name;
 
-	public AST_NEWEXP_ID1(String name) {
+	public AST_NEWEXP_CLASS(String name) {
 		this.name = name;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
 	}
@@ -18,7 +18,7 @@ public class AST_NEWEXP_ID1 extends AST_NEWEXP {
 		/**************************************/
 		/* AST NODE TYPE = AST STATEMENT LIST */
 		/**************************************/
-		System.out.print("AST NODE NEW EXP ID1\n");
+		System.out.print("AST NODE NEW EXP CLASS\n");
 
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
