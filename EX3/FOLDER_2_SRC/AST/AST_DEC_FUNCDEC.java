@@ -38,11 +38,11 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		}
 
 		// Check that we are in scope global
-		ScopeType currentScope = SYMBOL_TABLE.getInstance().getCurrentScopeType();
+		ScopeType currentScope = SYMBOL_TABLE.getInstance().getFunctionScopeType().scopeType;
 		if (currentScope != ScopeType.GLOBAL_SCOPE || 
 				currentScope != ScopeType.CLASS_SCOPE)
 			OutputFileWriter.writeError(this.lineNumber,
-					String.format("not global scope dec_funcdec %s %s", returnType, funcName));
+					String.format("not global or class scope dec_funcdec %s %s %s", returnType, funcName, String.valueOf(currentScope)));
 
 		// check that no other function/class/etc has the same name
 		TYPE typeOfName = SYMBOL_TABLE.getInstance().find(funcName);

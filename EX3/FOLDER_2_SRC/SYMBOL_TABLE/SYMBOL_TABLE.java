@@ -137,7 +137,7 @@ public class SYMBOL_TABLE {
 			e = e.next;
 		}
 
-		if(e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES) {
+		if(e != null && e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES) {
 			scope = (TYPE_FOR_SCOPE_BOUNDARIES) e.type;
 			return scope.scopeType;
 		}
