@@ -51,6 +51,16 @@ public class AST_VAR_SIMPLE extends AST_VAR
 	
 	public TYPE SemantMe()
 	{
-		return SYMBOL_TABLE.getInstance().find(name);
+		TYPE varType;
+		/****************************************/
+		/* [1] Check If The var exists in table */
+		/****************************************/
+		
+		varType =  SYMBOL_TABLE.getInstance().find(name);
+		if (varType == null) {
+			OutputFileWriter.writeError(this.lineNumber, String.format("tried using undeclaired val %s\n",name));
+		}
+		return varType;
+		
 	}
 }

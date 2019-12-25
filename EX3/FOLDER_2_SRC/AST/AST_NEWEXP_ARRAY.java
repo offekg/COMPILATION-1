@@ -43,6 +43,7 @@ public class AST_NEWEXP_ARRAY extends AST_NEWEXP {
 	public TYPE SemantMe() {
 		TYPE t;
 		TYPE size;
+		TYPE_ARRAY newArrayType;
 		
 		/****************************/
 		/* [1] Check If Type exists */
@@ -60,6 +61,13 @@ public class AST_NEWEXP_ARRAY extends AST_NEWEXP {
 			OutputFileWriter.writeError(this.lineNumber,String.format("Array assignment with non integer size\n"));
 		}
 		
-		return t;
+		/*********************************************/
+		/* [3] Push new array variable into table    */
+		/*********************************************/
+		newArrayType = new TYPE_ARRAY(t,"tempName");
+		//SYMBOL_TABLE.getInstance().enter(,newArray);
+		
+		//return the array's type, for checking against the variable it is assigned to.
+		return newArrayType;
 	}
 }

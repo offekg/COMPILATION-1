@@ -45,7 +45,7 @@ public class AST_STMT_ASSIGN_EXP extends AST_STMT {
 		/***************************************/
 		/* PRINT Node to AST GRAPHVIZ DOT file */
 		/***************************************/
-		AST_GRAPHVIZ.getInstance().logNode(SerialNumber, "ASSIGN\nleft := right\n");
+		AST_GRAPHVIZ.getInstance().logNode(SerialNumber, "ASSIGN\nvar := exp\n");
 
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
@@ -57,16 +57,16 @@ public class AST_STMT_ASSIGN_EXP extends AST_STMT {
 	}
 
 	public TYPE SemantMe() {
-		TYPE t1 = null;
-		TYPE t2 = null;
+		TYPE var_type = null;
+		TYPE exp_type = null;
 
 		if (var != null)
-			t1 = var.SemantMe();
+			var_type = var.SemantMe();
 		if (exp != null)
-			t2 = exp.SemantMe();
+			exp_type = exp.SemantMe();
 
-		if (!t1.equalsOrSubclass(t2)) {
-			OutputFileWriter.writeError(this.lineNumber, ">> ERROR type mismatch for var := exp\n");
+		if (!var_type.equalsOrSubclass(exp_type)) {
+			OutputFileWriter.writeError(this.lineNumber,"type mismatch for var := exp\n");
 		}
 		return null;
 	}

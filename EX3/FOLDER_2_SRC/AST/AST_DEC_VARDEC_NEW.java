@@ -40,8 +40,14 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 			}
 			if (t instanceof TYPE_CLASS) {
 				if (!TYPE_CLASS.isSubClassOf(assignmentType, t)) {
-					OutputFileWriter.writeError(this.lineNumber,"type mismatch for var := exp");
+					OutputFileWriter.writeError(this.lineNumber,"class type mismatch for var := new exp\n");
 				}
+			} else if (t instanceof TYPE_ARRAY) {
+				if (assignmentType != t) {
+					OutputFileWriter.writeError(this.lineNumber,"array type mismatch for var := new exp\n");
+				}
+			} else {
+				OutputFileWriter.writeError(this.lineNumber,"tried to assign a non array/class type with NEW\n");
 			}
 		}
 			

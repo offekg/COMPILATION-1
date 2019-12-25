@@ -65,21 +65,21 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 				OutputFileWriter.writeError(this.lineNumber,String.format("could not resolve assignment\n"));
 			}
 			if (t instanceof TYPE_CLASS) {
-				if (!TYPE_CLASS.isSubClassOf(assignmentType, t)) {
-					OutputFileWriter.writeError(this.lineNumber,"type mismatch for var := exp");
+				if ( !TYPE_CLASS.isSubClassOf(assignmentType, t) || assignmentType != TYPE_NILL.getInstance()) {
+					OutputFileWriter.writeError(this.lineNumber,"type mismatch for var decleration var := exp");
 				}
 			} else if (t != assignmentType) {
 				OutputFileWriter.writeError(this.lineNumber,String.format("variable %s type doesn't fit assignment\n",name));
 			}
 		}
 
-		/***************************************************/
-		/* [3] Enter the Function Type to the Symbol Table */
-		/***************************************************/
+		/*****************************************************/
+		/* [3] Enter the new Variable in to the Symbol Table */
+		/*****************************************************/
 		SYMBOL_TABLE.getInstance().enter(name, t);
 
 		/*********************************************************/
-		/* [4] Return value is irrelevant for class declarations */
+		/* [4] Return value is irrelevant for variable declarations */
 		/*********************************************************/
 		return t;
 	}

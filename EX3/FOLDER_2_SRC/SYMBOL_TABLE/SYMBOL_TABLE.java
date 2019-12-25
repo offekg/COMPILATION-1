@@ -316,6 +316,7 @@ public class SYMBOL_TABLE {
 			/*****************************************/
 			instance.enter("int", TYPE_INT.getInstance());
 			instance.enter("string", TYPE_STRING.getInstance());
+			instance.enter("nill", TYPE_NILL.getInstance());
 
 			/*************************************/
 			/* [2] How should we handle void ??? */

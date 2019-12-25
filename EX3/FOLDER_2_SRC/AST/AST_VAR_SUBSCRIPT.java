@@ -32,8 +32,15 @@ public class AST_VAR_SUBSCRIPT extends AST_VAR
 
 	public TYPE SemantMe() {
 		TYPE varType = var.SemantMe();
-		if (!varType.isArray()) OutputFileWriter.writeError(this.lineNumber, "ERROR: var is not an array");
-		if (subscript.SemantMe() != TYPE_INT.getInstance()) OutputFileWriter.writeError(this.lineNumber, "ERROR: subscript is not an int");
+		
+		//Check that variable is an array
+		if (!varType.isArray()) {
+			OutputFileWriter.writeError(this.lineNumber, "Tried to acces subscript of non array variable\n");
+		}
+		
+		if (subscript.SemantMe() != TYPE_INT.getInstance()) {
+			OutputFileWriter.writeError(this.lineNumber, "Used non integer subscript on array\n");
+		}
 		return ((TYPE_ARRAY)varType).arrayType;
 	}
 
