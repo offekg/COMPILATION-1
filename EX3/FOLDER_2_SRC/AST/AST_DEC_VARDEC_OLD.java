@@ -50,32 +50,26 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 		/****************************/
 		t = SYMBOL_TABLE.getInstance().find(type);
 		if (t == null) {
-			System.out.format(">> ERROR [%d:%d] non existing type %s\n", 2, 2, type);
-			System.exit(0);
+			OutputFileWriter.writeError(this.lineNumber,String.format("non existing type %s\n",type));
 		}
-
 		/**************************************/
 		/* [2] Check That Name does NOT exist */
 		/**************************************/
 		if (SYMBOL_TABLE.getInstance().isInScope(name)) {
-			System.out.format(">> ERROR [%d:%d] variable %s already exists in scope\n", 2, 2, name);
-			System.exit(0);
+			OutputFileWriter.writeError(this.lineNumber,String.format("variable %s already exists in scope\n",name));
 		}
 		
 		if(exp != null) {
 			TYPE assignmentType = exp.SemantMe();
 			if (assignmentType == null) {
-				System.out.format(">> ERROR [%d:%d] could not resolve assignment\n", 2, 2);
-				System.exit(0);
+				OutputFileWriter.writeError(this.lineNumber,String.format("could not resolve assignment\n"));
 			}
 			if (t instanceof TYPE_CLASS) {
 				if (!TYPE_CLASS.isSubClassOf(assignmentType, t)) {
-					System.out.format(">> ERROR [%d:%d] type mismatch for var := exp\n", 6, 6);
-					System.exit(0);
+					OutputFileWriter.writeError(this.lineNumber,"type mismatch for var := exp");
 				}
 			} else if (t != assignmentType) {
-				System.out.format(">> ERROR [%d:%d] variable %s type doesn't fit assignment\n", 2, 2, name);
-				System.exit(0);
+				OutputFileWriter.writeError(this.lineNumber,String.format("variable %s type doesn't fit assignment\n",name));
 			}
 		}
 
