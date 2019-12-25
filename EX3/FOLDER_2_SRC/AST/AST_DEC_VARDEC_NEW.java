@@ -22,7 +22,7 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 		/****************************/
 		t = SYMBOL_TABLE.getInstance().find(type);
 		if (t == null) {
-			OutputFileWriter.writeError(this.lineNumber,String.format("non existing type %s\n",type);
+			OutputFileWriter.writeError(this.lineNumber,String.format("non existing type %s\n",type));
 		}
 
 		/**************************************/
