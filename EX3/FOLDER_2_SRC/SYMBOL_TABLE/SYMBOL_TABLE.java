@@ -134,7 +134,6 @@ public class SYMBOL_TABLE {
 		TYPE_FOR_SCOPE_BOUNDARIES scope;
 
 		while(e.name != "SCOPE-BOUNDARY") { //  instanceof TYPE_FOR_SCOPE_BOUNDARIES)) {
-			System.out.println("in while: " + e.name);
 			e = e.prevtop;
 		}
 

@@ -19,7 +19,7 @@ public class OutputFileWriter {
 
 	public static void writeError(int lineNumber, String errored_line) {
 		file_writer.println(String.format("ERROR(%d)", lineNumber));
-		System.out.println(errored_line);
+		System.out.println(">>Semantic Error at [" + lineNumber+ "]: " + errored_line);
 		file_writer.close();
 		System.exit(0);
 	}
