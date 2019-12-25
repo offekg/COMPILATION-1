@@ -4,10 +4,10 @@ import TYPES.*;
 import SYMBOL_TABLE.*;
 
 public class AST_NEWEXP_CLASS extends AST_NEWEXP {
-	String name;
+	String expType;
 
-	public AST_NEWEXP_CLASS(String name) {
-		this.name = name;
+	public AST_NEWEXP_CLASS(String expType) {
+		this.expType = expType;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
 	}
 
@@ -23,7 +23,7 @@ public class AST_NEWEXP_CLASS extends AST_NEWEXP {
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
 		/**********************************/
-		AST_GRAPHVIZ.getInstance().logNode(SerialNumber, "NEWEXP\nID1\n");
+		AST_GRAPHVIZ.getInstance().logNode(SerialNumber, String.format("NEWEXP\nCLASS\n%s\n",expType));
 	}
 
 	public TYPE SemantMe() {
@@ -32,10 +32,9 @@ public class AST_NEWEXP_CLASS extends AST_NEWEXP {
 		/****************************/
 		/* [1] Check If Type exists */
 		/****************************/
-		t = SYMBOL_TABLE.getInstance().find(name);
+		t = SYMBOL_TABLE.getInstance().find(expType);
 		if (t == null) {
-			System.out.format(">> ERROR [%d:%d] non existing type %s\n", 2, 2, name);
-			System.exit(0);
+			OutputFileWriter.writeError(this.lineNumber,String.format("non existing type assignment %s\n",expType));
 		}
 		return t;
 	}

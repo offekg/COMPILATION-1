@@ -3,12 +3,12 @@ package AST;
 import TYPES.*;
 import SYMBOL_TABLE.*;
 
-public class AST_NEWEXP_ID2 extends AST_NEWEXP {
-	String name;
-	AST_EXP exp;
-	public AST_NEWEXP_ID2(String name, AST_EXP exp) {
-		this.name = name;
-		this.exp = exp;
+public class AST_NEWEXP_ARRAY extends AST_NEWEXP {
+	String expType;
+	AST_EXP sizeExp;
+	public AST_NEWEXP_ARRAY(String expType, AST_EXP exp) {
+		this.expType = expType;
+		this.sizeExp = exp;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
 	}
 
@@ -20,23 +20,46 @@ public class AST_NEWEXP_ID2 extends AST_NEWEXP {
 		/**************************************/
 		/* AST NODE TYPE = AST STATEMENT LIST */
 		/**************************************/
-		System.out.print("AST NODE NEW EXP ID2\n");
+		System.out.print("AST NODE NEW EXP ARRAY\n");
 
 		/*************************************/
 		/* RECURSIVELY PRINT HEAD + TAIL ... */
 		/*************************************/
-		if (exp != null) exp.PrintMe();
+		if (sizeExp != null) sizeExp.PrintMe();
 
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
 		/**********************************/
 		AST_GRAPHVIZ.getInstance().logNode(
 			SerialNumber,
-			"NEWEXP\nID2\n");
+			String.format("NEWEXP\nARRAY\n%s\n",expType));
 
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		if (exp != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,exp.SerialNumber);
+		if (sizeExp != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,sizeExp.SerialNumber);
+	}
+	
+	public TYPE SemantMe() {
+		TYPE t;
+		TYPE size;
+		
+		/****************************/
+		/* [1] Check If Type exists */
+		/****************************/
+		t = SYMBOL_TABLE.getInstance().find(expType);
+		if (t == null) {
+			OutputFileWriter.writeError(this.lineNumber,String.format("Non existing type assignment: %s\n",expType));
+		}
+		
+		/*********************************************/
+		/* [2] Check If the given size exp is an int */
+		/*********************************************/
+		size = sizeExp.SemantMe();
+		if (size != TYPE_INT.getInstance()) {
+			OutputFileWriter.writeError(this.lineNumber,String.format("Array assignment with non integer size\n"));
+		}
+		
+		return t;
 	}
 }

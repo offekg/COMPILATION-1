@@ -230,8 +230,8 @@ stmtList	::=		stmt:s	stmtList:l		{: RESULT = new AST_STMT_LIST(s,l); RESULT.setL
 					| stmt:s				{: RESULT = new AST_STMT_LIST(s,null); RESULT.setLineNumber(lexer.getLine()); :}
 					;
 					
-newExp      ::=     NEW ID:name							{: RESULT = new AST_NEWEXP_ID1(name); RESULT.setLineNumber(lexer.getLine());   :}
-					| NEW ID:name LBRACK exp:e RBRACK	{: RESULT = new AST_NEWEXP_ID2(name,e); RESULT.setLineNumber(lexer.getLine()); :}
+newExp      ::=     NEW ID:name							{: RESULT = new AST_NEWEXP_CLASS(name); RESULT.setLineNumber(lexer.getLine());   :}
+					| NEW ID:name LBRACK exp:e RBRACK	{: RESULT = new AST_NEWEXP_ARRAY(name,e); RESULT.setLineNumber(lexer.getLine()); :}
 					;
 
 cField      ::=     varDec:vd 				    {: RESULT = new AST_CFIELD_VARDEC(vd); RESULT.setLineNumber(lexer.getLine());  :}		
