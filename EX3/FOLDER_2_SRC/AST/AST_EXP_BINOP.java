@@ -83,7 +83,7 @@ public class AST_EXP_BINOP extends AST_EXP
 				return TYPE_STRING.getInstance();
 			}
 		}
-		System.exit(0);
+		OutputFileWriter.writeError(this.lineNumber,"Binop incompatibale types\n");
 		return null;
 	}
 }
