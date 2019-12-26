@@ -62,10 +62,10 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 			funcType = ((TYPE_CLASS) varType).getOveridedMethod(this.funcName);
 
 		if (funcType == null)
-			OutputFileWriter.writeError(this.lineNumber, String.format("function is not declared %s", funcName));
+			OutputFileWriter.writeError(this.lineNumber, String.format("function is not declared %s\n", funcName));
 
 		if (!isFunctionCallValid((TYPE_FUNCTION) funcType, expTypeList))
-			OutputFileWriter.writeError(this.lineNumber, String.format("function call is not valid %s %s", funcName));
+			OutputFileWriter.writeError(this.lineNumber, String.format("function call is not valid %s\n", funcName));
 
 		return ((TYPE_FUNCTION) funcType).returnType;
 	}
@@ -80,11 +80,16 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 			funcArg = funcArgsType.head;
 			callArg = argsTypeList.head;
 			
+			if(!callArg.equalsOrSubclass(funcArg))
+				return false;
+			/*
 			if (funcArg instanceof TYPE_CLASS) {
 				if (!TYPE_CLASS.isSubClassOf(funcArg, callArg))
 					return false;
-			} else if (funcArg != callArg) 
+			} else if (funcArg != callArg) {
+				System.out.println(funcArg.name + " " + callArg.name);
 				return false;
+			}*/
 			
 			funcArgsType = funcArgsType.tail;
 			argsTypeList = argsTypeList.tail;

@@ -56,7 +56,12 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		/***************************/
 		/* [2] Semant Data Members */
 		/***************************/
-		TYPE_FUNCTION t = new TYPE_FUNCTION(typeOfReturn, this.funcName, params.SemantMe()); //#!@!has null pointer exception problem 
+		TYPE_FUNCTION t;
+		if(params != null) {
+			t = new TYPE_FUNCTION(typeOfReturn, this.funcName, params.SemantMe()); //#!@!has null pointer exception problem 
+		} else {
+			t = new TYPE_FUNCTION(typeOfReturn, this.funcName, null);
+		}
 		funcBody.SemantMe();
 
 		/*****************/
