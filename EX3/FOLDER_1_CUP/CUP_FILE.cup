@@ -187,7 +187,7 @@ cFieldList	::=		cField:cf	cFieldList:l		{: RESULT = new AST_CFIELD_LIST(cf,l); R
 					| cField:cf						{: RESULT = new AST_CFIELD_LIST(cf,null); RESULT.setLineNumber(lexer.getLine()); :}
 					;
 					
-arrayDec    ::=     ARRAY ID:name1 ASSIGN ID:name2 LBRACK RBRACK {: RESULT = new AST_DEC_ARRAYDEC(name1, name2); RESULT.setLineNumber(lexer.getLine());    :}
+arrayDec    ::=     ARRAY ID:name1 EQ ID:name2 LBRACK RBRACK {: RESULT = new AST_DEC_ARRAYDEC(name1, name2); RESULT.setLineNumber(lexer.getLine());    :}
 					;
 					
 exp			::=		var:v											{: RESULT = new AST_EXP_VAR(v); RESULT.setLineNumber(lexer.getLine());          :}

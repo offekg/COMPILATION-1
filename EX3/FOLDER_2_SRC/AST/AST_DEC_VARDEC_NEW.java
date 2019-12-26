@@ -15,13 +15,13 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 	}
 	
 	public TYPE SemantMe() {
-		TYPE t;
+		TYPE declaredType;
 
 		/****************************/
 		/* [1] Check If Type exists */
 		/****************************/
-		t = SYMBOL_TABLE.getInstance().find(type);
-		if (t == null) {
+		declaredType = SYMBOL_TABLE.getInstance().find(type);
+		if (declaredType == null) {
 			OutputFileWriter.writeError(this.lineNumber,String.format("non existing type %s\n",type));
 		}
 
@@ -38,12 +38,13 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 			if (assignmentType == null) {
 				OutputFileWriter.writeError(this.lineNumber,String.format("could not resolve assignment\n"));
 			}
-			if (t instanceof TYPE_CLASS) {
-				if (!TYPE_CLASS.isSubClassOf(assignmentType, t)) {
+			if (declaredType.isClass()) {
+				if (!TYPE_CLASS.isSubClassOf(assignmentType, declaredType)) {
 					OutputFileWriter.writeError(this.lineNumber,"class type mismatch for var := new exp\n");
 				}
-			} else if (t instanceof TYPE_ARRAY) {
-				if (assignmentType != t) {
+			} else if (declaredType.isArray()) {
+				TYPE_ARRAY arrayDT = (TYPE_ARRAY) declaredType;
+				if (assignmentType != arrayDT.arrayType) {
 					OutputFileWriter.writeError(this.lineNumber,"array type mismatch for var := new exp\n");
 				}
 			} else {
@@ -55,12 +56,12 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 		/***************************************************/
 		/* [3] Enter the Function Type to the Symbol Table */
 		/***************************************************/
-		SYMBOL_TABLE.getInstance().enter(name, t);
+		SYMBOL_TABLE.getInstance().enter(name, declaredType);
 
 		/*********************************************************/
 		/* [4] Return value is irrelevant for class declarations */
 		/*********************************************************/
-		return t;
+		return declaredType;
 	}
 
 	/******************************************************/
