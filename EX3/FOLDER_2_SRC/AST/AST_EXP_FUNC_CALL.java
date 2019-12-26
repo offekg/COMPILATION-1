@@ -44,7 +44,7 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 		if (expList != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,expList.SerialNumber);
 	}
 
-		public TYPE SemantMe() {
+	public TYPE SemantMe() {
 		TYPE varType = null;
 		TYPE funcType = null;
 		TYPE_LIST expTypeList = null;
@@ -68,5 +68,31 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 			OutputFileWriter.writeError(this.lineNumber, String.format("function call is not valid %s %s", funcName));
 
 		return ((TYPE_FUNCTION) funcType).returnType;
+	}
+
+	public boolean isFunctionCallValid(TYPE_FUNCTION funcType, TYPE_LIST argsTypeList) {
+		TYPE funcArg;
+		TYPE callArg;
+		
+		TYPE_LIST funcArgsType = funcType.paramTypes;
+		
+		while (funcArgsType != null && argsTypeList != null) {
+			funcArg = funcArgsType.head;
+			callArg = argsTypeList.head;
+			
+			if (funcArg instanceof TYPE_CLASS) {
+				if (!TYPE_CLASS.isSubClassOf(funcArg, callArg))
+					return false;
+			} else if (funcArg != callArg) 
+				return false;
+			
+			funcArgsType = funcArgsType.tail;
+			argsTypeList = argsTypeList.tail;
+		}
+		
+		if (funcArgsType != null || argsTypeList != null)
+			return false;
+		
+		return true;
 	}
 }
