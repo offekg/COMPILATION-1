@@ -45,4 +45,8 @@ public class AST_BINOP extends AST_Node {
 			SerialNumber,
 			String.format("BINOP(%s)\n",this.sOP));
 	}
+	public TYPE SemantMe()
+	{
+		return TYPE_BINOP.getInstance();
+	}
 }
