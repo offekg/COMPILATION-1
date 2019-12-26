@@ -54,6 +54,9 @@ public class AST_PROGRAM extends AST_Node {
 			decList.SemantMe();
 
 		SYMBOL_TABLE.getInstance().endScope();
+
+		//OutputFileWriter.writeOk();
+
 		return null;
 	}
 }
