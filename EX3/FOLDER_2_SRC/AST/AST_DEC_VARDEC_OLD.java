@@ -65,7 +65,7 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 				OutputFileWriter.writeError(this.lineNumber,String.format("could not resolve assignment\n"));
 			}
 			if (t instanceof TYPE_CLASS) {
-				if ( !TYPE_CLASS.isSubClassOf(assignmentType, t) || assignmentType != TYPE_NILL.getInstance()) {
+				if ( !TYPE_CLASS.isSubClassOf(assignmentType, t) || !assignmentType.equalsOrSubclass(TYPE_NILL.getInstance())) {
 					OutputFileWriter.writeError(this.lineNumber,"type mismatch for var decleration var := exp");
 				}
 			} else if (t != assignmentType) {
