@@ -47,6 +47,6 @@ public class AST_BINOP extends AST_Node {
 	}
 	public TYPE SemantMe()
 	{
-		return TYPE_BINOP.getInstance();
+		return TYPE_INT.getInstance();
 	}
 }
