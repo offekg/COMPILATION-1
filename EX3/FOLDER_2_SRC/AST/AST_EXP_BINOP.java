@@ -3,17 +3,15 @@ package AST;
 import TYPES.*;
 import SYMBOL_TABLE.*;
 
-public class AST_EXP_BINOP extends AST_EXP
-{
+public class AST_EXP_BINOP extends AST_EXP {
 	AST_BINOP OP;
 	public AST_EXP left;
 	public AST_EXP right;
-	
+
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AST_EXP_BINOP(AST_EXP left,AST_EXP right,AST_BINOP OP)
-	{
+	public AST_EXP_BINOP(AST_EXP left, AST_EXP right, AST_BINOP OP) {
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
@@ -31,12 +29,11 @@ public class AST_EXP_BINOP extends AST_EXP
 		this.right = right;
 		this.OP = OP;
 	}
-	
+
 	/*************************************************/
 	/* The printing message for a binop exp AST node */
 	/*************************************************/
-	public void PrintMe()
-	{
+	public void PrintMe() {
 		/*************************************/
 		/* AST NODE TYPE = AST SUBSCRIPT VAR */
 		/*************************************/
@@ -45,45 +42,50 @@ public class AST_EXP_BINOP extends AST_EXP
 		/**************************************/
 		/* RECURSIVELY PRINT left + right ... */
 		/**************************************/
-		if (OP != null) OP.PrintMe();
-		if (left != null) left.PrintMe();
-		if (right != null) right.PrintMe();
-		
+		if (OP != null)
+			OP.PrintMe();
+		if (left != null)
+			left.PrintMe();
+		if (right != null)
+			right.PrintMe();
+
 		/***************************************/
 		/* PRINT Node to AST GRAPHVIZ DOT file */
 		/***************************************/
-		AST_GRAPHVIZ.getInstance().logNode(
-			SerialNumber,
-			"EXP\nBINOP\n");
-		
+		AST_GRAPHVIZ.getInstance().logNode(SerialNumber, "EXP\nBINOP\n");
+
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		if (OP != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,OP.SerialNumber);
-		if (left  != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,left.SerialNumber);
-		if (right != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,right.SerialNumber);
+		if (OP != null)
+			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, OP.SerialNumber);
+		if (left != null)
+			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, left.SerialNumber);
+		if (right != null)
+			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, right.SerialNumber);
 	}
-	
-	public TYPE SemantMe()
-	{
+
+	public TYPE SemantMe() {
 		TYPE t1 = null;
 		TYPE t2 = null;
-		
-		if (left  != null) t1 = left.SemantMe();
-		if (right != null) t2 = right.SemantMe();
-		
-		if ((t1 == TYPE_INT.getInstance()) && (t2 == TYPE_INT.getInstance()))
-		{
+
+		if (left != null)
+			t1 = left.SemantMe();
+		if (right != null)
+			t2 = right.SemantMe();
+
+		if ((t1 == TYPE_INT.getInstance()) && (t2 == TYPE_INT.getInstance())) {
 			return TYPE_INT.getInstance();
 		}
-		
-		// add check that if binop is + then also concatination between two strings is allowed
-		if (this.OP.OP == 0){
-			if ((t1 == TYPE_STRING.getInstance()) && (t2 == TYPE_STRING.getInstance())){
+
+		// add check that if binop is + then also concatination between two strings is
+		// allowed
+		if (this.OP.OP == 0) {
+			if ((t1 == TYPE_STRING.getInstance()) && (t2 == TYPE_STRING.getInstance())) {
 				return TYPE_STRING.getInstance();
 			}
 		}
-		OutputFileWriter.writeError(this.lineNumber,"Binop incompatibale types\n");
+		OutputFileWriter.writeError(this.lineNumber, "Binop incompatibale types\n");
 		return null;
 	}
 }

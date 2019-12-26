@@ -55,9 +55,9 @@ public class AST_STMT_ASSIGN_NEWEXP extends AST_STMT {
 
 		// Check that the new instance is of the same type
 		if (!var_type.equalsOrSubclass(exp_type)) {
-			OutputFileWriter.writeError(this.lineNumber,"type mismatch for var := new exp\n");
+			OutputFileWriter.writeError(this.lineNumber, "type mismatch for var := new exp\n");
 		}
-		
+
 		return null;
 	}
 }

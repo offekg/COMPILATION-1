@@ -50,22 +50,23 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 		/****************************/
 		t = SYMBOL_TABLE.getInstance().find(type);
 		if (t == null) {
-			OutputFileWriter.writeError(this.lineNumber,String.format("non existing type %s\n",type));
+			OutputFileWriter.writeError(this.lineNumber, String.format("non existing type %s\n", type));
 		}
 		/**************************************/
 		/* [2] Check That Name does NOT exist */
 		/**************************************/
 		if (SYMBOL_TABLE.getInstance().isInScope(name)) {
-			OutputFileWriter.writeError(this.lineNumber,String.format("variable %s already exists in scope\n",name));
+			OutputFileWriter.writeError(this.lineNumber, String.format("variable %s already exists in scope\n", name));
 		}
-		
-		if(exp != null) {
+
+		if (exp != null) {
 			TYPE assignmentType = exp.SemantMe();
 			if (assignmentType == null) {
-				OutputFileWriter.writeError(this.lineNumber,String.format("could not resolve assignment type\n"));
+				OutputFileWriter.writeError(this.lineNumber, String.format("could not resolve assignment type\n"));
 			}
-			if( !assignmentType.equalsOrSubclass(t)) {
-				OutputFileWriter.writeError(this.lineNumber,String.format("variable %s type doesn't fit assignment type\n",name));
+			if (!assignmentType.equalsOrSubclass(t)) {
+				OutputFileWriter.writeError(this.lineNumber,
+						String.format("variable %s type doesn't fit assignment type\n", name));
 			}
 		}
 

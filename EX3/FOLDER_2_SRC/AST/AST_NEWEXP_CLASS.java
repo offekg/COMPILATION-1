@@ -23,7 +23,7 @@ public class AST_NEWEXP_CLASS extends AST_NEWEXP {
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
 		/**********************************/
-		AST_GRAPHVIZ.getInstance().logNode(SerialNumber, String.format("NEWEXP\nCLASS\n%s\n",expType));
+		AST_GRAPHVIZ.getInstance().logNode(SerialNumber, String.format("NEWEXP\nCLASS\n%s\n", expType));
 	}
 
 	public TYPE SemantMe() {
@@ -34,7 +34,7 @@ public class AST_NEWEXP_CLASS extends AST_NEWEXP {
 		/****************************/
 		t = SYMBOL_TABLE.getInstance().find(expType);
 		if (t == null) {
-			OutputFileWriter.writeError(this.lineNumber,String.format("non existing type assignment %s\n",expType));
+			OutputFileWriter.writeError(this.lineNumber, String.format("non existing type assignment %s\n", expType));
 		}
 		return t;
 	}

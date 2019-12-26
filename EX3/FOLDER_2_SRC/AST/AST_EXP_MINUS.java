@@ -5,6 +5,7 @@ import SYMBOL_TABLE.*;
 
 public class AST_EXP_MINUS extends AST_EXP {
 	public int i;
+
 	public AST_EXP_MINUS(int i) {
 		this.i = i;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
@@ -13,8 +14,7 @@ public class AST_EXP_MINUS extends AST_EXP {
 	/******************************************************/
 	/* The printing message for a statement list AST node */
 	/******************************************************/
-	public void PrintMe()
-	{
+	public void PrintMe() {
 		/**************************************/
 		/* AST NODE TYPE = AST STATEMENT LIST */
 		/**************************************/
@@ -23,12 +23,10 @@ public class AST_EXP_MINUS extends AST_EXP {
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
 		/**********************************/
-		AST_GRAPHVIZ.getInstance().logNode(
-			SerialNumber,
-			"EXP\nMINUS\n");
+		AST_GRAPHVIZ.getInstance().logNode(SerialNumber, "EXP\nMINUS\n");
 	}
-	public TYPE SemantMe()
-	{
+
+	public TYPE SemantMe() {
 		return TYPE_INT.getInstance();
 	}
 

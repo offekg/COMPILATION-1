@@ -66,7 +66,7 @@ public class AST_STMT_ASSIGN_EXP extends AST_STMT {
 			exp_type = exp.SemantMe();
 
 		if (!var_type.equalsOrSubclass(exp_type)) {
-			OutputFileWriter.writeError(this.lineNumber,"type mismatch for var := exp\n");
+			OutputFileWriter.writeError(this.lineNumber, "type mismatch for var := exp\n");
 		}
 		return null;
 	}

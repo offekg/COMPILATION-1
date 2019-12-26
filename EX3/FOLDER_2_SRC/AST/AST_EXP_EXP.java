@@ -14,8 +14,7 @@ public class AST_EXP_EXP extends AST_EXP {
 	/******************************************************/
 	/* The printing message for a statement list AST node */
 	/******************************************************/
-	public void PrintMe()
-	{
+	public void PrintMe() {
 		/**************************************/
 		/* AST NODE TYPE = AST STATEMENT LIST */
 		/**************************************/
@@ -24,23 +23,22 @@ public class AST_EXP_EXP extends AST_EXP {
 		/*************************************/
 		/* RECURSIVELY PRINT HEAD + TAIL ... */
 		/*************************************/
-		if (exp != null) exp.PrintMe();
+		if (exp != null)
+			exp.PrintMe();
 
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
 		/**********************************/
-		AST_GRAPHVIZ.getInstance().logNode(
-			SerialNumber,
-			"EXP\nEXP\n");
-		
+		AST_GRAPHVIZ.getInstance().logNode(SerialNumber, "EXP\nEXP\n");
+
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		if (exp != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,exp.SerialNumber);
+		if (exp != null)
+			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, exp.SerialNumber);
 	}
 
-		public TYPE SemantMe()
-	{
+	public TYPE SemantMe() {
 		return this.exp.SemantMe();
 	}
 }

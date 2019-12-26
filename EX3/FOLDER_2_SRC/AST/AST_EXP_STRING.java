@@ -5,6 +5,7 @@ import SYMBOL_TABLE.*;
 
 public class AST_EXP_STRING extends AST_EXP {
 	public String val;
+
 	public AST_EXP_STRING(String val) {
 		this.val = val;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
@@ -13,8 +14,7 @@ public class AST_EXP_STRING extends AST_EXP {
 	/******************************************************/
 	/* The printing message for a statement list AST node */
 	/******************************************************/
-	public void PrintMe()
-	{
+	public void PrintMe() {
 		/**************************************/
 		/* AST NODE TYPE = AST STATEMENT LIST */
 		/**************************************/
@@ -23,13 +23,10 @@ public class AST_EXP_STRING extends AST_EXP {
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
 		/**********************************/
-		AST_GRAPHVIZ.getInstance().logNode(
-			SerialNumber,
-			"EXP\nSTRING\n");
+		AST_GRAPHVIZ.getInstance().logNode(SerialNumber, "EXP\nSTRING\n");
 	}
-	
-	public TYPE SemantMe()
-	{
+
+	public TYPE SemantMe() {
 		return TYPE_STRING.getInstance();
 	}
 }

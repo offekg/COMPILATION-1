@@ -67,7 +67,8 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 			OutputFileWriter.writeError(this.lineNumber, String.format("function is not declared %s", funcName));
 
 		if (!isFunctionCallValid((TYPE_FUNCTION) funcType, argsTypeList))
-			OutputFileWriter.writeError(this.lineNumber, String.format("function call is not valid %s %s", funcName));
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("stmt_func_call function call is not valid %s %s", funcName));
 
 		return ((TYPE_FUNCTION) funcType).returnType;
 	}
@@ -75,26 +76,23 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 	public boolean isFunctionCallValid(TYPE_FUNCTION funcType, TYPE_LIST argsTypeList) {
 		TYPE funcArg;
 		TYPE callArg;
-		
+
 		TYPE_LIST funcArgsType = funcType.paramTypes;
-		
+
 		while (funcArgsType != null && argsTypeList != null) {
 			funcArg = funcArgsType.head;
 			callArg = argsTypeList.head;
-			
-			if (funcArg instanceof TYPE_CLASS) {
-				if (!TYPE_CLASS.isSubClassOf(funcArg, callArg))
-					return false;
-			} else if (funcArg != callArg) 
+
+			if (!callArg.equalsOrSubclass(funcArg))
 				return false;
-			
+
 			funcArgsType = funcArgsType.tail;
 			argsTypeList = argsTypeList.tail;
 		}
-		
+
 		if (funcArgsType != null || argsTypeList != null)
 			return false;
-		
+
 		return true;
 	}
 }

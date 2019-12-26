@@ -7,7 +7,8 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 	public AST_VAR var;
 	public String funcName;
 	public AST_EXP_LIST expList;
-	public AST_EXP_FUNC_CALL(AST_VAR var, String funcName,AST_EXP_LIST expList) {
+
+	public AST_EXP_FUNC_CALL(AST_VAR var, String funcName, AST_EXP_LIST expList) {
 		this.var = var;
 		this.funcName = funcName;
 		this.expList = expList;
@@ -17,8 +18,7 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 	/******************************************************/
 	/* The printing message for a statement list AST node */
 	/******************************************************/
-	public void PrintMe()
-	{
+	public void PrintMe() {
 		/**************************************/
 		/* AST NODE TYPE = AST STATEMENT LIST */
 		/**************************************/
@@ -27,21 +27,23 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 		/*************************************/
 		/* RECURSIVELY PRINT HEAD + TAIL ... */
 		/*************************************/
-		if (var != null) var.PrintMe();
-		if (expList != null) expList.PrintMe();
+		if (var != null)
+			var.PrintMe();
+		if (expList != null)
+			expList.PrintMe();
 
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
 		/**********************************/
-		AST_GRAPHVIZ.getInstance().logNode(
-			SerialNumber,
-			"EXP\nID\n");
-		
+		AST_GRAPHVIZ.getInstance().logNode(SerialNumber, "EXP\nID\n");
+
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		if (var != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,var.SerialNumber);
-		if (expList != null) AST_GRAPHVIZ.getInstance().logEdge(SerialNumber,expList.SerialNumber);
+		if (var != null)
+			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, var.SerialNumber);
+		if (expList != null)
+			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, expList.SerialNumber);
 	}
 
 	public TYPE SemantMe() {
@@ -65,7 +67,8 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 			OutputFileWriter.writeError(this.lineNumber, String.format("function is not declared %s\n", funcName));
 
 		if (!isFunctionCallValid((TYPE_FUNCTION) funcType, expTypeList))
-			OutputFileWriter.writeError(this.lineNumber, String.format("function call is not valid %s\n", funcName));
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("exp_func_call function call is not valid %s\n", funcName));
 
 		return ((TYPE_FUNCTION) funcType).returnType;
 	}
@@ -73,31 +76,23 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 	public boolean isFunctionCallValid(TYPE_FUNCTION funcType, TYPE_LIST argsTypeList) {
 		TYPE funcArg;
 		TYPE callArg;
-		
+
 		TYPE_LIST funcArgsType = funcType.paramTypes;
-		
+
 		while (funcArgsType != null && argsTypeList != null) {
 			funcArg = funcArgsType.head;
 			callArg = argsTypeList.head;
-			
-			if(!callArg.equalsOrSubclass(funcArg))
+
+			if (!callArg.equalsOrSubclass(funcArg))
 				return false;
-			/*
-			if (funcArg instanceof TYPE_CLASS) {
-				if (!TYPE_CLASS.isSubClassOf(funcArg, callArg))
-					return false;
-			} else if (funcArg != callArg) {
-				System.out.println(funcArg.name + " " + callArg.name);
-				return false;
-			}*/
-			
+
 			funcArgsType = funcArgsType.tail;
 			argsTypeList = argsTypeList.tail;
 		}
-		
+
 		if (funcArgsType != null || argsTypeList != null)
 			return false;
-		
+
 		return true;
 	}
 }

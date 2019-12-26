@@ -46,14 +46,13 @@ public class AST_PROGRAM extends AST_Node {
 		/* First initialization of symbol table + entering of the global scope. */
 		/************************************************************************/
 		SYMBOL_TABLE.getInstance().beginScope(ScopeType.GLOBAL_SCOPE);
-		
+
 		/*************************************/
-		/* RECURSIVELY PRINT DECLIST ...     */
+		/* RECURSIVELY PRINT DECLIST ... */
 		/*************************************/
 		if (decList != null)
 			decList.SemantMe();
 
-		
 		SYMBOL_TABLE.getInstance().endScope();
 		return null;
 	}

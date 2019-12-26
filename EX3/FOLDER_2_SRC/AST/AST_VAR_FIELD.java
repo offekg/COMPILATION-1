@@ -70,7 +70,7 @@ public class AST_VAR_FIELD extends AST_VAR {
 		/* [2] Make sure type is a class */
 		/*********************************/
 		if (t.isClass() == false) {
-			OutputFileWriter.writeError(this.lineNumber,"access field of a non-class variable\n");
+			OutputFileWriter.writeError(this.lineNumber, "access field of a non-class variable\n");
 		} else {
 			tc = (TYPE_CLASS) t;
 		}
@@ -87,7 +87,7 @@ public class AST_VAR_FIELD extends AST_VAR {
 		/*********************************************/
 		/* [4] fieldName does not exist in class var */
 		/*********************************************/
-		OutputFileWriter.writeError(this.lineNumber, String.format("field %s does not exist in class\n",fieldName));
+		OutputFileWriter.writeError(this.lineNumber, String.format("field %s does not exist in class\n", fieldName));
 		return null;
 	}
 }

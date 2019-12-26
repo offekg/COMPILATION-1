@@ -11,8 +11,7 @@ public class AST_EXP_NIL extends AST_EXP {
 	/******************************************************/
 	/* The printing message for a statement list AST node */
 	/******************************************************/
-	public void PrintMe()
-	{
+	public void PrintMe() {
 		/**************************************/
 		/* AST NODE TYPE = AST STATEMENT LIST */
 		/**************************************/
@@ -21,13 +20,10 @@ public class AST_EXP_NIL extends AST_EXP {
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
 		/**********************************/
-		AST_GRAPHVIZ.getInstance().logNode(
-			SerialNumber,
-			"EXP\nNIL\n");
+		AST_GRAPHVIZ.getInstance().logNode(SerialNumber, "EXP\nNIL\n");
 	}
 
-	public TYPE SemantMe()
-	{
+	public TYPE SemantMe() {
 		return TYPE_NILL.getInstance();
 	}
 }

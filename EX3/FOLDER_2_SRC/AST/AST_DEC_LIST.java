@@ -45,7 +45,6 @@ public class AST_DEC_LIST extends AST_Node {
 
 		return null;
 	}
-	
 
 	/******************************************************/
 	/* The printing message for a statement list AST node */

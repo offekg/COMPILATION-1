@@ -15,18 +15,19 @@ public class AST_FUNC_INPUT_VARS extends AST_Node {
 
 	public TYPE SemantMe() {
 		TYPE typeOfParam = SYMBOL_TABLE.getInstance().find(paramType);
-		//check if type exists
+		// check if type exists
 		if (typeOfParam == null) {
 			OutputFileWriter.writeError(this.lineNumber, String.format("func_var type not declared: %s", paramType));
 		}
-		//check if name already exists
+		// check if name already exists
 		if (SYMBOL_TABLE.getInstance().isInScope(paramName)) {
-			OutputFileWriter.writeError(this.lineNumber, String.format("func_var name already exists in func %s", paramName));
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("func_var name already exists in func %s", paramName));
 		}
-		
-		SYMBOL_TABLE.getInstance().enter(paramName,typeOfParam);
-		
-		return null;
+
+		SYMBOL_TABLE.getInstance().enter(paramName, typeOfParam);
+
+		return typeOfParam;
 	}
 
 	/******************************************************/

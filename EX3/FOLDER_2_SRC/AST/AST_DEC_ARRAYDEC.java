@@ -6,7 +6,7 @@ import SYMBOL_TABLE.*;
 public class AST_DEC_ARRAYDEC extends AST_DEC {
 	public String arrayName;
 	public String arrayType;
-	
+
 	public AST_DEC_ARRAYDEC(String arrayName, String arrayType) {
 		this.arrayName = arrayName;
 		this.arrayType = arrayType;
@@ -20,21 +20,19 @@ public class AST_DEC_ARRAYDEC extends AST_DEC {
 	/******************************************************/
 	/* The printing message for a statement list AST node */
 	/******************************************************/
-	public void PrintMe()
-	{
+	public void PrintMe() {
 		/**************************************/
-		/* AST NODE TYPE = AST ARRAY DEC      */
+		/* AST NODE TYPE = AST ARRAY DEC */
 		/**************************************/
-		System.out.print("AST NODE ARRAY DEC: ARRAY"+ this.arrayName + " = " + this.arrayType + "[]\n");
+		System.out.print("AST NODE ARRAY DEC: ARRAY" + this.arrayName + " = " + this.arrayType + "[]\n");
 
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
 		/**********************************/
-		AST_GRAPHVIZ.getInstance().logNode(
-			SerialNumber,
-			String.format("ARRAY DEC\n arr %s = %s[]\n", this.arrayName, this.arrayType));
+		AST_GRAPHVIZ.getInstance().logNode(SerialNumber,
+				String.format("ARRAY DEC\n arr %s = %s[]\n", this.arrayName, this.arrayType));
 	}
-	
+
 	public TYPE SemantMe() {
 		TYPE t;
 		TYPE_ARRAY new_type;
@@ -43,35 +41,35 @@ public class AST_DEC_ARRAYDEC extends AST_DEC {
 		/* [0] Check If Currently In Global Scope */
 		/******************************************/
 		if (SYMBOL_TABLE.getInstance().getCurrentScopeType() != ScopeType.GLOBAL_SCOPE) {
-			OutputFileWriter.writeError(this.lineNumber,"Array decleration not in global scope\n");
+			OutputFileWriter.writeError(this.lineNumber, "Array decleration not in global scope\n");
 		}
-		
+
 		/****************************/
 		/* [1] Check If Type exists */
 		/****************************/
 		t = SYMBOL_TABLE.getInstance().find(arrayType);
 		if (t == null) {
-			OutputFileWriter.writeError(this.lineNumber,String.format("Array decleration using non existing type %s \n",arrayType));
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("Array decleration using non existing type %s \n", arrayType));
 		}
 
 		/*******************************************************/
 		/* [2] Check That Name does NOT exist in current scope */
 		/*******************************************************/
 		if (SYMBOL_TABLE.getInstance().isInScope(arrayName)) {
-			OutputFileWriter.writeError(this.lineNumber,String.format("Array decleration variable name %s already exists in scope\n",arrayName));
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("Array decleration variable name %s already exists in scope\n", arrayName));
 		}
-		
 
 		/***************************************************/
-		/* [3] Enter the new Array Type to the Symbol Table*/
+		/* [3] Enter the new Array Type to the Symbol Table */
 		/***************************************************/
-		new_type = new TYPE_ARRAY(t,arrayName);
+		new_type = new TYPE_ARRAY(t, arrayName);
 		SYMBOL_TABLE.getInstance().enter(arrayName, new_type);
 
 		/*********************************************************/
-		/* [4] Return the new TYPE_ARRAY                                          */
+		/* [4] Return the new TYPE_ARRAY */
 		/*********************************************************/
 		return new_type;
 	}
 }
- 

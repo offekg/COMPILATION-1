@@ -7,7 +7,7 @@ public abstract class AST_Node {
 	/* a graphviz dot format of the AST ... */
 	/*******************************************/
 	public int SerialNumber;
-	
+
 	public int lineNumber;
 
 	/***********************************************/
@@ -16,7 +16,7 @@ public abstract class AST_Node {
 	public void PrintMe() {
 		System.out.print("AST NODE UNKNOWN\n");
 	}
-	
+
 	public void setLineNumber(int line) {
 		this.lineNumber = line;
 	}

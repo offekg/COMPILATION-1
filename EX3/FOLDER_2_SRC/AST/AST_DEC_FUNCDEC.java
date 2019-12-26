@@ -26,8 +26,6 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		/*************************/
 		/* [1] Begin Class Scope */
 		/*************************/
-		
-		
 
 		// Check return type exists
 		TYPE typeOfReturn = SYMBOL_TABLE.getInstance().find(returnType);
@@ -37,28 +35,27 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 					String.format("bad return type dec_funcdec %s %s", returnType, funcName));
 		}
 
-		
 		// Check that we are in scope global or CLASS
 		ScopeType currentScope = SYMBOL_TABLE.getInstance().getCurrentScopeType();
-		
-		if (currentScope != ScopeType.GLOBAL_SCOPE &&
-				currentScope != ScopeType.CLASS_SCOPE)
-			OutputFileWriter.writeError(this.lineNumber,
-					String.format("not global or class scope dec_funcdec %s %s %s", returnType, funcName, String.valueOf(currentScope)));
+
+		if (currentScope != ScopeType.GLOBAL_SCOPE && currentScope != ScopeType.CLASS_SCOPE)
+			OutputFileWriter.writeError(this.lineNumber, String.format("not global or class scope dec_funcdec %s %s %s",
+					returnType, funcName, String.valueOf(currentScope)));
 
 		// check that no other function/class/etc has the same name
 		TYPE typeOfName = SYMBOL_TABLE.getInstance().find(funcName);
 		if (typeOfName != null)
 			OutputFileWriter.writeError(this.lineNumber,
 					String.format("duplicate name dec_funcdec %s %s", returnType, funcName));
-		
+
 		SYMBOL_TABLE.getInstance().beginScope(ScopeType.FUNCTION_SCOPE, funcName, typeOfReturn);
 		/***************************/
 		/* [2] Semant Data Members */
 		/***************************/
 		TYPE_FUNCTION t;
-		if(params != null) {
-			t = new TYPE_FUNCTION(typeOfReturn, this.funcName, params.SemantMe()); //#!@!has null pointer exception problem 
+		if (params != null) {
+			t = new TYPE_FUNCTION(typeOfReturn, this.funcName, params.SemantMe()); // #!@!has null pointer exception
+																					// problem
 		} else {
 			t = new TYPE_FUNCTION(typeOfReturn, this.funcName, null);
 		}
@@ -79,7 +76,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		/*********************************************************/
 		return null;
 	}
-	
+
 	/******************************************************/
 	/* The printing message for a statement list AST node */
 	/******************************************************/

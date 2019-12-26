@@ -109,14 +109,14 @@ public class SYMBOL_TABLE {
 
 		return null;
 	}
-	
+
 	/***********************************************/
 	/* Whether an element with this name exists in current scope */
 	/***********************************************/
 	public boolean isInScope(String name) {
 		SYMBOL_TABLE_ENTRY e = top;
 
-		while(e != null && !(e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES)) {
+		while (e != null && !(e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES)) {
 			if (e.name.equals(name)) {
 				return true;
 			}
@@ -125,40 +125,40 @@ public class SYMBOL_TABLE {
 
 		return false;
 	}
-	
+
 	/***********************************************/
-	/* Get the type of current scope               */
+	/* Get the type of current scope */
 	/***********************************************/
 	public ScopeType getCurrentScopeType() {
 		SYMBOL_TABLE_ENTRY e = top;
 		TYPE_FOR_SCOPE_BOUNDARIES scope;
 
-		while(e.name != "SCOPE-BOUNDARY") { //  instanceof TYPE_FOR_SCOPE_BOUNDARIES)) {
+		while (e.name != "SCOPE-BOUNDARY") { // instanceof TYPE_FOR_SCOPE_BOUNDARIES)) {
 			e = e.prevtop;
 		}
 
-		if(e != null && e.name == "SCOPE-BOUNDARY") { //e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES) {
+		if (e != null && e.name == "SCOPE-BOUNDARY") { // e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES) {
 			scope = (TYPE_FOR_SCOPE_BOUNDARIES) e.type;
 			return scope.scopeType;
 		}
 		return ScopeType.ERROR_SCOPE;
 	}
-	
+
 	/***********************************************/
-	/* Get the current function scope type             */
+	/* Get the current function scope type */
 	/***********************************************/
 	public TYPE_FOR_SCOPE_BOUNDARIES getFunctionScopeType() {
-		
+
 		SYMBOL_TABLE_ENTRY e = top;
 
-		while((e != null) && !(e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES && ((TYPE_FOR_SCOPE_BOUNDARIES) e.type).scopeType == ScopeType.FUNCTION_SCOPE)) {
+		while ((e != null) && !(e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES
+				&& ((TYPE_FOR_SCOPE_BOUNDARIES) e.type).scopeType == ScopeType.FUNCTION_SCOPE)) {
 			e = e.prevtop;
 		}
-		if(e != null)
+		if (e != null)
 			return (TYPE_FOR_SCOPE_BOUNDARIES) e.type;
 		return null;
 	}
-	
 
 	/***************************************************************************/
 	/* begine scope = Enter the <SCOPE-BOUNDARY> element to the data structure */
@@ -177,13 +177,12 @@ public class SYMBOL_TABLE {
 		/*********************************************/
 		PrintMe();
 	}
-	
+
 	/***************************************************************************/
 	/* begine scope = Enter the <SCOPE-BOUNDARY> element to the data structure */
 	/***************************************************************************/
-	public void beginScope(ScopeType scopeType, String name,  TYPE returnType) {
-		
-		
+	public void beginScope(ScopeType scopeType, String name, TYPE returnType) {
+
 		enter("SCOPE-BOUNDARY", new TYPE_FOR_SCOPE_BOUNDARIES(scopeType, name, returnType));
 
 		/*********************************************/
@@ -206,13 +205,13 @@ public class SYMBOL_TABLE {
 		while (top.name != "SCOPE-BOUNDARY") {
 			table[top.index] = top.next;
 			top_index = top_index - 1;
-			System.out.println("now popping: "+ top.name);
+			System.out.println("now popping: " + top.name);
 			top = top.prevtop;
 		}
 		/**************************************/
 		/* Pop the SCOPE-BOUNDARY sign itself */
 		/**************************************/
-		System.out.println("now popping: "+ top.name);
+		System.out.println("now popping: " + top.name);
 		table[top.index] = top.next;
 		top_index = top_index - 1;
 		top = top.prevtop;

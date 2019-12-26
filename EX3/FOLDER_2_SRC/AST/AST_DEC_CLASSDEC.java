@@ -38,13 +38,13 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 					TYPE_FUNCTION overidedMethod = ((TYPE_CLASS) fatherType)
 							.getOveridedMethod(currentFunc.funcdec.funcName);
 					TYPE returnType = SYMBOL_TABLE.getInstance().find(currentFunc.funcdec.returnType);
-					
+
 					if (!returnType.equals(overidedMethod.returnType))
 						OutputFileWriter.writeError(this.lineNumber, "Wrong return type for overided method");
-					
+
 					TYPE_LIST overidedParam = overidedMethod.paramTypes;
 					TYPE_LIST methodParam = currentFunc.funcdec.params.SemantMe();
-					
+
 					for (TYPE currentType = methodParam.head; methodParam != null; methodParam = methodParam.tail) {
 						if (!currentType.equalsOrSubclass(overidedParam.head)) {
 							OutputFileWriter.writeError(this.lineNumber, "Error in method params");
