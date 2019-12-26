@@ -62,14 +62,10 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 		if(exp != null) {
 			TYPE assignmentType = exp.SemantMe();
 			if (assignmentType == null) {
-				OutputFileWriter.writeError(this.lineNumber,String.format("could not resolve assignment\n"));
+				OutputFileWriter.writeError(this.lineNumber,String.format("could not resolve assignment type\n"));
 			}
-			if (t instanceof TYPE_CLASS) {
-				if ( !TYPE_CLASS.isSubClassOf(assignmentType, t) || !assignmentType.equalsOrSubclass(TYPE_NILL.getInstance())) {
-					OutputFileWriter.writeError(this.lineNumber,"type mismatch for var decleration var := exp");
-				}
-			} else if (t != assignmentType) {
-				OutputFileWriter.writeError(this.lineNumber,String.format("variable %s type doesn't fit assignment\n",name));
+			if( !assignmentType.equalsOrSubclass(t)) {
+				OutputFileWriter.writeError(this.lineNumber,String.format("variable %s type doesn't fit assignment type\n",name));
 			}
 		}
 

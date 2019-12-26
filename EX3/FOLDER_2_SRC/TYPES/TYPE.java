@@ -23,6 +23,8 @@ public abstract class TYPE {
 	public boolean equalsOrSubclass(TYPE type) {
 		if (this.isClass() && type.isClass()) {
 			return TYPE_CLASS.isSubClassOf((TYPE_CLASS) this, (TYPE_CLASS) type);
+		} else if((type.isClass() || type.isArray()) && this == TYPE_NILL.getInstance()){
+			return true;
 		} else {
 			return this.equals(type);
 		}
