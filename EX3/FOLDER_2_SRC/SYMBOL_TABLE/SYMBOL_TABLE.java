@@ -120,15 +120,15 @@ public class SYMBOL_TABLE {
 		return ScopeType.ERROR_SCOPE;
 	}
 
-	/***********************************************/
-	/* Get the current function scope type */
-	/***********************************************/
-	public TYPE_FOR_SCOPE_BOUNDARIES getFunctionScopeType() {
+	/*****************************************************************/
+	/* Get the latest scope in stack of the given scopeType parameter*/
+	/*****************************************************************/
+	public TYPE_FOR_SCOPE_BOUNDARIES getLastScopeOfType(ScopeType scopeType) {
 
 		SYMBOL_TABLE_ENTRY e = top;
 
 		while ((e != null) && !(e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES
-				&& ((TYPE_FOR_SCOPE_BOUNDARIES) e.type).scopeType == ScopeType.FUNCTION_SCOPE)) {
+				&& ((TYPE_FOR_SCOPE_BOUNDARIES) e.type).scopeType == scopeType)) {
 			e = e.prevtop;
 		}
 		if (e != null)
@@ -153,10 +153,19 @@ public class SYMBOL_TABLE {
 		/*********************************************/
 		PrintMe();
 	}
+	
+	// for class scopes
+	public void beginScope(ScopeType scopeType, String name) {
 
-	/***************************************************************************/
-	/* begine scope = Enter the <SCOPE-BOUNDARY> element to the data structure */
-	/***************************************************************************/
+		enter("SCOPE-BOUNDARY", new TYPE_FOR_SCOPE_BOUNDARIES(scopeType, name));
+
+		/*********************************************/
+		/* Print the symbol table after every change */
+		/*********************************************/
+		PrintMe();
+	}
+
+	// for function scopes
 	public void beginScope(ScopeType scopeType, String name, TYPE returnType) {
 
 		enter("SCOPE-BOUNDARY", new TYPE_FOR_SCOPE_BOUNDARIES(scopeType, name, returnType));

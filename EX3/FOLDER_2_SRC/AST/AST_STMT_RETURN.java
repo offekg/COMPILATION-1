@@ -39,7 +39,7 @@ public class AST_STMT_RETURN extends AST_STMT {
 	}
 
 	public TYPE SemantMe() {
-		TYPE_FOR_SCOPE_BOUNDARIES fatherFunc = SYMBOL_TABLE.getInstance().getFunctionScopeType();
+		TYPE_FOR_SCOPE_BOUNDARIES fatherFunc = SYMBOL_TABLE.getInstance().getLastScopeOfType(ScopeType.FUNCTION_SCOPE);
 
 		//
 		if (fatherFunc == null) {
