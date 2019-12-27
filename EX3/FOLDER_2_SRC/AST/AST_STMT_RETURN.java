@@ -52,7 +52,9 @@ public class AST_STMT_RETURN extends AST_STMT {
 		}
 
 		// check that actual return type matches functions declared return type
-		if (fatherFunc.returnType != this.returnExp.SemantMe()) {
+		TYPE x = this.returnExp.SemantMe();
+		if (fatherFunc.returnType != x) {
+			System.out.println(x.name);
 			OutputFileWriter.writeError(this.lineNumber, "Return type missmatch.\n");
 		}
 

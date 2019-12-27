@@ -76,11 +76,11 @@ public class AST_VAR_FIELD extends AST_VAR {
 		}
 
 		/************************************/
-		/* [3] Look for fiedlName inside tc */
+		/* [3] Look for fiedlName inside tc, and return its type */
 		/************************************/
-		for (TYPE_LIST it = tc.data_members; it != null; it = it.tail) {
-			if (it.head.name == fieldName) {
-				return it.head;
+		for (TYPE_CLASS_VAR_DEC_LIST it = tc.data_members; it != null; it = it.tail) {
+			if (it.head.name.equals(fieldName)) {
+				return it.head.t;
 			}
 		}
 

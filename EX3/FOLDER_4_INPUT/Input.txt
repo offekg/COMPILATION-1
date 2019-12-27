@@ -21,7 +21,7 @@ int foo(int d, int k)
         Person left;
         Person right;
 		
-        return 5;
+        return left.left;
     }
 	
     return left;

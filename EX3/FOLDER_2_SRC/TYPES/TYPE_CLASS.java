@@ -11,22 +11,22 @@ public class TYPE_CLASS extends TYPE {
 	/* Note that data members coming from the AST are */
 	/* packed together with the class methods */
 	/**************************************************/
-	public TYPE_LIST data_members;
+	public TYPE_CLASS_VAR_DEC_LIST data_members;
 
 	/****************/
 	/* CTROR(S) ... */
 	/****************/
-	public TYPE_CLASS(String name, TYPE_CLASS father, TYPE_LIST data_members) {
+	public TYPE_CLASS(String name, TYPE_CLASS father, TYPE_CLASS_VAR_DEC_LIST data_members) {
 		this.name = name;
 		this.father = father;
 		this.data_members = data_members;
 	}
 
 	public TYPE_FUNCTION getOveridedMethod(String name) {
-		for (TYPE_LIST dataMember = this.data_members; dataMember != null; dataMember = dataMember.tail) {
-			if (dataMember.head instanceof TYPE_FUNCTION) {
-				if (((TYPE_FUNCTION) dataMember.head).name == name)
-					return (TYPE_FUNCTION) dataMember.head;
+		for (TYPE_CLASS_VAR_DEC_LIST dataMember = this.data_members; dataMember != null; dataMember = dataMember.tail) {
+			if (dataMember.head.t instanceof TYPE_FUNCTION) {
+				if (((TYPE_FUNCTION) dataMember.head.t).name == name)
+					return (TYPE_FUNCTION) dataMember.head.t;
 			}
 		}
 		if (this.father != null)
