@@ -32,7 +32,7 @@ public class AST_PROGRAM extends AST_Node {
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
 		/**********************************/
-		AST_GRAPHVIZ.getInstance().logNode(SerialNumber, "PROGRAM " + this.lineNumber + "\n");
+		AST_GRAPHVIZ.getInstance().logNode(SerialNumber, "PROGRAM " + "\n");
 
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
