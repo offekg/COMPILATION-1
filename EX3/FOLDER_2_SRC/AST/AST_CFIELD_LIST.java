@@ -33,11 +33,11 @@ public class AST_CFIELD_LIST extends AST_Node {
 		this.tail = tail;
 	}
 
-	public TYPE_LIST SemantMe() {
+	public TYPE_CLASS_VAR_DEC_LIST SemantMe() {
 		if (tail == null) {
-			return new TYPE_LIST(head.SemantMe(), null);
+			return new TYPE_CLASS_VAR_DEC_LIST(head.SemantMe(), null);
 		} else {
-			return new TYPE_LIST(head.SemantMe(), tail.SemantMe());
+			return new TYPE_CLASS_VAR_DEC_LIST(head.SemantMe(), tail.SemantMe());
 		}
 	}
 

@@ -16,8 +16,9 @@ public class AST_CFIELD_FUNCDEC extends AST_CFIELD {
 		System.out.print("====================== CFIELD -> FUNCDEC\n");
 	}
 
-	public TYPE SemantMe() {
-		return funcdec.SemantMe();
+	public TYPE_CLASS_VAR_DEC SemantMe() {
+		TYPE t = funcdec.SemantMe();
+		return new TYPE_CLASS_VAR_DEC(t, funcdec.funcName);
 	}
 
 	/******************************************************/

@@ -15,8 +15,9 @@ public class AST_CFIELD_VARDEC extends AST_CFIELD {
 		System.out.print("====================== CFIELD -> VARDEC\n");
 	}
 
-	public TYPE SemantMe() {
-		return vardec.SemantMe();
+	public TYPE_CLASS_VAR_DEC SemantMe() {
+		TYPE t = vardec.SemantMe();
+		return new TYPE_CLASS_VAR_DEC(t, vardec.name);
 	}
 
 	/******************************************************/

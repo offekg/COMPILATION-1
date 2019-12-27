@@ -5,7 +5,6 @@ import SYMBOL_TABLE.*;
 
 public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 	public String type;
-	public String name;
 	public AST_NEWEXP newExp;
 
 	public AST_DEC_VARDEC_NEW(String type, String name, AST_NEWEXP newExp) {

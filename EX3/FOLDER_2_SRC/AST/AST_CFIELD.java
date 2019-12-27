@@ -11,7 +11,7 @@ public abstract class AST_CFIELD extends AST_Node {
 		System.out.print("UNKNOWN AST STATEMENT NODE");
 	}
 
-	public TYPE SemantMe() {
+	public TYPE_CLASS_VAR_DEC SemantMe() {
 		return null;
 	}
 }
