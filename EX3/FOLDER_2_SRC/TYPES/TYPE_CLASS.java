@@ -32,7 +32,7 @@ public class TYPE_CLASS extends TYPE {
 
 	public TYPE_CLASS_VAR_DEC getOverriddenDataMemember(String name) {
 		for (TYPE_CLASS_VAR_DEC_LIST dataMember = this.data_members; dataMember != null; dataMember = dataMember.tail) {
-			if (dataMember.head.name == name) {
+			if (dataMember.head.name.equals(name)) {
 				return dataMember.head;
 			}
 		}

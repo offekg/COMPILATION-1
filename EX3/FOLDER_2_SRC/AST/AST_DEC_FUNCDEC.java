@@ -74,10 +74,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		/************************************************/
 		SYMBOL_TABLE.getInstance().enter(funcName, t);
 
-		/*********************************************************/
-		/* [5] Return value is irrelevant for class declarations */
-		/*********************************************************/
-		return null;
+		return t;
 	}
 
 	/******************************************************/

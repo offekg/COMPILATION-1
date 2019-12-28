@@ -17,6 +17,7 @@ public class AST_CFIELD_VARDEC extends AST_CFIELD {
 
 	public TYPE_CLASS_VAR_DEC SemantMe() {
 		TYPE t = vardec.SemantMe();
+		if (t == null)
 		return new TYPE_CLASS_VAR_DEC(t, vardec.name);
 	}
 
