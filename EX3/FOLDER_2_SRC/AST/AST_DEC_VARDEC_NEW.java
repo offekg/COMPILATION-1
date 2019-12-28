@@ -34,8 +34,9 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 		// Check that the new instance is of the same type
 		if (newExp != null) {
 			TYPE assignmentType = newExp.SemantMe();
+			
 			if (assignmentType == null) {
-				OutputFileWriter.writeError(this.lineNumber, String.format("could not resolve assignment\n"));
+				OutputFileWriter.writeError(this.lineNumber, String.format("could not resolve assignment type\n"));
 			}
 			if (declaredType.isClass()) {
 				if (!TYPE_CLASS.isSubClassOf(assignmentType, declaredType)) {

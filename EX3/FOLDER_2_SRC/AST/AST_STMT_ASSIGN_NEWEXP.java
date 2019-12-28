@@ -45,18 +45,36 @@ public class AST_STMT_ASSIGN_NEWEXP extends AST_STMT {
 	}
 
 	public TYPE SemantMe() {
-		TYPE var_type = null;
-		TYPE exp_type = null;
+		TYPE varType = null;
+		TYPE assignmentType = null;
 
 		if (var != null)
-			var_type = var.SemantMe();
+			varType = var.SemantMe();
 		if (exp != null)
-			exp_type = exp.SemantMe();
+			assignmentType = exp.SemantMe();
 
 		// Check that the new instance is of the same type
-		if (!var_type.equalsOrSubclass(exp_type)) {
-			OutputFileWriter.writeError(this.lineNumber, "type mismatch for var := new exp\n");
+		//TYPE assignmentType = newExp.SemantMe();
+		if (assignmentType == null) {
+			OutputFileWriter.writeError(this.lineNumber, String.format("could not resolve assignment\n"));
 		}
+		if (varType.isClass()) {
+			if (!TYPE_CLASS.isSubClassOf(assignmentType, varType)) {
+				OutputFileWriter.writeError(this.lineNumber, "class type mismatch for var := new exp\n");
+			}
+		} else if (varType.isArray()) {
+			TYPE_ARRAY varArrayType = (TYPE_ARRAY) varType;
+			if (assignmentType != varArrayType.arrayType) {
+				OutputFileWriter.writeError(this.lineNumber, "array type mismatch for var := new exp\n");
+			}
+		} else {
+			OutputFileWriter.writeError(this.lineNumber, "tried to assign a non array/class type with NEW\n");
+		}
+		
+		
+		/*if (!varType.equalsOrSubclass(assignmentType)) {
+			OutputFileWriter.writeError(this.lineNumber, "type mismatch for var := new exp\n");
+		}*/
 
 		return null;
 	}
