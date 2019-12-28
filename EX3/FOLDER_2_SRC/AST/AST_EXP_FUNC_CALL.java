@@ -61,7 +61,7 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 			funcType = SYMBOL_TABLE.getInstance().find(this.funcName);
 		else
 			// check if the function is declared in the type's class
-			funcType = ((TYPE_CLASS) varType).getOveridedMethod(this.funcName);
+			funcType = ((TYPE_CLASS) varType).getOverriddenMethod(this.funcName);
 
 		if (funcType == null)
 			OutputFileWriter.writeError(this.lineNumber, String.format("function is not declared %s\n", funcName));

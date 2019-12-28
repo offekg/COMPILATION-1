@@ -23,50 +23,65 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 		/*************************/
 		/* [1] Begin Class Scope */
 		/*************************/
-		SYMBOL_TABLE.getInstance().beginScope(ScopeType.CLASS_SCOPE);
+		TYPE_CLASS t = new TYPE_CLASS(name, null, null);
+		// Enter the Class Type to the Symbol Table
+		SYMBOL_TABLE.getInstance().enter(name, t);
 
-		TYPE_CLASS t;
+		SYMBOL_TABLE.getInstance().beginScope(ScopeType.CLASS_SCOPE);
+		
 		// Check father is a class
 		if (father != null) {
 			TYPE fatherType = SYMBOL_TABLE.getInstance().find(father);
-			if (!(fatherType instanceof TYPE_CLASS)) {
+			if (fatherType == null || !(fatherType.isClass())) {
 				OutputFileWriter.writeError(this.lineNumber, "Could not resolve father's class");
 			}
-			for (AST_CFIELD_LIST field = this.cFieldList; field != null; field = field.tail) {
+			t.father = (TYPE_CLASS) fatherType;
+		}
+		for (AST_CFIELD_LIST field = this.cFieldList; field != null; field = field.tail) {
+			if (t.father != null) {
 				if (field.head instanceof AST_CFIELD_FUNCDEC) {
+					// Comparing checking if the field is an override of a function
 					AST_CFIELD_FUNCDEC currentFunc = (AST_CFIELD_FUNCDEC) field.head;
-					TYPE_FUNCTION overidedMethod = ((TYPE_CLASS) fatherType)
-							.getOveridedMethod(currentFunc.funcdec.funcName);
-					TYPE returnType = SYMBOL_TABLE.getInstance().find(currentFunc.funcdec.returnType);
-
-					if (!returnType.equals(overidedMethod.returnType))
-						OutputFileWriter.writeError(this.lineNumber, "Wrong return type for overided method");
-
-					TYPE_LIST overidedParam = overidedMethod.paramTypes;
-					TYPE_LIST methodParam = currentFunc.funcdec.params.SemantMe();
-
-					for (TYPE currentType = methodParam.head; methodParam != null; methodParam = methodParam.tail) {
-						if (!currentType.equalsOrSubclass(overidedParam.head)) {
+					TYPE_FUNCTION overriddenMethod = t.father.getOverriddenMethod(currentFunc.funcdec.funcName);
+					if (overriddenMethod != null) {
+						// Function overrides, comparing return types
+						TYPE returnType = SYMBOL_TABLE.getInstance().find(currentFunc.funcdec.returnType);
+						if (!returnType.equals(overriddenMethod.returnType))
+							OutputFileWriter.writeError(this.lineNumber, "Wrong return type for overided method");
+						// Comparing function parameters
+						TYPE_LIST overidedParam = overriddenMethod.paramTypes;
+						TYPE_LIST methodParam = currentFunc.funcdec.params.SemantMe();
+						for (TYPE currentType = methodParam.head; methodParam != null; methodParam = methodParam.tail) {
+							if (!currentType.equalsOrSubclass(overidedParam.head)) {
+								OutputFileWriter.writeError(this.lineNumber, "Error in method params");
+							}
+							overidedParam = overidedParam.tail;
+						}
+						if (overidedParam != null) {
+							// The overridden method has more parameters
 							OutputFileWriter.writeError(this.lineNumber, "Error in method params");
 						}
-						overidedParam = overidedParam.tail;
 					}
-					if (overidedParam != null) {
-						OutputFileWriter.writeError(this.lineNumber, "Error in method params");
+				} else {
+					// Comparing overridden fields type;
+					AST_CFIELD_VARDEC currentField = (AST_CFIELD_VARDEC) field.head;
+					TYPE_CLASS_VAR_DEC overriddenDataMember = t.father
+							.getOverriddenDataMemember(currentField.vardec.name);
+					if (overriddenDataMember != null) {
+						// Overrides a field, comparing types
+						TYPE fieldType = SYMBOL_TABLE.getInstance().find(currentField.vardec.type);
+						if (fieldType == null) {
+							OutputFileWriter.writeError(this.lineNumber, "Could not resolve field type");
+						}
+						if (!fieldType.equalsOrSubclass(overriddenDataMember.t))
+							OutputFileWriter.writeError(this.lineNumber, "Wrong field type for overridden field");
 					}
 				}
 			}
-			t = new TYPE_CLASS(name, (TYPE_CLASS) fatherType, cFieldList.SemantMe());
-		} else {
-			t = new TYPE_CLASS(name, null, cFieldList.SemantMe());
+			// The data member declaration is does not throw an error, adding the data member.
+			t.addDataMember(field.head.SemantMe());
 		}
-
 		SYMBOL_TABLE.getInstance().endScope();
-
-		/************************************************/
-		/* [4] Enter the Class Type to the Symbol Table */
-		/************************************************/
-		SYMBOL_TABLE.getInstance().enter(name, t);
 
 		/*********************************************************/
 		/* [5] Return value is irrelevant for class declarations */

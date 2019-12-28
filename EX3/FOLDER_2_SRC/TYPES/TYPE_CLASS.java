@@ -22,15 +22,22 @@ public class TYPE_CLASS extends TYPE {
 		this.data_members = data_members;
 	}
 
-	public TYPE_FUNCTION getOveridedMethod(String name) {
+	public TYPE_FUNCTION getOverriddenMethod(String name) {
+		TYPE_CLASS_VAR_DEC overriddenDataMember = this.getOverriddenDataMemember(name);
+		if (overriddenDataMember != null && overriddenDataMember.t instanceof TYPE_FUNCTION) {
+			return (TYPE_FUNCTION) overriddenDataMember.t;
+		}
+		return null;
+	}
+
+	public TYPE_CLASS_VAR_DEC getOverriddenDataMemember(String name) {
 		for (TYPE_CLASS_VAR_DEC_LIST dataMember = this.data_members; dataMember != null; dataMember = dataMember.tail) {
-			if (dataMember.head.t instanceof TYPE_FUNCTION) {
-				if (((TYPE_FUNCTION) dataMember.head.t).name == name)
-					return (TYPE_FUNCTION) dataMember.head.t;
+			if (dataMember.head.name == name) {
+				return dataMember.head;
 			}
 		}
 		if (this.father != null)
-			return this.father.getOveridedMethod(name);
+			return this.father.getOverriddenDataMemember(name);
 		return null;
 	}
 
@@ -47,5 +54,20 @@ public class TYPE_CLASS extends TYPE {
 			current = current.father;
 		}
 		return false;
+	}
+	
+	public void addDataMember(TYPE_CLASS_VAR_DEC dataMember) {
+		if (this.data_members == null) {
+			this.data_members = new TYPE_CLASS_VAR_DEC_LIST(dataMember, null);
+		} else {
+			TYPE_CLASS_VAR_DEC_LIST current = this.data_members;
+			TYPE_CLASS_VAR_DEC_LIST next = current.tail;
+			while (next != null) {
+				current = next;
+				next = current.tail;
+			}
+			next = new TYPE_CLASS_VAR_DEC_LIST(dataMember, null);
+			current.tail = next;
+		}
 	}
 }

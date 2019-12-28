@@ -4,7 +4,6 @@ import TYPES.*;
 import SYMBOL_TABLE.*;
 
 public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
-	public String type;
 	public AST_EXP exp;
 
 	public AST_DEC_VARDEC_OLD(String type, String name, AST_EXP exp) {
