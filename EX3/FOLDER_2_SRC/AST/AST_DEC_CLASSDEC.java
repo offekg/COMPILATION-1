@@ -27,7 +27,7 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 		// Enter the Class Type to the Symbol Table
 		SYMBOL_TABLE.getInstance().enter(name, t);
 
-		SYMBOL_TABLE.getInstance().beginScope(ScopeType.CLASS_SCOPE);
+		SYMBOL_TABLE.getInstance().beginScope(ScopeType.CLASS_SCOPE,name);
 		
 		// Check father is a class
 		if (father != null) {

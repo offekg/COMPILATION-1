@@ -85,6 +85,49 @@ public class SYMBOL_TABLE {
 
 		return null;
 	}
+	
+	/***********************************************/
+	/* Find the inner-most class element with name */
+	/***********************************************/
+	public TYPE classFind(String name) {
+		SYMBOL_TABLE_ENTRY e;
+
+		for (e = table[hash(name)]; e != null; e = e.next) {
+			if (name.equals(e.name) && e.type.isClass()) {
+				return e.type;
+			}
+		}
+
+		return null;
+	}
+	
+	/***********************************************/
+	/* For finding correct variables: Find the correct TYPE of wanted var, checks also in father class fields. */
+	/***********************************************/
+	public TYPE varFind(String name) {
+		SYMBOL_TABLE_ENTRY e = this.top;
+
+		while (e != null) {
+			if (e.name.equals(name)) {
+				return e.type;
+			}
+			//if reached class scope, check if name is a field of the father class:
+			if (e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES) {
+				TYPE_FOR_SCOPE_BOUNDARIES eScope = (TYPE_FOR_SCOPE_BOUNDARIES) e.type;
+				if (eScope.scopeType == ScopeType.CLASS_SCOPE) {
+					TYPE_CLASS classEntry = (TYPE_CLASS) classFind(eScope.name);
+					TYPE_CLASS_VAR_DEC classVar = classEntry.getOverriddenDataMemember(name);
+					if (classVar != null) {
+						return classVar.t;
+					}
+				}		
+			}
+			
+			e = e.prevtop;
+		}
+
+		return null;
+	}
 
 	/***********************************************/
 	/* Whether an element with this name exists in current scope */
