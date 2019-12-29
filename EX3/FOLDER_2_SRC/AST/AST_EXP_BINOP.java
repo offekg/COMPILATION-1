@@ -85,6 +85,14 @@ public class AST_EXP_BINOP extends AST_EXP {
 				return TYPE_STRING.getInstance();
 			}
 		}
+		
+		// equality testing
+		if(this.OP.OP == 6) {
+			// check types are competible according to instructions :
+			if(t1.equalsOrSubclass(t2) || t2.equalsOrSubclass(t1)) {
+				return TYPE_INT.getInstance();
+			}
+		}
 		OutputFileWriter.writeError(this.lineNumber, "Binop incompatibale types\n");
 		return null;
 	}
