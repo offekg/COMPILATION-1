@@ -47,29 +47,29 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 						// Function overrides, comparing return types
 						TYPE returnType = SYMBOL_TABLE.getInstance().find(currentFunc.funcdec.returnType);
 						if (!returnType.equals(overriddenMethod.returnType))
-							OutputFileWriter.writeError(this.lineNumber, "Wrong return type for overridden method");
+							OutputFileWriter.writeError(currentFunc.lineNumber, "Wrong return type for overridden method");
 						// Comparing function parameters
 						AST_FUNC_INPUT_VARS_LIST methodParam = currentFunc.funcdec.params;
 						if (overriddenMethod.paramTypes == null && methodParam != null) {
 							// Method with params overriding one without
-							OutputFileWriter.writeError(this.lineNumber, "Error in method params");
+							OutputFileWriter.writeError(currentFunc.lineNumber, "Error in method params");
 						}
 						if (overriddenMethod.paramTypes != null && methodParam == null) {
 							// Method without params overriding one with
-							OutputFileWriter.writeError(this.lineNumber, "Error in method params");
+							OutputFileWriter.writeError(currentFunc.lineNumber, "Error in method params");
 						}
 						TYPE_LIST overidedParam = overriddenMethod.paramTypes;
 						if (methodParam != null) {							
 							for (TYPE currentType = SYMBOL_TABLE.getInstance().find(methodParam.head.paramType); methodParam != null; methodParam = methodParam.tail) {
 								if (overidedParam == null || !currentType.equalsOrSubclass(overidedParam.head)) {
-									OutputFileWriter.writeError(this.lineNumber, "Error in method params");
+									OutputFileWriter.writeError(currentFunc.lineNumber, "Error in method params");
 								}
 								overidedParam = overidedParam.tail;
 							}
 						}
 						if (overidedParam != null) {
 							// The overridden method has more parameters
-							OutputFileWriter.writeError(this.lineNumber, "Error in method params");
+							OutputFileWriter.writeError(currentFunc.lineNumber, "Error in method params");
 						}
 					}
 				} else {
@@ -81,10 +81,10 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 						// Overrides a field, comparing types
 						TYPE fieldType = SYMBOL_TABLE.getInstance().find(currentField.vardec.type);
 						if (fieldType == null) {
-							OutputFileWriter.writeError(this.lineNumber, "Could not resolve field type");
+							OutputFileWriter.writeError(currentField.lineNumber, "Could not resolve field type");
 						}
 						if (!fieldType.equalsOrSubclass(overriddenDataMember.t))
-							OutputFileWriter.writeError(this.lineNumber, "Wrong field type for overridden field");
+							OutputFileWriter.writeError(currentField.lineNumber, "Wrong field type for overridden field");
 					}
 				}
 			}
