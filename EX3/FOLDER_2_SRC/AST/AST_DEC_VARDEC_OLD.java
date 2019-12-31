@@ -44,11 +44,14 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 		TYPE t;
 
 		/****************************/
-		/* [1] Check If Type exists */
+		/* [1] Check If Type exists щов она VOID */
 		/****************************/
 		t = SYMBOL_TABLE.getInstance().find(type);
 		if (t == null) {
 			OutputFileWriter.writeError(this.lineNumber, String.format("non existing type %s\n", type));
+		}
+		if (t instanceof TYPE_VOID) {
+			OutputFileWriter.writeError(this.lineNumber, String.format("illegal decleration of void varriable\n"));
 		}
 		/**************************************/
 		/* [2] Check That Name does NOT exist */
