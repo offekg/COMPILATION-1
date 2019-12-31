@@ -52,6 +52,9 @@ public class AST_NEWEXP_ARRAY extends AST_NEWEXP {
 		if (t == null) {
 			OutputFileWriter.writeError(this.lineNumber, String.format("Non existing type assignment: %s\n", expType));
 		}
+		if (t instanceof TYPE_VOID) {
+			OutputFileWriter.writeError(this.lineNumber, String.format("non legal array assignment to void[]\n"));
+		}
 
 		/*********************************************/
 		/* [2] Check If the given size exp is an int */
