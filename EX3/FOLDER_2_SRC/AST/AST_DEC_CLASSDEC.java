@@ -51,11 +51,11 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 						// Comparing function parameters
 						AST_FUNC_INPUT_VARS_LIST methodParam = currentFunc.funcdec.params;
 						if (overriddenMethod.paramTypes == null && methodParam != null) {
-							// Method with params overriding one without
+							// Method with parameters overriding one without
 							OutputFileWriter.writeError(currentFunc.lineNumber, "Error in method params");
 						}
 						if (overriddenMethod.paramTypes != null && methodParam == null) {
-							// Method without params overriding one with
+							// Method without parameters overriding one with
 							OutputFileWriter.writeError(currentFunc.lineNumber, "Error in method params");
 						}
 						TYPE_LIST overidedParam = overriddenMethod.paramTypes;
