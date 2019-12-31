@@ -50,11 +50,21 @@ public class AST_STMT_RETURN extends AST_STMT {
 		if (fatherFunc.returnType == TYPE_VOID.getInstance() && this.returnExp != null) {
 			OutputFileWriter.writeError(this.lineNumber, "Return statemenet has value, though declaired as void.\n");
 		}
+		
+		// if function declared to return non-void, then the return is not empty.
+		if (fatherFunc.returnType != TYPE_VOID.getInstance() && this.returnExp == null) {
+			OutputFileWriter.writeError(this.lineNumber, "Return statemenet is not void, though empty return statement.\n");
+		}
 
-		// check that actual return type matches functions declared return type
-		if (fatherFunc.returnType != this.returnExp.SemantMe()) {
+		// check that actual return type matches or subclass of the functions declared return type
+		TYPE returnExpType = this.returnExp.SemantMe();
+		if (returnExpType.equalsOrSubclass(fatherFunc.returnType)) {
 			OutputFileWriter.writeError(this.lineNumber, "Return type missmatch.\n");
 		}
+		
+		// tell father that he has a return statement in him.
+		TYPE fatherFuncInstance = SYMBOL_TABLE.getInstance().find(fatherFunc.name);
+		((TYPE_FUNCTION)fatherFuncInstance).isReturnStatemntInside = true;
 
 		// don't care about return value
 		return null;

@@ -5,12 +5,13 @@ public class TYPE_FUNCTION extends TYPE {
 	/* The return type of the function */
 	/***********************************/
 	public TYPE returnType;
+	public boolean isReturnStatemntInside;
 
 	/*************************/
 	/* types of input params */
 	/*************************/
 	public TYPE_LIST paramTypes;
-
+	
 	/****************/
 	/* CTROR(S) ... */
 	/****************/
@@ -18,5 +19,6 @@ public class TYPE_FUNCTION extends TYPE {
 		this.name = name;
 		this.returnType = returnType;
 		this.paramTypes = paramTypes;
+		this.isReturnStatemntInside = false;
 	}
 }

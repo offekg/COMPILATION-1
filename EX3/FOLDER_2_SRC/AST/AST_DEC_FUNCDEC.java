@@ -29,7 +29,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 
 		// Check return type exists
 		TYPE typeOfReturn = SYMBOL_TABLE.getInstance().find(returnType);
-		
+
 		if (typeOfReturn == null) {
 			OutputFileWriter.writeError(this.lineNumber,
 					String.format("bad return type dec_funcdec %s %s", returnType, funcName));
@@ -59,9 +59,13 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		} else {
 			t = new TYPE_FUNCTION(typeOfReturn, this.funcName, null);
 		}
-		
-		SYMBOL_TABLE.getInstance().enter(funcName, t); //for use of the funcBody - for recursion
+
+		SYMBOL_TABLE.getInstance().enter(funcName, t); // for use of the funcBody - for recursion
+
 		funcBody.SemantMe();
+		if (!t.isReturnStatemntInside && typeOfReturn != TYPE_VOID.getInstance())
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("No return statement for a function that should return %s %s", returnType, funcName));
 
 		/*****************/
 		/* [3] End Scope */
