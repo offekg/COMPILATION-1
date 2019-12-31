@@ -51,8 +51,8 @@ CUP_FLAGS =                                \
 #########################
 # DEFINITIONS :: PARSER #
 #########################
-INPUT    = ${INPUT_DIR}/Input.txt
-OUTPUT   = ${OUTPUT_DIR}/SemanticStatus.txt
+INPUT    = ${INPUT_DIR}/InputPicassoProgram.txt
+OUTPUT   = ${OUTPUT_DIR}/OutputStatus.txt
 
 ##########
 # TARGET #
