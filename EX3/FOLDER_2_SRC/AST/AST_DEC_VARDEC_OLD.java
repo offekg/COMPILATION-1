@@ -44,7 +44,7 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 		TYPE t;
 
 		/****************************/
-		/* [1] Check If Type exists щов она VOID */
+		/* [1] Check If Type exists or is VOID */
 		/****************************/
 		t = SYMBOL_TABLE.getInstance().find(type);
 		if (t == null) {

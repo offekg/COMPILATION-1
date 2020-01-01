@@ -52,13 +52,20 @@ public class AST_DEC_ARRAYDEC extends AST_DEC {
 			OutputFileWriter.writeError(this.lineNumber,
 					String.format("Array decleration using non existing type %s \n", arrayType));
 		}
-
+		
+		/****************************/
+		/* [1.5] Check If Type is void */
+		/****************************/
+		if (t instanceof TYPE_VOID) {
+			OutputFileWriter.writeError(this.lineNumber,"Array decleration using void as type is illegal\n");
+		}
+		
 		/*******************************************************/
-		/* [2] Check That Name does NOT exist in current scope */
+		/* [2] Check That Name does NOT exist  */
 		/*******************************************************/
-		if (SYMBOL_TABLE.getInstance().isInScope(arrayName)) {
+		if (SYMBOL_TABLE.getInstance().find(arrayName) != null) {
 			OutputFileWriter.writeError(this.lineNumber,
-					String.format("Array decleration variable name %s already exists in scope\n", arrayName));
+					String.format("Array decleration variable name %s already exists\n", arrayName));
 		}
 
 		/***************************************************/
