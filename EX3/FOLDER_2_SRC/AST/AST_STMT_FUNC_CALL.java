@@ -56,10 +56,18 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 		if (args != null)
 			argsTypeList = args.SemantMe();
 
-		if (var == null)
+		if (var == null) {
 			// either in the same scope or in global scope
-			funcType = SYMBOL_TABLE.getInstance().find(funcName);
-		else
+			TYPE_FOR_SCOPE_BOUNDARIES currentClassBoundary = SYMBOL_TABLE.getInstance()
+					.getLastScopeOfType(ScopeType.CLASS_SCOPE);
+			if (currentClassBoundary != null) {
+				String currentClassName = currentClassBoundary.name;
+				TYPE classNode = SYMBOL_TABLE.getInstance().find(currentClassName);
+				funcType = ((TYPE_CLASS) classNode).getOverriddenMethod(funcName);
+			}
+			if (funcType == null)
+				funcType = SYMBOL_TABLE.getInstance().find(funcName);
+		} else
 			// check if the function is declared in the type's class
 			funcType = ((TYPE_CLASS) varType).getOverriddenMethod(funcName);
 

@@ -169,13 +169,13 @@ public class SYMBOL_TABLE {
 	public TYPE_FOR_SCOPE_BOUNDARIES getLastScopeOfType(ScopeType scopeType) {
 
 		SYMBOL_TABLE_ENTRY e = top;
-
-		while ((e != null) && !(e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES
-				&& ((TYPE_FOR_SCOPE_BOUNDARIES) e.type).scopeType == scopeType)) {
-			e = e.prevtop;
+		
+		for (; e != null; e = e.prevtop) {
+			if (e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES)
+				if (((TYPE_FOR_SCOPE_BOUNDARIES) e.type).scopeType == scopeType)
+					return (TYPE_FOR_SCOPE_BOUNDARIES) e.type;
 		}
-		if (e != null)
-			return (TYPE_FOR_SCOPE_BOUNDARIES) e.type;
+		
 		return null;
 	}
 

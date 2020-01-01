@@ -56,17 +56,25 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 		if (this.expList != null)
 			expTypeList = this.expList.SemantMe();
 
-		if (this.var == null)
+		if (this.var == null) {
 			// either in the same scope or in global scope
-			funcType = SYMBOL_TABLE.getInstance().find(this.funcName);
-		else if(varType.isClass()) {
+			TYPE_FOR_SCOPE_BOUNDARIES currentClassBoundary = SYMBOL_TABLE.getInstance()
+					.getLastScopeOfType(ScopeType.CLASS_SCOPE);
+			if (currentClassBoundary != null) {
+				String currentClassName = currentClassBoundary.name;
+				TYPE classNode = SYMBOL_TABLE.getInstance().find(currentClassName);
+				funcType = ((TYPE_CLASS) classNode).getOverriddenMethod(funcName);
+			}
+			if (funcType == null)
+				funcType = SYMBOL_TABLE.getInstance().find(funcName);
+		} else if (varType.isClass()) {
 			// check if the function is declared in the type's class
-			funcType = ((TYPE_CLASS) varType).getOverriddenMethod(this.funcName);
-		}
-		else
+			funcType = ((TYPE_CLASS) varType).getOverriddenMethod(funcName);
+		} else
 			// varType is not a class
-			OutputFileWriter.writeError(this.lineNumber, String.format("tried calling method %s from undeclared class.\n", funcName));
-			
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("tried calling method %s from undeclared class.\n", funcName));
+
 		if (funcType == null)
 			OutputFileWriter.writeError(this.lineNumber, String.format("function is not declared %s\n", funcName));
 
