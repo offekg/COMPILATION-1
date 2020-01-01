@@ -45,20 +45,40 @@ public class AST_DEC_ARRAYDEC extends AST_DEC {
 		}
 
 		/****************************/
-		/* [1] Check If Type exists */
+		/* [1] Check If Type exists and is a TYPE and not just a declared entity */
 		/****************************/
 		t = SYMBOL_TABLE.getInstance().find(arrayType);
 		if (t == null) {
 			OutputFileWriter.writeError(this.lineNumber,
 					String.format("Array decleration using non existing type %s \n", arrayType));
 		}
-
-		/*******************************************************/
-		/* [2] Check That Name does NOT exist in current scope */
-		/*******************************************************/
-		if (SYMBOL_TABLE.getInstance().isInScope(arrayName)) {
+		
+		//
+		if (!t.name.equals(arrayType)) {
 			OutputFileWriter.writeError(this.lineNumber,
-					String.format("Array decleration variable name %s already exists in scope\n", arrayName));
+					String.format("Array decleration using a non TYPE entity: %s \n", arrayType));
+		}
+		
+		/****************************/
+		/* [1.5] Check If Type is void */
+		/****************************/
+		if (t instanceof TYPE_VOID) {
+			OutputFileWriter.writeError(this.lineNumber,"Array decleration using void as type is illegal\n");
+		}
+		/****************************/
+		/* [1.5] Check If Type is function */
+		/****************************/
+		if (t instanceof TYPE_FUNCTION) {
+			OutputFileWriter.writeError(this.lineNumber,"Array decleration using function as type is illegal\n");
+		}
+		
+		
+		/*******************************************************/
+		/* [2] Check That Name does NOT exist  */
+		/*******************************************************/
+		if (SYMBOL_TABLE.getInstance().find(arrayName) != null) {
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("Array decleration variable name %s already exists\n", arrayName));
 		}
 
 		/***************************************************/
