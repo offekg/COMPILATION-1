@@ -54,7 +54,7 @@ public class AST_DEC_ARRAYDEC extends AST_DEC {
 		}
 		
 		//
-		if (t.name != arrayType) {
+		if (!t.name.equals(arrayType)) {
 			OutputFileWriter.writeError(this.lineNumber,
 					String.format("Array decleration using a non TYPE entity: %s \n", arrayType));
 		}
