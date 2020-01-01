@@ -58,8 +58,8 @@ public class AST_STMT_RETURN extends AST_STMT {
 
 		// check that actual return type matches or subclass of the functions declared return type
 		TYPE returnExpType = this.returnExp.SemantMe();
-		if (returnExpType.equalsOrSubclass(fatherFunc.returnType)) {
-			OutputFileWriter.writeError(this.lineNumber, "Return type missmatch.\n");
+		if (!returnExpType.equalsOrSubclass(fatherFunc.returnType)) {
+			OutputFileWriter.writeError(this.lineNumber, String.format("Return type missmatch %s %s.\n", returnExpType.name, fatherFunc.returnType.name));
 		}
 		
 		// tell father that he has a return statement in him.
