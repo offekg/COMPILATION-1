@@ -18,14 +18,14 @@ public class AST_CFIELD_VARDEC extends AST_CFIELD {
 	public TYPE_CLASS_VAR_DEC SemantMe() {
 		if (!(this.vardec instanceof AST_DEC_VARDEC_OLD)) {
 			OutputFileWriter.writeError(this.lineNumber,
-					"A declared data member inside a class can be initialized only with a constant value");
+					"1A declared data member inside a class can be initialized only with a constant value");
 		}
 		AST_DEC_VARDEC_OLD old_vardec = (AST_DEC_VARDEC_OLD) this.vardec;
 		if (old_vardec.exp != null) {
 			if (!((old_vardec.exp instanceof AST_EXP_INT) || (old_vardec.exp instanceof AST_EXP_STRING)
-					|| (old_vardec.exp instanceof AST_EXP_NIL))) {
+					|| (old_vardec.exp instanceof AST_EXP_NIL) || (old_vardec.exp instanceof AST_EXP_MINUS))) {
 				OutputFileWriter.writeError(this.lineNumber,
-						"A declared data member inside a class can be initialized only with a constant value");
+						"2A declared data member inside a class can be initialized only with a constant value");
 			}
 		}
 		TYPE t = vardec.SemantMe();
