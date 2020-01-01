@@ -45,10 +45,14 @@ public class AST_STMT_RETURN extends AST_STMT {
 		if (fatherFunc == null) {
 			OutputFileWriter.writeError(this.lineNumber, "Return statemenet out of function scope\n");
 		}
-
+		
 		// if function declared to return void, make sure there is no return value.
-		if (fatherFunc.returnType == TYPE_VOID.getInstance() && this.returnExp != null) {
-			OutputFileWriter.writeError(this.lineNumber, "Return statemenet has value, though declaired as void.\n");
+		if (fatherFunc.returnType == TYPE_VOID.getInstance()) {
+			if (this.returnExp != null)
+				OutputFileWriter.writeError(this.lineNumber, "Return statemenet has value, though declaired as void.\n");
+			// then its ok
+			else
+				return null;
 		}
 		
 		// if function declared to return non-void, then the return is not empty.
