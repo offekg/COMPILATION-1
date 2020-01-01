@@ -68,7 +68,7 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 
 		if (!isFunctionCallValid((TYPE_FUNCTION) funcType, argsTypeList))
 			OutputFileWriter.writeError(this.lineNumber,
-					String.format("stmt_func_call function call is not valid %s %s", funcName));
+					String.format("stmt_func_call function call is not valid %s", funcName));
 
 		return ((TYPE_FUNCTION) funcType).returnType;
 	}
