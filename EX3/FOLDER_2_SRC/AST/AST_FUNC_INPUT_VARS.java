@@ -15,10 +15,15 @@ public class AST_FUNC_INPUT_VARS extends AST_Node {
 
 	public TYPE SemantMe() {
 		TYPE typeOfParam = SYMBOL_TABLE.getInstance().find(paramType);
-		// check if type exists
+		// check if type exists or is illegal
 		if (typeOfParam == null) {
 			OutputFileWriter.writeError(this.lineNumber, String.format("func_var type not declared: %s", paramType));
 		}
+		if (typeOfParam instanceof TYPE_VOID || typeOfParam instanceof TYPE_FUNCTION 
+				|| typeOfParam instanceof TYPE_NILL) {
+			OutputFileWriter.writeError(this.lineNumber, String.format("func_var type not legal: %s", paramType));
+		}
+		
 		// check if name already exists
 		if (SYMBOL_TABLE.getInstance().isInScope(paramName)) {
 			OutputFileWriter.writeError(this.lineNumber,
