@@ -86,13 +86,7 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 					TYPE_CLASS_VAR_DEC overriddenDataMember = t.father
 							.getOverriddenDataMemember(currentField.vardec.name);
 					if (overriddenDataMember != null) {
-						// Overrides a field, comparing types
-						TYPE fieldType = SYMBOL_TABLE.getInstance().find(currentField.vardec.type);
-						if (fieldType == null) {
-							OutputFileWriter.writeError(currentField.lineNumber, "Could not resolve field type");
-						}
-						if (!fieldType.equalsOrSubclass(overriddenDataMember.t))
-							OutputFileWriter.writeError(currentField.lineNumber, "Wrong field type for overridden field");
+						OutputFileWriter.writeError(currentField.lineNumber, "Illegal shadowing");
 					}
 				}
 			}
