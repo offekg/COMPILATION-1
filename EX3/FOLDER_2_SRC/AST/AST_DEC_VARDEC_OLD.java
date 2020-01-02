@@ -61,7 +61,7 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 		}
 		//check if exists as a type
 		TYPE temp = SYMBOL_TABLE.getInstance().find(name);
-		if (temp != null && temp.name.equals(name) ) {
+		if (temp != null && !(temp instanceof TYPE_FUNCTION) && temp.name.equals(name) ) {
 			OutputFileWriter.writeError(this.lineNumber, String.format("variable %s already exists as a type\n", name));
 		}
 
