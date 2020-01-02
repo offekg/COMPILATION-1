@@ -50,9 +50,15 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		
 		//check that function name doesn't exist as a type
 		TYPE temp = SYMBOL_TABLE.getInstance().find(funcName);
-		if (temp != null && temp.name.equals(funcName) ) {
+		if (temp != null && !(temp instanceof TYPE_FUNCTION) && temp.name.equals(funcName) ) {
 			OutputFileWriter.writeError(this.lineNumber, String.format("wanted function name %s already exists as a type\n", funcName));
 		}
+		
+		//check also basic primitive functions
+		if (temp != null && SYMBOL_TABLE.getInstance().isNameOutsideScopes(funcName)) {
+			OutputFileWriter.writeError(this.lineNumber, String.format("wanted function name %s already exists as a primitive function\n", funcName));
+		}
+
 
 		SYMBOL_TABLE.getInstance().beginScope(ScopeType.FUNCTION_SCOPE, funcName, typeOfReturn);
 		/***************************/
