@@ -66,10 +66,16 @@ public class AST_DEC_ARRAYDEC extends AST_DEC {
 			OutputFileWriter.writeError(this.lineNumber,"Array decleration using void as type is illegal\n");
 		}
 		/****************************/
-		/* [1.5] Check If Type is function */
+		/* [1.6] Check If Type is function */
 		/****************************/
 		if (t instanceof TYPE_FUNCTION) {
 			OutputFileWriter.writeError(this.lineNumber,"Array decleration using function as type is illegal\n");
+		}
+		/****************************/
+		/* [1.7] Check If Type is NIL */
+		/****************************/
+		if (t instanceof TYPE_NILL) {
+			OutputFileWriter.writeError(this.lineNumber,"Array decleration using nil as type is illegal\n");
 		}
 		
 		

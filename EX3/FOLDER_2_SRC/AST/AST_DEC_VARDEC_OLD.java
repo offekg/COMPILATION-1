@@ -54,12 +54,20 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 			OutputFileWriter.writeError(this.lineNumber, String.format("illegal decleration of void varriable\n"));
 		}
 		/**************************************/
-		/* [2] Check That Name does NOT exist */
+		/* [2] Check That Name does NOT exist in scope or as a type */
 		/**************************************/
 		if (SYMBOL_TABLE.getInstance().isInScope(name)) {
 			OutputFileWriter.writeError(this.lineNumber, String.format("variable %s already exists in scope\n", name));
 		}
+		//check if exists as a type
+		TYPE temp = SYMBOL_TABLE.getInstance().find(name);
+		if (temp != null && temp.name.equals(name) ) {
+			OutputFileWriter.writeError(this.lineNumber, String.format("variable %s already exists as a type\n", name));
+		}
 
+		/**************************************/
+		/* [3] Check exp assignment type */
+		/**************************************/
 		if (exp != null) {
 			TYPE assignmentType = exp.SemantMe();
 			if (assignmentType == null) {
@@ -72,12 +80,12 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 		}
 
 		/*****************************************************/
-		/* [3] Enter the new Variable in to the Symbol Table */
+		/* [4] Enter the new Variable in to the Symbol Table */
 		/*****************************************************/
 		SYMBOL_TABLE.getInstance().enter(name, t);
 
 		/*********************************************************/
-		/* [4] Return value is irrelevant for variable declarations */
+		/* [5] Return value is irrelevant for variable declarations */
 		/*********************************************************/
 		return t;
 	}

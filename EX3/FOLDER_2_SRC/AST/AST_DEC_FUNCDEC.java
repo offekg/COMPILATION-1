@@ -47,6 +47,12 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		if (SYMBOL_TABLE.getInstance().isInScope(funcName))
 			OutputFileWriter.writeError(this.lineNumber,
 					String.format("duplicate name dec_funcdec %s %s", returnType, funcName));
+		
+		//check that function name doesn't exist as a type
+		TYPE temp = SYMBOL_TABLE.getInstance().find(funcName);
+		if (temp != null && temp.name.equals(funcName) ) {
+			OutputFileWriter.writeError(this.lineNumber, String.format("wanted function name %s already exists as a type\n", funcName));
+		}
 
 		SYMBOL_TABLE.getInstance().beginScope(ScopeType.FUNCTION_SCOPE, funcName, typeOfReturn);
 		/***************************/

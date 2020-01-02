@@ -25,12 +25,20 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 		}
 
 		/**************************************/
-		/* [2] Check That Name does NOT exist */
+		/* [2] Check That Name does NOT exist in scope or as a type*/
 		/**************************************/
 		if (SYMBOL_TABLE.getInstance().isInScope(name)) {
 			OutputFileWriter.writeError(this.lineNumber, String.format("variable %s already exists in scope\n", name));
 		}
 
+		TYPE temp = SYMBOL_TABLE.getInstance().find(name);
+		if (temp != null && temp.name.equals(name) ) {
+			OutputFileWriter.writeError(this.lineNumber, String.format("variable %s already exists as a type\n", name));
+		}
+
+		/**************************************/
+		/* [3] Check exp assignment type */
+		/**************************************/
 		// Check that the new instance is of the same type
 		if (newExp != null) {
 			TYPE assignmentType = newExp.SemantMe();
@@ -53,12 +61,12 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 		}
 
 		/***************************************************/
-		/* [3] Enter the Function Type to the Symbol Table */
+		/* [4] Enter the Function Type to the Symbol Table */
 		/***************************************************/
 		SYMBOL_TABLE.getInstance().enter(name, declaredType);
 
 		/*********************************************************/
-		/* [4] Return value is irrelevant for class declarations */
+		/* [5] Return value is irrelevant for class declarations */
 		/*********************************************************/
 		return declaredType;
 	}

@@ -144,6 +144,31 @@ public class SYMBOL_TABLE {
 
 		return false;
 	}
+	
+	/***********************************************/
+	/* Whether an element with this name exists as primitive type outside all scopes */
+	/***********************************************/
+	public boolean isNameOutsideScopes(String name) {
+		SYMBOL_TABLE_ENTRY e;// = find("SCOPE-BOUNDARY");
+		
+		//reach Global Scope
+		for (e = table[hash("SCOPE-BOUNDARY")]; e != null; e = e.next) {
+			if (e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES) {
+				TYPE_FOR_SCOPE_BOUNDARIES scope = (TYPE_FOR_SCOPE_BOUNDARIES) e.type;
+				if(scope.scopeType == ScopeType.GLOBAL_SCOPE)
+					break;
+			}
+		}
+		//search through all declaired before global scope
+		while (e != null) {
+			if (e.name.equals(name)) {
+				return true;
+			}
+			e = e.prevtop;
+		}
+
+		return false;
+	}
 
 	/***********************************************/
 	/* Get the type of current scope */
