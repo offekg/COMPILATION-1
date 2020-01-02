@@ -21,6 +21,14 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 
 	public TYPE SemantMe() {
 		/*************************/
+		/* [0] Check if wanted class name is taken*/
+		/*************************/
+		if (SYMBOL_TABLE.getInstance().find(name) != null) {
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("CLass decleration name %s already exists\n", name));
+		}
+
+		/*************************/
 		/* [1] Begin Class Scope */
 		/*************************/
 		TYPE_CLASS t = new TYPE_CLASS(name, null, null);
