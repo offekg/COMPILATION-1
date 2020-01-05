@@ -67,7 +67,7 @@ public class AST_STMT_RETURN extends AST_STMT {
 		}
 		
 		// tell father that he has a return statement in him.
-		TYPE fatherFuncInstance = SYMBOL_TABLE.getInstance().find(fatherFunc.name);
+		TYPE fatherFuncInstance = SYMBOL_TABLE.getInstance().getLastFunctionWithName(fatherFunc.name);
 		((TYPE_FUNCTION)fatherFuncInstance).isReturnStatemntInside = true;
 
 		// don't care about return value

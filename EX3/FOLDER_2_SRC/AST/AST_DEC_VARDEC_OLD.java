@@ -56,8 +56,9 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 		/**************************************/
 		/* [2] Check That Name does NOT exist in scope or as a type */
 		/**************************************/
-		if (SYMBOL_TABLE.getInstance().isInScope(name)) {
-			OutputFileWriter.writeError(this.lineNumber, String.format("variable %s already exists in scope\n", name));
+		TYPE_FOR_SCOPE_BOUNDARIES funcScope = SYMBOL_TABLE.getInstance().getLastScopeOfType(ScopeType.FUNCTION_SCOPE);
+		if (SYMBOL_TABLE.getInstance().isInScope(name) && !name.equals(funcScope.name)) {
+			OutputFileWriter.writeError(this.lineNumber, String.format("1variable %s already exists in scope\n", name));
 		}
 		//check if exists as a type
 		TYPE temp = SYMBOL_TABLE.getInstance().find(name);

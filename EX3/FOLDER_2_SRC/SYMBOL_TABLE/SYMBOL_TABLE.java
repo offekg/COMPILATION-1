@@ -85,7 +85,7 @@ public class SYMBOL_TABLE {
 
 		return null;
 	}
-	
+
 	/***********************************************/
 	/* Find the inner-most class element with name */
 	/***********************************************/
@@ -100,9 +100,12 @@ public class SYMBOL_TABLE {
 
 		return null;
 	}
-	
+
 	/***********************************************/
-	/* For finding correct variables: Find the correct TYPE of wanted var, checks also in father class fields. */
+	/*
+	 * For finding correct variables: Find the correct TYPE of wanted var, checks
+	 * also in father class fields.
+	 */
 	/***********************************************/
 	public TYPE varFind(String name) {
 		SYMBOL_TABLE_ENTRY e = this.top;
@@ -111,7 +114,7 @@ public class SYMBOL_TABLE {
 			if (e.name.equals(name)) {
 				return e.type;
 			}
-			//if reached class scope, check if name is a field of the father class:
+			// if reached class scope, check if name is a field of the father class:
 			if (e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES) {
 				TYPE_FOR_SCOPE_BOUNDARIES eScope = (TYPE_FOR_SCOPE_BOUNDARIES) e.type;
 				if (eScope.scopeType == ScopeType.CLASS_SCOPE) {
@@ -120,9 +123,9 @@ public class SYMBOL_TABLE {
 					if (classVar != null) {
 						return classVar.t;
 					}
-				}		
+				}
 			}
-			
+
 			e = e.prevtop;
 		}
 
@@ -144,22 +147,24 @@ public class SYMBOL_TABLE {
 
 		return false;
 	}
-	
+
 	/***********************************************/
-	/* Whether an element with this name exists as primitive type outside all scopes */
+	/*
+	 * Whether an element with this name exists as primitive type outside all scopes
+	 */
 	/***********************************************/
 	public boolean isNameOutsideScopes(String name) {
 		SYMBOL_TABLE_ENTRY e;// = find("SCOPE-BOUNDARY");
-		
-		//reach Global Scope
+
+		// reach Global Scope
 		for (e = table[hash("SCOPE-BOUNDARY")]; e != null; e = e.next) {
 			if (e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES) {
 				TYPE_FOR_SCOPE_BOUNDARIES scope = (TYPE_FOR_SCOPE_BOUNDARIES) e.type;
-				if(scope.scopeType == ScopeType.GLOBAL_SCOPE)
+				if (scope.scopeType == ScopeType.GLOBAL_SCOPE)
 					break;
 			}
 		}
-		//search through all declaired before global scope
+		// search through all declaired before global scope
 		while (e != null) {
 			if (e.name.equals(name)) {
 				return true;
@@ -189,18 +194,31 @@ public class SYMBOL_TABLE {
 	}
 
 	/*****************************************************************/
-	/* Get the latest scope in stack of the given scopeType parameter*/
+	/* Get the latest scope in stack of the given scopeType parameter */
 	/*****************************************************************/
 	public TYPE_FOR_SCOPE_BOUNDARIES getLastScopeOfType(ScopeType scopeType) {
 
 		SYMBOL_TABLE_ENTRY e = top;
-		
+
 		for (; e != null; e = e.prevtop) {
 			if (e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES)
 				if (((TYPE_FOR_SCOPE_BOUNDARIES) e.type).scopeType == scopeType)
 					return (TYPE_FOR_SCOPE_BOUNDARIES) e.type;
 		}
-		
+
+		return null;
+	}
+
+	public TYPE_FUNCTION getLastFunctionWithName(String name) {
+
+		SYMBOL_TABLE_ENTRY e = top;
+
+		for (; e != null; e = e.prevtop) {
+			if (e.type instanceof TYPE_FUNCTION)
+				if (name.equals(((TYPE_FUNCTION)e.type).name))
+					return (TYPE_FUNCTION) e.type;
+		}
+
 		return null;
 	}
 
@@ -221,7 +239,7 @@ public class SYMBOL_TABLE {
 		/*********************************************/
 		PrintMe();
 	}
-	
+
 	// for class scopes
 	public void beginScope(ScopeType scopeType, String name) {
 
