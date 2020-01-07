@@ -1,0 +1,9 @@
+package TYPES;
+
+public enum ScopeType {
+	GLOBAL_SCOPE,
+	CLASS_SCOPE,
+	FUNCTION_SCOPE,
+	IF_WHILE_SCOPE,
+	ERROR_SCOPE;
+}

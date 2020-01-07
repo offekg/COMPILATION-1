@@ -1,0 +1,500 @@
+/*************/
+
+/* IMPORT(S) */
+
+/*************/
+
+import java_cup.runtime.*;
+
+import java.io.PrintWriter;
+
+import AST.*;
+
+import java.util.*;
+
+
+
+parser code 
+
+{:
+
+	public Lexer lexer;
+
+	public PrintWriter file_writer;
+
+
+
+	public Parser(Lexer lexer, PrintWriter file_writer)
+
+	{
+
+		super(lexer);
+
+		this.lexer = lexer;
+
+		this.file_writer = file_writer;
+
+	}
+
+	public void report_error(String message, Object info)
+
+	{
+
+		String str = String.format("ERROR(%d)",lexer.getLine());
+
+		this.file_writer.println(str);		
+
+		file_writer.close();
+
+		// console prints
+
+		System.out.print("ERROR >> ");
+
+		System.out.print("[");
+
+		System.out.print(lexer.getLine());
+
+		System.out.print(":");
+
+		System.out.print(lexer.getTokenStartPosition());
+
+		System.out.print("] ");
+
+		System.exit(0);
+
+	}
+
+:}
+
+
+
+/************************/
+
+/* CUSTOMIZE CUP PARSER */
+
+/************************/
+
+scan with
+
+{:
+
+	Symbol s;
+
+	s = lexer.next_token();
+
+	//System.out.print(s.sym);
+
+	System.out.print("[");
+
+	System.out.print(lexer.getLine());
+
+	System.out.print(":");
+
+	System.out.print(lexer.getTokenStartPosition());
+
+	System.out.print("] ");
+
+	System.out.print(TokenNames.terminalNames[s.sym]);
+
+	if (s.value != null)
+
+	{
+
+		System.out.print("( ");
+
+		System.out.print(s.value);
+
+		System.out.print(" )");
+
+	}
+
+	System.out.print("\n");
+
+	return s; 
+
+:};
+
+
+
+/*************/
+
+/* TERMINALS */
+
+/*************/
+
+terminal LPAREN;
+
+terminal RPAREN;
+
+terminal LBRACK;
+
+terminal RBRACK;
+
+terminal LBRACE;
+
+terminal RBRACE;
+
+terminal NIL;
+
+terminal PLUS;
+
+terminal MINUS;
+
+terminal TIMES;
+
+terminal DIVIDE;
+
+terminal COMMA;
+
+terminal DOT;
+
+terminal SEMICOLON;
+
+terminal ELLIPSIS;
+
+terminal ASSIGN;
+
+terminal EQ;
+
+terminal LT;
+
+terminal GT;
+
+terminal ARRAY;
+
+terminal CLASS;
+
+terminal EXTENDS;
+
+terminal RETURN;
+
+terminal WHILE;
+
+terminal IF;
+
+terminal NEW;
+
+
+
+//terminal EOF;
+
+terminal ERROR;
+
+
+
+/*************/
+
+/* TERMINALS */
+
+/*************/
+
+terminal Integer INT;
+
+terminal String ID;
+
+terminal String STRING;
+
+
+
+/*****************/
+
+/* NON TERMINALS */
+
+/*****************/
+
+non terminal AST_PROGRAM Program;
+
+non terminal AST_DEC dec;
+
+non terminal AST_DEC_LIST decList;
+
+non terminal AST_DEC_VARDEC varDec;
+
+non terminal AST_DEC_FUNCDEC funcDec;
+
+non terminal AST_FUNC_INPUT_VARS funcInputVars;
+
+non terminal AST_FUNC_INPUT_VARS_LIST funcInputVarsList;
+
+non terminal AST_DEC_CLASSDEC classDec;
+
+non terminal AST_CFIELD_LIST cFieldList;
+
+non terminal AST_DEC_ARRAYDEC arrayDec;
+
+non terminal AST_EXP exp;
+
+non terminal AST_EXP_LIST expList;
+
+non terminal AST_VAR var;
+
+non terminal AST_STMT stmt;
+
+non terminal AST_STMT_LIST stmtList;
+
+non terminal AST_NEWEXP newExp;
+
+non terminal AST_CFIELD cField;
+
+non terminal AST_BINOP BINOP;
+
+// non terminal AST_INT INT; (?)
+
+
+
+
+
+
+
+/***********************/
+
+/* OPERATOR PRECEDENCE */
+
+/***********************/
+
+precedence left DOT;
+
+//precedence RPAREN;
+
+precedence left LPAREN;
+
+//precedence left RBRACK;
+
+precedence left LBRACK;
+
+precedence left DIVIDE;
+
+precedence left TIMES;
+
+precedence left MINUS;
+
+precedence left PLUS;
+
+precedence left GT;
+
+precedence left LT;
+
+precedence left EQ;	
+
+precedence left ASSIGN;
+
+
+
+/************************/
+
+/* START WITH: Program */
+
+/************************/
+
+start with Program;
+
+
+
+/********************/
+
+/* DERIVATION RULES */
+
+/********************/
+
+
+
+
+
+Program     ::=     decList:d 				{: RESULT = new AST_PROGRAM(d); RESULT.setLineNumber(dleft);    :}
+
+					; 
+
+
+
+decList		::=		dec:d	decList:l		{: RESULT = new AST_DEC_LIST(d,l); RESULT.setLineNumber(dleft);    :}
+
+					| dec:d					{: RESULT = new AST_DEC_LIST(d,null);RESULT.setLineNumber(dleft); :}
+
+					;
+
+					
+
+					
+
+dec 	    ::=     varDec:vd 				{: RESULT = vd;RESULT.setLineNumber(vdleft); :}				
+
+					| funcDec:fd			{: RESULT = fd; RESULT.setLineNumber(fdleft); :}				
+
+					| classDec:cd			{: RESULT = cd; RESULT.setLineNumber(cdleft);:}				
+
+					| arrayDec:ad			{: RESULT = ad; RESULT.setLineNumber(adleft);:}				
+
+					;
+
+
+
+varDec 	    ::=     ID:name1 ID:name2 SEMICOLON						{: RESULT = new AST_DEC_VARDEC_OLD(name1, name2, null); RESULT.setLineNumber(name1left); :}
+
+					| ID:name1 ID:name2  ASSIGN exp:e SEMICOLON		{: RESULT = new AST_DEC_VARDEC_OLD(name1, name2, e); RESULT.setLineNumber(name1left);    :}
+
+					| ID:name1 ID:name2  ASSIGN newExp:e SEMICOLON	{: RESULT = new AST_DEC_VARDEC_NEW(name1, name2, e); RESULT.setLineNumber(name1left);    :}
+
+					;
+
+
+
+funcDec		::= 	ID:type ID:name LPAREN RPAREN LBRACE stmtList:body RBRACE {: RESULT = new AST_DEC_FUNCDEC(type,name,null,body); RESULT.setLineNumber(typeleft); :}					
+
+					| ID:type ID:name LPAREN funcInputVarsList:params RPAREN LBRACE stmtList:body RBRACE {: RESULT = new AST_DEC_FUNCDEC(type,name,params,body); RESULT.setLineNumber(typeleft); :}	
+
+					;
+
+
+
+funcInputVars	    ::=     ID:type ID:name     {: RESULT = new AST_FUNC_INPUT_VARS(type,name); RESULT.setLineNumber(typeleft);   :}
+
+					;
+
+					
+
+funcInputVarsList   ::=     funcInputVars:tid COMMA funcInputVarsList:l       {: RESULT = new AST_FUNC_INPUT_VARS_LIST(tid,l); RESULT.setLineNumber(tidleft);    :}
+
+					| funcInputVars:tid                 {: RESULT = new AST_FUNC_INPUT_VARS_LIST(tid,null); RESULT.setLineNumber(tidleft); :}
+
+					;
+
+					
+
+classDec    ::=     CLASS ID:name1 EXTENDS ID:name2 LBRACE cFieldList:body RBRACE {: RESULT = new AST_DEC_CLASSDEC(name1,name2,body); RESULT.setLineNumber(name1left); :}
+
+					|CLASS ID:name1 LBRACE cFieldList:body RBRACE 				  {: RESULT = new AST_DEC_CLASSDEC(name1,null,body); RESULT.setLineNumber(name1left);                   :}
+
+					;
+
+					
+
+cFieldList	::=		cField:cf	cFieldList:l		{: RESULT = new AST_CFIELD_LIST(cf,l); RESULT.setLineNumber(cfleft);    :}
+
+					| cField:cf						{: RESULT = new AST_CFIELD_LIST(cf,null); RESULT.setLineNumber(cfleft); :}
+
+					;
+
+					
+
+arrayDec    ::=     ARRAY ID:name1 EQ ID:name2 LBRACK RBRACK {: RESULT = new AST_DEC_ARRAYDEC(name1, name2); RESULT.setLineNumber(name1left);    :}
+
+					;
+
+					
+
+exp			::=		var:v											{: RESULT = new AST_EXP_VAR(v); RESULT.setLineNumber(vleft);          :}
+
+					| LPAREN exp:e RPAREN							{: RESULT = new AST_EXP_EXP(e); RESULT.setLineNumber(eleft);			 :}
+
+					| exp:e1 BINOP:b exp:e2							{: RESULT = new AST_EXP_BINOP(e1,e2,b); RESULT.setLineNumber(e1left);	 :}
+
+					| var:v DOT ID:name LPAREN RPAREN   			{: RESULT = new AST_EXP_FUNC_CALL(v,name,null); RESULT.setLineNumber(vleft);:}
+
+					| var:v DOT ID:name LPAREN expList:l RPAREN     {: RESULT = new AST_EXP_FUNC_CALL(v,name,l); RESULT.setLineNumber(vleft);         :}
+
+					| ID:name LPAREN RPAREN      				    {: RESULT = new AST_EXP_FUNC_CALL(null,name,null); RESULT.setLineNumber(nameleft);:} 
+
+					| ID:name LPAREN expList:l RPAREN               {: RESULT = new AST_EXP_FUNC_CALL(null,name,l); RESULT.setLineNumber(nameleft);      :}
+
+					| MINUS INT:i 									{: RESULT = new AST_EXP_MINUS(i); RESULT.setLineNumber(ileft);		 :}
+
+					| INT:i 										{: RESULT = new AST_EXP_INT(i); RESULT.setLineNumber(ileft);		     :}
+
+					| NIL:nil											{: RESULT = new AST_EXP_NIL(); RESULT.setLineNumber(nilleft);			 :}
+
+					| STRING:s 										{: RESULT = new AST_EXP_STRING(s); RESULT.setLineNumber(sleft);		 :}
+
+					; 
+
+					
+
+expList     ::=     exp:e COMMA expList:l				{: RESULT = new AST_EXP_LIST(e,l); RESULT.setLineNumber(lleft);       :}
+
+					| exp:e						{: RESULT = new AST_EXP_LIST(e,null); RESULT.setLineNumber(eleft);    :}
+
+					;
+
+
+
+var			::=		ID:name								{: RESULT = new AST_VAR_SIMPLE(name); RESULT.setLineNumber(nameleft);       :}
+
+					| var:v DOT ID:fieldName			{: RESULT = new AST_VAR_FIELD(v,fieldName); RESULT.setLineNumber(vleft); :} 
+
+					| var:v LBRACK exp:e RBRACK			{: RESULT = new AST_VAR_SUBSCRIPT(v,e); RESULT.setLineNumber(vleft);     :} 
+
+					;
+
+
+
+stmt		::=		varDec:vd							{: RESULT = new AST_STMT_VARDEC(vd); RESULT.setLineNumber(vdleft);          :}
+
+					| var:v ASSIGN exp:e SEMICOLON      {: RESULT = new AST_STMT_ASSIGN_EXP(v,e); RESULT.setLineNumber(vleft);     :}
+
+					| var:v ASSIGN newExp:en SEMICOLON	{: RESULT = new AST_STMT_ASSIGN_NEWEXP(v,en); RESULT.setLineNumber(vleft); :}
+
+					| RETURN exp:e SEMICOLON            {: RESULT = new AST_STMT_RETURN(e); RESULT.setLineNumber(eleft);  	      :}
+
+					| RETURN:r SEMICOLON            		{: RESULT = new AST_STMT_RETURN(null); RESULT.setLineNumber(rleft);        :}   
+
+					| IF    LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE	{: RESULT = new AST_STMT_IF(cond,body); RESULT.setLineNumber(condleft);       	 :}
+
+					| WHILE LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE	{: RESULT = new AST_STMT_WHILE(cond,body); RESULT.setLineNumber(condleft);    	 :}
+
+					| var:v DOT ID:name LPAREN RPAREN SEMICOLON						{: RESULT = new AST_STMT_FUNC_CALL(v,name,null); RESULT.setLineNumber(vleft);   :}
+
+					| var:v DOT ID:name LPAREN expList:l RPAREN SEMICOLON    				{: RESULT = new AST_STMT_FUNC_CALL(v,name,l); RESULT.setLineNumber(vleft);         :}
+
+					| ID:name LPAREN RPAREN SEMICOLON  							{: RESULT = new AST_STMT_FUNC_CALL(null,name,null); RESULT.setLineNumber(nameleft);:} 
+
+					| ID:name LPAREN expList:l RPAREN SEMICOLON     	        {: RESULT = new AST_STMT_FUNC_CALL(null,name,l); RESULT.setLineNumber(nameleft); 	 :}
+
+					;
+
+
+
+					
+
+stmtList	::=		stmt:s	stmtList:l		{: RESULT = new AST_STMT_LIST(s,l); RESULT.setLineNumber(sleft);    :}
+
+					| stmt:s				{: RESULT = new AST_STMT_LIST(s,null); RESULT.setLineNumber(sleft); :}
+
+					;
+
+					
+
+newExp      ::=     NEW ID:name							{: RESULT = new AST_NEWEXP_CLASS(name); RESULT.setLineNumber(nameleft);   :}
+
+					| NEW ID:name LBRACK exp:e RBRACK	{: RESULT = new AST_NEWEXP_ARRAY(name,e); RESULT.setLineNumber(nameleft); :}
+
+					;
+
+
+
+cField      ::=     varDec:vd 				    {: RESULT = new AST_CFIELD_VARDEC(vd); RESULT.setLineNumber(vdleft);  :}		
+
+					| funcDec:fd	            {: RESULT = new AST_CFIELD_FUNCDEC(fd); RESULT.setLineNumber(fdleft); :}		
+
+					;
+
+
+
+BINOP       ::=		PLUS:p						{: RESULT = new AST_BINOP(0); RESULT.setLineNumber(pleft);    :} 
+
+					| MINUS:m						{: RESULT = new AST_BINOP(1); RESULT.setLineNumber(mleft);    :} 	
+
+					| TIMES:ti						{: RESULT = new AST_BINOP(2); RESULT.setLineNumber(tileft);    :}	
+
+					| DIVIDE:di					{: RESULT = new AST_BINOP(3); RESULT.setLineNumber(dileft);    :}	
+
+					| GT:gt						{: RESULT = new AST_BINOP(4); RESULT.setLineNumber(gtleft);    :}	
+
+					| LT:lt						{: RESULT = new AST_BINOP(5); RESULT.setLineNumber(ltleft);    :}	
+
+					| EQ:e						{: RESULT = new AST_BINOP(6); RESULT.setLineNumber(eleft);    :}	
+
+					;
+
+					
+
+
+
