@@ -1,7 +1,10 @@
 package AST;
 
 import TYPES.*;
+import IR.*;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
+import TEMP.TEMP_FACTORY;
 
 public class AST_DEC_FUNCDEC extends AST_DEC {
 	public String returnType;
@@ -20,6 +23,18 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		/* PRINT CORRESPONDING DERIVATION RULE */
 		/***************************************/
 		System.out.print("====================== Dec (FUNC) -> FUNC DEC\n");
+	}
+
+	@Override
+	public TEMP IRme() {
+		IR.getInstance().Add_IRcommand(new IRcommand_Label(this.funcName));
+		IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue());
+		if (this.params != null)
+			this.params.IRme();
+		if (this.funcBody != null)
+			this.funcBody.IRme();
+		IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue());
+		return null;
 	}
 
 	public TYPE SemantMe() {
@@ -43,22 +58,23 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 					returnType, funcName, String.valueOf(currentScope)));
 
 		// check that no other function/class/etc has the same name
-//		TYPE typeOfName = SYMBOL_TABLE.getInstance().find(funcName);
+		// TYPE typeOfName = SYMBOL_TABLE.getInstance().find(funcName);
 		if (SYMBOL_TABLE.getInstance().isInScope(funcName))
 			OutputFileWriter.writeError(this.lineNumber,
 					String.format("duplicate name dec_funcdec %s %s", returnType, funcName));
-		
-		//check that function name doesn't exist as a type
+
+		// check that function name doesn't exist as a type
 		TYPE temp = SYMBOL_TABLE.getInstance().find(funcName);
-		if (temp != null && !(temp instanceof TYPE_FUNCTION) && temp.name.equals(funcName) ) {
-			OutputFileWriter.writeError(this.lineNumber, String.format("wanted function name %s already exists as a type\n", funcName));
-		}
-		
-		//check also basic primitive functions
-		if (temp != null && SYMBOL_TABLE.getInstance().isNameOutsideScopes(funcName)) {
-			OutputFileWriter.writeError(this.lineNumber, String.format("wanted function name %s already exists as a primitive function\n", funcName));
+		if (temp != null && !(temp instanceof TYPE_FUNCTION) && temp.name.equals(funcName)) {
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("wanted function name %s already exists as a type\n", funcName));
 		}
 
+		// check also basic primitive functions
+		if (temp != null && SYMBOL_TABLE.getInstance().isNameOutsideScopes(funcName)) {
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("wanted function name %s already exists as a primitive function\n", funcName));
+		}
 
 		SYMBOL_TABLE.getInstance().beginScope(ScopeType.FUNCTION_SCOPE, funcName, typeOfReturn);
 		/***************************/

@@ -1,5 +1,7 @@
 package AST;
 
+import TEMP.TEMP;
+
 public abstract class AST_Node {
 	/*******************************************/
 	/* The serial number is for debug purposes */
@@ -19,5 +21,12 @@ public abstract class AST_Node {
 
 	public void setLineNumber(int line) {
 		this.lineNumber = line;
+	}
+
+	/*****************************************/
+	/* The default IR action for an AST node */
+	/*****************************************/
+	public TEMP IRme() {
+		return null;
 	}
 }

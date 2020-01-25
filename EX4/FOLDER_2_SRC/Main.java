@@ -3,6 +3,8 @@ import java.io.*;
 import java.io.PrintWriter;
 import java_cup.runtime.Symbol;
 import AST.*;
+import IR.*;
+import MIPS.*;
 import SYMBOL_TABLE.OutputFileWriter;
 
 public class Main {
@@ -52,15 +54,30 @@ public class Main {
 			/**************************/
 			AST.SemantMe();
 
-			/*************************/
-			/* [8] Close output file */
-			/*************************/
-			OutputFileWriter.writeOk();
+			/**********************/
+			/* [8] IR the AST ... */
+			/**********************/
+			AST.IRme();
 
-			/*************************************/
-			/* [9] Finalize AST GRAPHIZ DOT file */
-			/*************************************/
+			/***********************/
+			/* [9] MIPS the IR ... */
+			/***********************/
+			IR.getInstance().MIPSme();
+
+			/**************************************/
+			/* [10] Finalize AST GRAPHIZ DOT file */
+			/**************************************/
 			AST_GRAPHVIZ.getInstance().finalizeFile();
+
+			/***************************/
+			/* [11] Finalize MIPS file */
+			/***************************/
+			sir_MIPS_a_lot.getInstance().finalizeFile();
+
+			/**************************/
+			/* [12] Close output file */
+			/**************************/
+			file_writer.close();
 		}
 
 		catch (Exception e) {

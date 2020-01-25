@@ -1,7 +1,11 @@
 package AST;
 
 import TYPES.*;
+import IR.IR;
+import IR.IRcommand_Store;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
+import TEMP.TEMP_FACTORY;
 
 public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 	public AST_NEWEXP newExp;
@@ -11,6 +15,13 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 		this.name = name;
 		this.newExp = newExp;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
+	}
+	
+	@Override
+	public TEMP IRme() {
+		TEMP expTemp = this.newExp.IRme();
+		IR.getInstance().Add_IRcommand(new IRcommand_Store(this.name, expTemp));
+		return expTemp;
 	}
 
 	public TYPE SemantMe() {

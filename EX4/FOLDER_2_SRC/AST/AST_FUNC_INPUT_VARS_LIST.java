@@ -1,7 +1,13 @@
 package AST;
 
 import TYPES.*;
+import IR.IR;
+import IR.IRcommand;
+import IR.IRcommand_Pop;
+import IR.IRcommand_Store;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
+import TEMP.TEMP_FACTORY;
 
 public class AST_FUNC_INPUT_VARS_LIST extends AST_Node {
 	/****************/
@@ -32,6 +38,12 @@ public class AST_FUNC_INPUT_VARS_LIST extends AST_Node {
 		/*******************************/
 		this.head = head;
 		this.tail = tail;
+	}
+	
+	@Override
+	public TEMP IRme() {
+		this.head.IRme();
+		return this.tail == null ? null : this.tail.IRme();
 	}
 
 	public TYPE_LIST SemantMe() {

@@ -1,7 +1,12 @@
 package AST;
 
 import TYPES.*;
+import IR.IR;
+import IR.IRcommand_Pop;
+import IR.IRcommand_Store;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
+import TEMP.TEMP_FACTORY;
 
 public class AST_FUNC_INPUT_VARS extends AST_Node {
 	public String paramType;
@@ -11,6 +16,14 @@ public class AST_FUNC_INPUT_VARS extends AST_Node {
 		this.paramType = paramType;
 		this.paramName = paramName;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
+	}
+	
+	@Override
+	public TEMP IRme() {
+		TEMP paramTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
+		IR.getInstance().Add_IRcommand(new IRcommand_Pop(paramTemp));
+		IR.getInstance().Add_IRcommand(new IRcommand_Store(this.paramName, paramTemp));
+		return null;
 	}
 
 	public TYPE SemantMe() {

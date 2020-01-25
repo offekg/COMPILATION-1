@@ -2,6 +2,7 @@ package AST;
 
 import TYPES.*;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
 
 public class AST_STMT_LIST extends AST_Node {
 	/****************/
@@ -32,6 +33,12 @@ public class AST_STMT_LIST extends AST_Node {
 		/*******************************/
 		this.head = head;
 		this.tail = tail;
+	}
+	
+	@Override
+	public TEMP IRme() {
+		this.head.IRme();
+		return this.tail == null ? null : this.tail.IRme();
 	}
 
 	/******************************************************/

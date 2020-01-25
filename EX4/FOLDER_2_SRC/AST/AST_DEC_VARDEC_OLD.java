@@ -1,7 +1,11 @@
 package AST;
 
 import TYPES.*;
+import IR.IR;
+import IR.*;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
+import TEMP.TEMP_FACTORY;
 
 public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 	public AST_EXP exp;
@@ -97,5 +101,11 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 		/* [5] Return value is irrelevant for variable declarations */
 		/*********************************************************/
 		return t;
+	}
+	
+	public TEMP IRme() {
+		TEMP expTemp = this.exp == null ? TEMP_FACTORY.getInstance().getFreshTEMP() : this.exp.IRme();
+		IR.getInstance().Add_IRcommand(new IRcommand_Store(this.name, expTemp));
+		return expTemp;
 	}
 }
