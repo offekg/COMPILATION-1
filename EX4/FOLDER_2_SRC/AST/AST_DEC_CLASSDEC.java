@@ -69,7 +69,7 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 						TYPE_LIST overidedParam = overriddenMethod.paramTypes;
 						if (methodParam != null) {							
 							for (TYPE currentType = SYMBOL_TABLE.getInstance().find(methodParam.head.paramType); methodParam != null; methodParam = methodParam.tail) {
-								if (overidedParam == null || !currentType.equalsOrSubclass(overidedParam.head)) {
+								if (overidedParam == null || !currentType.equals(overidedParam.head)) {
 									OutputFileWriter.writeError(currentFunc.lineNumber, "Error in method params");
 								}
 								overidedParam = overidedParam.tail;

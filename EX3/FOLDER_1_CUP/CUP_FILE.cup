@@ -252,33 +252,31 @@ non terminal AST_BINOP BINOP;
 
 /***********************/
 
-precedence left DOT;
+precedence left ASSIGN;
 
-//precedence RPAREN;
+precedence left EQ;
 
-precedence left LPAREN;
-
-//precedence left RBRACK;
-
-precedence left LBRACK;
-
-precedence left DIVIDE;
-
-precedence left TIMES;
-
-precedence left MINUS;
-
-precedence left PLUS;
+precedence left LT;	
 
 precedence left GT;
 
-precedence left LT;
+precedence left PLUS;
 
-precedence left EQ;	
+precedence left MINUS;
 
-precedence left ASSIGN;
+precedence left TIMES;
 
+precedence left DIVIDE;
 
+precedence left LBRACK;
+
+//precedence left RBRACK;
+
+precedence left LPAREN;
+
+//precedence RPAREN;
+
+precedence left DOT;
 
 /************************/
 
@@ -478,20 +476,19 @@ cField      ::=     varDec:vd 				    {: RESULT = new AST_CFIELD_VARDEC(vd); RES
 
 
 
-BINOP       ::=		PLUS:p						{: RESULT = new AST_BINOP(0); RESULT.setLineNumber(pleft);    :} 
-
-					| MINUS:m						{: RESULT = new AST_BINOP(1); RESULT.setLineNumber(mleft);    :} 	
-
-					| TIMES:ti						{: RESULT = new AST_BINOP(2); RESULT.setLineNumber(tileft);    :}	
-
-					| DIVIDE:di					{: RESULT = new AST_BINOP(3); RESULT.setLineNumber(dileft);    :}	
-
-					| GT:gt						{: RESULT = new AST_BINOP(4); RESULT.setLineNumber(gtleft);    :}	
+BINOP       ::=				EQ:e						{: RESULT = new AST_BINOP(6); RESULT.setLineNumber(eleft);    :}	
 
 					| LT:lt						{: RESULT = new AST_BINOP(5); RESULT.setLineNumber(ltleft);    :}	
 
-					| EQ:e						{: RESULT = new AST_BINOP(6); RESULT.setLineNumber(eleft);    :}	
+					| GT:gt						{: RESULT = new AST_BINOP(4); RESULT.setLineNumber(gtleft);    :}	
 
+					| DIVIDE:di					{: RESULT = new AST_BINOP(3); RESULT.setLineNumber(dileft);    :}	
+
+					| TIMES:ti					{: RESULT = new AST_BINOP(2); RESULT.setLineNumber(tileft);    :}	
+
+					| MINUS:m					{: RESULT = new AST_BINOP(1); RESULT.setLineNumber(mleft);    :} 	
+
+					| PLUS:p					{: RESULT = new AST_BINOP(0); RESULT.setLineNumber(pleft);    :} 
 					;
 
 					

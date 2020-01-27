@@ -5,6 +5,17 @@ import SYMBOL_TABLE.*;
 import TEMP.TEMP;
 
 public class AST_STMT_LIST extends AST_Node {
+	class A {
+		void f(A a) {
+			
+		}
+	}
+	
+	class B extends A {
+		void f(B b) {
+			
+		}
+	}
 	/****************/
 	/* DATA MEMBERS */
 	/****************/
