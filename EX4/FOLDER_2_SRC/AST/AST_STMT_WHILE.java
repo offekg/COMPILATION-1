@@ -1,7 +1,12 @@
 package AST;
 
 import TYPES.*;
+import IR.*;
+import IR.IRcommand;
+import IR.IRcommand_Jump_If_Eq_To_Zero;
+import IR.IRcommand_Label;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
 
 public class AST_STMT_WHILE extends AST_STMT {
 	public AST_EXP cond;
@@ -73,6 +78,19 @@ public class AST_STMT_WHILE extends AST_STMT {
 		/*********************************************************/
 		/* [4] Return value is irrelevant for class declarations */
 		/*********************************************************/
+		return null;
+	}
+	
+	public TEMP IRme() {
+		String condLabel = IRcommand.getFreshLabel("cond");
+		IR.getInstance().Add_IRcommand(new IRcommand_Label(condLabel));
+		TEMP tCond = cond.IRme();
+		String endLabel = IRcommand.getFreshLabel("end");
+		IR.getInstance().Add_IRcommand(new IRcommand_Jump_If_Eq_To_Zero(tCond, endLabel));
+		body.IRme();
+		IR.getInstance().Add_IRcommand(new IRcommand_Jump_Label(condLabel));
+		IR.getInstance().Add_IRcommand(new IRcommand_Label(endLabel));
+			
 		return null;
 	}
 }

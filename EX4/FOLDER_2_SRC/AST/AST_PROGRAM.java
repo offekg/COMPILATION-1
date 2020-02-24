@@ -2,6 +2,7 @@ package AST;
 
 import TYPES.*;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
 
 public class AST_PROGRAM extends AST_Node {
 	public AST_DEC_LIST decList;
@@ -58,5 +59,9 @@ public class AST_PROGRAM extends AST_Node {
 		//OutputFileWriter.writeOk();
 
 		return null;
+	}
+	
+	public TEMP IRme() {
+		return decList.IRme();
 	}
 }

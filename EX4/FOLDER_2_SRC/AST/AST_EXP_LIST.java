@@ -2,6 +2,7 @@ package AST;
 
 import TYPES.*;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
 
 public class AST_EXP_LIST extends AST_Node
 {
@@ -70,4 +71,8 @@ public class AST_EXP_LIST extends AST_Node
 		}
 	}
 	
+	public TEMP IRme()
+	{
+		return head.IRme();
+	}
 }

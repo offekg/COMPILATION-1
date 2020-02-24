@@ -2,6 +2,7 @@ package AST;
 
 import TYPES.*;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
 
 public class AST_DEC_LIST extends AST_Node {
 	/****************/
@@ -75,5 +76,10 @@ public class AST_DEC_LIST extends AST_Node {
 			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, head.SerialNumber);
 		if (tail != null)
 			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, tail.SerialNumber);
+	}
+	
+	public TEMP IRme() {
+		this.head.IRme();
+		return this.tail == null ? null : this.tail.IRme();
 	}
 }

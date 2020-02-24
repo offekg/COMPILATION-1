@@ -2,6 +2,7 @@ package AST;
 
 import TYPES.*;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
 
 public class AST_EXP_EXP extends AST_EXP {
 	public AST_EXP exp;
@@ -40,5 +41,9 @@ public class AST_EXP_EXP extends AST_EXP {
 
 	public TYPE SemantMe() {
 		return this.exp.SemantMe();
+	}
+	
+	public TEMP IRme() {
+		return this.exp.IRme();
 	}
 }

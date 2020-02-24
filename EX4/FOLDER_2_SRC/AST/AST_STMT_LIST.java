@@ -45,12 +45,7 @@ public class AST_STMT_LIST extends AST_Node {
 		this.head = head;
 		this.tail = tail;
 	}
-	
-	@Override
-	public TEMP IRme() {
-		this.head.IRme();
-		return this.tail == null ? null : this.tail.IRme();
-	}
+
 
 	/******************************************************/
 	/* The printing message for a statement list AST node */
@@ -89,6 +84,12 @@ public class AST_STMT_LIST extends AST_Node {
 		} else {
 			return new TYPE_LIST(head.SemantMe(), tail.SemantMe());
 		}
+	}
+	
+	@Override
+	public TEMP IRme() {
+		this.head.IRme();
+		return this.tail == null ? null : this.tail.IRme();
 	}
 
 }

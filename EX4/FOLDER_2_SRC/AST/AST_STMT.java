@@ -1,5 +1,6 @@
 package AST;
 
+import TEMP.TEMP;
 import TYPES.*;
 
 public abstract class AST_STMT extends AST_Node {
@@ -12,5 +13,9 @@ public abstract class AST_STMT extends AST_Node {
 
 	public TYPE SemantMe() {
 		return null;
+	}
+	
+	public TEMP IRmeWithEpilogue(String epilogueLabel) {
+		return IRme();
 	}
 }

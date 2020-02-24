@@ -1,7 +1,10 @@
 package AST;
 
 import TYPES.*;
+import IR.*;
+import IR.IRcommand_Jump_Label;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
 
 public class AST_STMT_FUNC_CALL extends AST_STMT {
 	public AST_VAR var;
@@ -102,5 +105,37 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 			return false;
 
 		return true;
+	}
+
+	public TEMP IRme() {
+		TEMP t = null;
+		if(funcName.equals("PrintInt")){
+        	if (args != null) { 
+        		t = args.IRme(); 
+        	}
+            IR.getInstance().Add_IRcommand(new IRcommandPrintInt(t));
+            
+            return null;
+        }
+        if(funcName.equals("PrintString")){
+        	if (args != null) { t = args.IRme(); }
+            IR.getInstance().Add_IRcommand(new IRcommandPrintString(t));
+         
+            return null;
+        }
+        
+        //push all args to stack
+        AST_EXP_LIST cur = args;
+        TEMP t2;
+        while(cur != null) {
+        	t2 = cur.head.IRme();
+        	IR.getInstance().Add_IRcommand(new IRcommand_Push(t2));
+        	cur = cur.tail; 
+        }
+        
+        //push return address
+        IR.getInstance().Add_IRcommand(new IRcommand_Push());
+		
+		IR.getInstance().Add_IRcommand(new IRcommand_Jump_Label(epilogueLabel));
 	}
 }

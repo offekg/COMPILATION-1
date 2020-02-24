@@ -1,7 +1,9 @@
 package AST;
 
 import TYPES.*;
+import IR.*;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
 
 public class AST_STMT_IF extends AST_STMT {
 	public AST_EXP cond;
@@ -73,6 +75,16 @@ public class AST_STMT_IF extends AST_STMT {
 		/*********************************************************/
 		/* [4] Return value is irrelevant for class declarations */
 		/*********************************************************/
+		return null;
+	}
+	
+	public TEMP IRme() {
+		String label = IRcommand.getFreshLabel("after_if");
+		TEMP tCond = cond.IRme();
+		IR.getInstance().Add_IRcommand(new IRcommand_Jump_If_Eq_To_Zero(tCond, label));
+		body.IRme();
+		IR.getInstance().Add_IRcommand(new IRcommand_Label(label));
+			
 		return null;
 	}
 }
