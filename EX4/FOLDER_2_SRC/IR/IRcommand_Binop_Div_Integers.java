@@ -30,6 +30,6 @@ public class IRcommand_Binop_Div_Integers extends IRcommand
 	/***************/
 	public void MIPSme()
 	{
-		sir_MIPS_a_lot.getInstance().mul(dst,t1,t2);
+		sir_MIPS_a_lot.getInstance().div(dst,t1,t2);
 	}
 }

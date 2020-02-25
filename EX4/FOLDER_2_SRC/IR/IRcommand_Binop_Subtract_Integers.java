@@ -30,6 +30,6 @@ public class IRcommand_Binop_Subtract_Integers extends IRcommand
 	/***************/
 	public void MIPSme()
 	{
-		sir_MIPS_a_lot.getInstance().add(dst,t1,t2);
+		sir_MIPS_a_lot.getInstance().sub(dst,t1,t2);
 	}
 }

@@ -31,6 +31,73 @@ public class IRcommand_Binop_EQ_Strings extends IRcommand
 	/***************/
 	public void MIPSme()
 	{
+		/*******************************/
+		/* [1] Allocate 3 fresh labels */
+		/*******************************/
+		String label_end        = getFreshLabel("end");
+		String label_AssignOne  = getFreshLabel("AssignOne");
+		String label_AssignZero = getFreshLabel("AssignZero");
+		String label_strCmpLoop = getFreshLabel("strCmpLoop");
+		
+		/*******************************/
+		/* [1.5] Allocate 3 fresh labels */
+		/*******************************/
+		//temps that go over strings
+		TEMP char1 = TEMP_FACTORY.getInstance().getFreshTEMP();
+        TEMP char2 = TEMP_FACTORY.getInstance().getFreshTEMP();
+        //temps for offset of strings
+        TEMP offset1 = TEMP_FACTORY.getInstance().getFreshTEMP();
+        TEMP offset2 = TEMP_FACTORY.getInstance().getFreshTEMP();
+
+		
+		/******************************************/
+		/* [2] compare loop:
+		 * 	   if (char1==char2) increase pointers and goto compare loop;  */
+		/*     else ( goto label_AssignZero; */
+		/******************************************/
+        sir_MIPS_a_lot.getInstance().move(offset1, t1);
+        sir_MIPS_a_lot.getInstance().move(offset2, t2);
+        sir_MIPS_a_lot.getInstance().label(label_strCmpLoop);
+        sir_MIPS_a_lot.getInstance().lb(char1, 0, offset1);
+        sir_MIPS_a_lot.getInstance().lb(char2, 0, offset2);
+        
+        //check if chars are equal 
+        sir_MIPS_a_lot.getInstance().bne(char1, char1, label_AssignZero); 
+        
+        //if we saw they are equal, and finished the strings.
+        sir_MIPS_a_lot.getInstance().beqz(char1, label_AssignOne);
+        
+        //increase offsets and jump to beginning of loop
+        sir_MIPS_a_lot.getInstance().addi(offset1, offset1, 1);
+        sir_MIPS_a_lot.getInstance().addi(offset2, offset2, 1);
+        sir_MIPS_a_lot.getInstance().jump(label_strCmpLoop);
+		
+		/************************/
+		/* [3] label_AssignOne: */
+		/*                      */
+		/*         t3 := 1      */
+		/*         goto end;    */
+		/*                      */
+		/************************/
+		sir_MIPS_a_lot.getInstance().label(label_AssignOne);
+		sir_MIPS_a_lot.getInstance().li(dst,1);
+		sir_MIPS_a_lot.getInstance().jump(label_end);
+
+		/*************************/
+		/* [4] label_AssignZero: */
+		/*                       */
+		/*         t3 := 1       */
+		/*         goto end;     */
+		/*                       */
+		/*************************/
+		sir_MIPS_a_lot.getInstance().label(label_AssignZero);
+		sir_MIPS_a_lot.getInstance().li(dst,0);
+		sir_MIPS_a_lot.getInstance().jump(label_end);
+
+		/******************/
+		/* [5] label_end: */
+		/******************/
+		sir_MIPS_a_lot.getInstance().label(label_end);
 		
 	}
 }

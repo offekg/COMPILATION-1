@@ -65,10 +65,22 @@ public class sir_MIPS_a_lot
 		int idxsrc=src.getSerialNumber();
 		fileWriter.format("\tsw Temp_%d,global_%s\n",idxsrc,var_name);		
 	}
+	public void move(TEMP dst,TEMP src)
+	{
+		int idxsrc=src.getSerialNumber();
+		int idxdst=dst.getSerialNumber();
+		fileWriter.format("\tmove Temp_%d,Temp_%d\n",idxdst,idxsrc);
+	}
 	public void li(TEMP t,int value)
 	{
 		int idx=t.getSerialNumber();
 		fileWriter.format("\tli Temp_%d,%d\n",idx,value);
+	}
+	public void lb(TEMP dst, int offset, TEMP addrs)
+	{
+		int idxdst=dst.getSerialNumber();
+		int idxaddrs=addrs.getSerialNumber();
+		fileWriter.format("\tlb Temp_%d, %d(Temp_%d)\n", idxdst, offset, idxaddrs);
 	}
 	public void add(TEMP dst,TEMP oprnd1,TEMP oprnd2)
 	{
@@ -78,6 +90,21 @@ public class sir_MIPS_a_lot
 
 		fileWriter.format("\tadd Temp_%d,Temp_%d,Temp_%d\n",dstidx,i1,i2);
 	}
+	public void addi(TEMP dst,TEMP src,int immd)
+	{
+		int idxdst=dst.getSerialNumber();
+		int idxsrc=dst.getSerialNumber();
+
+		fileWriter.format("\taddi Temp_%d,Temp_%d,%d\n",idxdst,idxsrc,immd);
+	}
+	public void sub(TEMP dst,TEMP oprnd1,TEMP oprnd2)
+	{
+		int i1 =oprnd1.getSerialNumber();
+		int i2 =oprnd2.getSerialNumber();
+		int dstidx=dst.getSerialNumber();
+
+		fileWriter.format("\tsub Temp_%d,Temp_%d,Temp_%d\n",dstidx,i1,i2);
+	}
 	public void mul(TEMP dst,TEMP oprnd1,TEMP oprnd2)
 	{
 		int i1 =oprnd1.getSerialNumber();
@@ -85,6 +112,14 @@ public class sir_MIPS_a_lot
 		int dstidx=dst.getSerialNumber();
 
 		fileWriter.format("\tmul Temp_%d,Temp_%d,Temp_%d\n",dstidx,i1,i2);
+	}
+	public void div(TEMP dst,TEMP oprnd1,TEMP oprnd2)
+	{
+		int i1 =oprnd1.getSerialNumber();
+		int i2 =oprnd2.getSerialNumber();
+		int dstidx=dst.getSerialNumber();
+
+		fileWriter.format("\tdiv Temp_%d,Temp_%d,Temp_%d\n",dstidx,i1,i2);
 	}
 	public void label(String inlabel)
 	{
