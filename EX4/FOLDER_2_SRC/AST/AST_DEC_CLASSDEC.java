@@ -172,6 +172,7 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 		TEMP t = TEMP_FACTORY.getInstance().getFreshTEMP();
 		IR.getInstance().Add_IRcommand(new IRcommand_Malloc(t, sizeToAllocate));
 		IR.getInstance().Add_IRcommand(new IRcommand_Set_Virtual_Table(t, name));
+		AST_CFIELD_LIST cur = cFieldList;
 		
 	}
 }
