@@ -41,6 +41,13 @@ public class sir_MIPS_a_lot
 		fileWriter.format("\tli $v0,11\n");
 		fileWriter.format("\tsyscall\n");
 	}
+	public void print_string(TEMP t)
+	{
+		int idx=t.getSerialNumber();
+		fileWriter.format("\tmove $a0,Temp_%d\n",idx);
+		fileWriter.format("\tli $v0,4\n"); //print string syscall num is 4
+		fileWriter.format("\tsyscall\n");
+	}
 	//public TEMP addressLocalVar(int serialLocalVarNum)
 	//{
 	//	TEMP t  = TEMP_FACTORY.getInstance().getFreshTEMP();

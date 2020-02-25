@@ -19,7 +19,7 @@ public class IRcommand_Binop_Concat_Strings extends IRcommand {
 	/***************/
 	public void MIPSme()
 	{
-		sir_MIPS_a_lot.getInstance().add(dst,t1,t2);
+		sir_MIPS_a_lot.getInstance().;
 	}
 }
 
