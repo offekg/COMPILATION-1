@@ -107,6 +107,7 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 			t.addDataMember(field.head.SemantMe());
 		}
 		SYMBOL_TABLE.getInstance().endScope();
+		Context.classAST.put(name, this);
 
 		/*********************************************************/
 		/* [5] Return value is irrelevant for class declarations */
@@ -172,7 +173,17 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 		TEMP t = TEMP_FACTORY.getInstance().getFreshTEMP();
 		IR.getInstance().Add_IRcommand(new IRcommand_Malloc(t, sizeToAllocate));
 		IR.getInstance().Add_IRcommand(new IRcommand_Set_Virtual_Table(t, name));
-		AST_CFIELD_LIST cur = cFieldList;
-		
+        setDefaultValues(this, t);
+		IR.getInstance().Add_IRcommand(new IRcommand_StoreReturnValueOnStack(t));
+        IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue());
+	}
+	
+	public void setDefaultValues(AST_DEC_CLASSDEC currentClass, TEMP instanceAddr) {
+		int currentSize = 1;
+        if (currentClass.father != null) {
+            setDefaultValues(Context.classAST.get(currentClass.father), instanceAddr);
+            currentSize += Context.classFieldList.get(father).size();
+        }
+        currentClass.cFieldList.setDefaultValues(currentSize, instanceAddr);
 	}
 }

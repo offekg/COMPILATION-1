@@ -2,6 +2,7 @@ package AST;
 
 import TYPES.*;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
 
 public class AST_DEC_ARRAYDEC extends AST_DEC {
 	public String arrayName;
@@ -97,5 +98,9 @@ public class AST_DEC_ARRAYDEC extends AST_DEC {
 		/* [4] Return the new TYPE_ARRAY */
 		/*********************************************************/
 		return new_type;
+	}
+	
+	public TEMP IRme() {
+		return null;
 	}
 }

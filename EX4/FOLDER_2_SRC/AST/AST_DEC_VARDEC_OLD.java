@@ -104,8 +104,13 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 	}
 	
 	public TEMP IRme() {
-		TEMP expTemp = this.exp == null ? TEMP_FACTORY.getInstance().getFreshTEMP() : this.exp.IRme();
-		IR.getInstance().Add_IRcommand(new IRcommand_Store(this.name, expTemp));
-		return expTemp;
+		if(exp != null)
+			return exp.IRme();
+		else{
+			TEMP t = TEMP_FACTORY.getInstance().getFreshTEMP();
+			IR.getInstance().Add_IRcommand(new IRcommandConstInt(t,0));
+			IR.getInstance().Add_IRcommand(new IRcommand_Store(this.name, t));
+			return t;
+		}
 	}
 }

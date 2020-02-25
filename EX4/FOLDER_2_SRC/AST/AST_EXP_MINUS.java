@@ -36,7 +36,7 @@ public class AST_EXP_MINUS extends AST_EXP {
 	
 	public TEMP IRme() {
 		TEMP t = TEMP_FACTORY.getInstance().getFreshTEMP();
-		IR.getInstance().Add_IRcommand(new IRcommandConstInt(t,-1*i));
+		IR.getInstance().Add_IRcommand(new IRcommandConstInt(t,-i));
 		return t;
 	}
 

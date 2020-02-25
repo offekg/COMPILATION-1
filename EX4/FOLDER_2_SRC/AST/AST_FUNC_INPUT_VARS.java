@@ -23,7 +23,7 @@ public class AST_FUNC_INPUT_VARS extends AST_Node {
 		TEMP paramTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
 		IR.getInstance().Add_IRcommand(new IRcommand_Pop(paramTemp));
 		IR.getInstance().Add_IRcommand(new IRcommand_Store(this.paramName, paramTemp));
-		return null;
+		return paramTemp;
 	}
 
 	public TYPE SemantMe() {

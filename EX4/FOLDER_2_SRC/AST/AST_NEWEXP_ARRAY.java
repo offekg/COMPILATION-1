@@ -2,6 +2,9 @@ package AST;
 
 import TYPES.*;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
+import TEMP.TEMP_FACTORY;
+import IR.*;
 
 public class AST_NEWEXP_ARRAY extends AST_NEWEXP {
 	String expType;
@@ -73,5 +76,12 @@ public class AST_NEWEXP_ARRAY extends AST_NEWEXP {
 
 		// return the array's type, for checking against the variable it is assigned to.
 		return t;
+	}
+	
+	public TEMP IRme() {
+		TEMP dest = TEMP_FACTORY.getInstance().getFreshTEMP();
+		TEMP size = this.sizeExp.IRme();
+		IR.getInstance().Add_IRcommand(new IRcommand_New_Array(dest,size));
+		return dest;
 	}
 }

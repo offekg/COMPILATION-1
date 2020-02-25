@@ -1,5 +1,6 @@
 package AST;
 
+import TEMP.TEMP;
 import TYPES.*;
 
 public abstract class AST_CFIELD extends AST_Node {
@@ -13,5 +14,9 @@ public abstract class AST_CFIELD extends AST_Node {
 
 	public TYPE_CLASS_VAR_DEC SemantMe() {
 		return null;
+	}
+	
+	public void setDefaultValue(int currentSize, TEMP instanceAddr) {
+		return;
 	}
 }
