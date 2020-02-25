@@ -1,7 +1,14 @@
 package AST;
 
 import TYPES.*;
+import IR.*;
+import UTILS.Context;
+
+import java.util.LinkedList;
+
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
+import TEMP.TEMP_FACTORY;
 
 public class AST_DEC_CLASSDEC extends AST_DEC {
 	public String name;
@@ -140,5 +147,31 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 		/****************************************/
 		if (cFieldList != null)
 			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, cFieldList.SerialNumber);
+	}
+	
+	public TEMP IRme() {
+		LinkedList<String> methodList = new LinkedList<>();
+		LinkedList<String> fieldList = new LinkedList<>();
+		if (father != null) {
+			methodList.addAll(Context.classMethodList.get(father));
+			fieldList.addAll(Context.classFieldList.get(father));
+		}
+		Context.classMethodList.put(name, methodList);
+		Context.classFieldList.put(name, fieldList);
+		Context.currentClassBuilder = name;
+		cFieldList.IRme();
+		createClassConstructorIR();
+		Context.currentClassBuilder = null;
+		return null;
+	}
+	
+	public void createClassConstructorIR() {
+		IR.getInstance().Add_IRcommand(new IRcommand_Label(name + "_constructor"));
+		IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue());
+		int sizeToAllocate = Context.classFieldList.get(Context.currentClassBuilder).size() + 1;
+		TEMP t = TEMP_FACTORY.getInstance().getFreshTEMP();
+		IR.getInstance().Add_IRcommand(new IRcommand_Malloc(t, sizeToAllocate));
+		IR.getInstance().Add_IRcommand(new IRcommand_Set_Virtual_Table(t, name));
+		
 	}
 }

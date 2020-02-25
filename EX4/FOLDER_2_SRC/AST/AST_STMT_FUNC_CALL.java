@@ -1,8 +1,8 @@
 package AST;
 
 import TYPES.*;
+import UTILS.Context;
 import IR.*;
-import IR.IRcommand_Jump_Label;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
 
@@ -10,6 +10,7 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 	public AST_VAR var;
 	public String funcName;
 	public AST_EXP_LIST args;
+	public boolean isGlobal = false;
 
 	public AST_STMT_FUNC_CALL(AST_VAR var, String funcName, AST_EXP_LIST args) {
 		this.var = var;
@@ -68,8 +69,10 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 				TYPE classNode = SYMBOL_TABLE.getInstance().find(currentClassName);
 				funcType = ((TYPE_CLASS) classNode).getOverriddenMethod(funcName);
 			}
-			if (funcType == null)
+			if (funcType == null) {
 				funcType = SYMBOL_TABLE.getInstance().find(funcName);
+				this.isGlobal = true;
+			}
 		} else
 			// check if the function is declared in the type's class
 			funcType = ((TYPE_CLASS) varType).getOverriddenMethod(funcName);
@@ -109,33 +112,45 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 
 	public TEMP IRme() {
 		TEMP t = null;
-		if(funcName.equals("PrintInt")){
-        	if (args != null) { 
-        		t = args.IRme(); 
-        	}
-            IR.getInstance().Add_IRcommand(new IRcommandPrintInt(t));
-            
-            return null;
-        }
-        if(funcName.equals("PrintString")){
-        	if (args != null) { t = args.IRme(); }
-            IR.getInstance().Add_IRcommand(new IRcommandPrintString(t));
-         
-            return null;
-        }
-        
-        //push all args to stack
-        AST_EXP_LIST cur = args;
-        TEMP t2;
-        while(cur != null) {
-        	t2 = cur.head.IRme();
-        	IR.getInstance().Add_IRcommand(new IRcommand_Push(t2));
-        	cur = cur.tail; 
-        }
-        
-        //push return address
-        IR.getInstance().Add_IRcommand(new IRcommand_Push());
-		
-		IR.getInstance().Add_IRcommand(new IRcommand_Jump_Label(epilogueLabel));
+		if (funcName.equals("PrintInt")) {
+			if (args != null) {
+				t = args.IRme();
+			}
+			IR.getInstance().Add_IRcommand(new IRcommand_PrintInt(t));
+
+			return null;
+		}
+		if (funcName.equals("PrintString")) {
+			if (args != null) {
+				t = args.IRme();
+			}
+			IR.getInstance().Add_IRcommand(new IRcommand_PrintString(t));
+
+			return null;
+		}
+
+		// push all args to stack
+		AST_EXP_LIST cur = args;
+		TEMP t2;
+		while (cur != null) {
+			t2 = cur.head.IRme();
+			IR.getInstance().Add_IRcommand(new IRcommand_Push(t2));
+			cur = cur.tail;
+		}
+
+		// //push return address
+		// IR.getInstance().Add_IRcommand(new IRcommand_Push());
+		if (this.var != null) {
+			TEMP temp = this.var.IRme();
+			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(temp, this.funcName));
+			return null;
+		}
+		if (!this.isGlobal) {
+			TEMP currentObject = Context.currentObject;
+			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(currentObject, this.funcName));
+			return null;
+		}
+		IR.getInstance().Add_IRcommand(new IRcommand_Call_Global_Function(this.funcName));
+		return null;
 	}
 }

@@ -1,12 +1,23 @@
 package AST;
 
 import TYPES.*;
+import UTILS.Context;
+import IR.IR;
+import IR.IRcommand_Call_Global_Function;
+import IR.IRcommand_Call_Virtual_Function;
+import IR.IRcommand_LoadReturnValue;
+import IR.IRcommand_PrintInt;
+import IR.IRcommand_PrintString;
+import IR.IRcommand_Push;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
+import TEMP.TEMP_FACTORY;
 
 public class AST_EXP_FUNC_CALL extends AST_EXP {
 	public AST_VAR var;
 	public String funcName;
 	public AST_EXP_LIST expList;
+	public boolean isGlobal;
 
 	public AST_EXP_FUNC_CALL(AST_VAR var, String funcName, AST_EXP_LIST expList) {
 		this.var = var;
@@ -65,8 +76,10 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 				TYPE classNode = SYMBOL_TABLE.getInstance().find(currentClassName);
 				funcType = ((TYPE_CLASS) classNode).getOverriddenMethod(funcName);
 			}
-			if (funcType == null)
+			if (funcType == null) {
 				funcType = SYMBOL_TABLE.getInstance().find(funcName);
+				this.isGlobal = true;
+			}
 		} else if (varType.isClass()) {
 			// check if the function is declared in the type's class
 			funcType = ((TYPE_CLASS) varType).getOverriddenMethod(funcName);
@@ -106,5 +119,55 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 			return false;
 
 		return true;
+	}
+
+	public TEMP IRme() {
+		TEMP t = null;
+		if (funcName.equals("PrintInt")) {
+			if (expList != null) {
+				t = expList.IRme();
+			}
+			IR.getInstance().Add_IRcommand(new IRcommand_PrintInt(t));
+
+			return null;
+		}
+		if (funcName.equals("PrintString")) {
+			if (expList != null) {
+				t = expList.IRme();
+			}
+			IR.getInstance().Add_IRcommand(new IRcommand_PrintString(t));
+
+			return null;
+		}
+
+		// push all expList to stack
+		AST_EXP_LIST cur = expList;
+		TEMP t2;
+		while (cur != null) {
+			t2 = cur.head.IRme();
+			IR.getInstance().Add_IRcommand(new IRcommand_Push(t2));
+			cur = cur.tail;
+		}
+
+		// //push return address
+		// IR.getInstance().Add_IRcommand(new IRcommand_Push());
+		if (this.var != null) {
+			TEMP temp = this.var.IRme();
+			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(temp, this.funcName));
+			TEMP returnTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
+			IR.getInstance().Add_IRcommand(new IRcommand_LoadReturnValue(returnTemp));
+			return returnTemp;
+		}
+		if (!this.isGlobal) {
+			TEMP currentObject = Context.currentObject;
+			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(currentObject, this.funcName));
+			TEMP returnTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
+			IR.getInstance().Add_IRcommand(new IRcommand_LoadReturnValue(returnTemp));
+			return returnTemp;
+		}
+		IR.getInstance().Add_IRcommand(new IRcommand_Call_Global_Function(this.funcName));
+		TEMP returnTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
+		IR.getInstance().Add_IRcommand(new IRcommand_LoadReturnValue(returnTemp));
+		return returnTemp;
 	}
 }

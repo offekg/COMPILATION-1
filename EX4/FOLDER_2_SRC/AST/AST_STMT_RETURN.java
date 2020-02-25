@@ -1,6 +1,7 @@
 package AST;
 
 import TYPES.*;
+import UTILS.Context;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
 import IR.*;
@@ -77,10 +78,10 @@ public class AST_STMT_RETURN extends AST_STMT {
 
 	}
 	
-	public TEMP IRmeWithEpilogue(String epilogueLabel) {
+	public TEMP IRme() {
 		TEMP tReturn = returnExp.IRme();
 		IR.getInstance().Add_IRcommand(new IRcommand_StoreReturnValueOnStack(tReturn));
-		IR.getInstance().Add_IRcommand(new IRcommand_Jump_Label(epilogueLabel));
+		IR.getInstance().Add_IRcommand(new IRcommand_Jump_Label(Context.epilogueLabel));
 		return null;
 	}
 
