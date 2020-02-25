@@ -1,6 +1,7 @@
 package AST;
 
 import TYPES.*;
+import UTILS.Context;
 import IR.*;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
@@ -27,7 +28,15 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 
 	@Override
 	public TEMP IRme() {
-		IR.getInstance().Add_IRcommand(new IRcommand_Label(this.funcName));
+		String label = null;
+		if (Context.currentClassBuilder == null) {
+			label = IRcommand.getFreshLabel(this.funcName);
+			Context.globalFunctions.put(funcName, label);
+		} else {
+			Context.classMethodList.get(Context.currentClassBuilder).add(funcName);
+			label = Context.currentClassBuilder + "_" + funcName;
+		}
+		IR.getInstance().Add_IRcommand(new IRcommand_Label(label));
 		IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue());
 		if (this.params != null)
 			this.params.IRme();

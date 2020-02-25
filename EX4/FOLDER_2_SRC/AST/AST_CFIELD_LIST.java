@@ -2,6 +2,7 @@ package AST;
 
 import TYPES.*;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
 
 public class AST_CFIELD_LIST extends AST_Node {
 	/****************/
@@ -31,6 +32,14 @@ public class AST_CFIELD_LIST extends AST_Node {
 		/*******************************/
 		this.head = head;
 		this.tail = tail;
+	}
+	
+	public void setDefaultValues(int currentSize, TEMP instanceAddr) {
+		head.setDefaultValue(currentSize, instanceAddr);
+		if (tail != null) {
+			currentSize += (head instanceof AST_CFIELD_VARDEC) ? 1 : 0;
+			tail.setDefaultValues(currentSize, instanceAddr);
+		}
 	}
 
 	public TYPE_CLASS_VAR_DEC_LIST SemantMe() {

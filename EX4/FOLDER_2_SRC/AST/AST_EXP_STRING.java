@@ -1,7 +1,12 @@
 package AST;
 
 import TYPES.*;
+import IR.IR;
+import IR.IRcommandConstInt;
+import IR.IRcommandConstString;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
+import TEMP.TEMP_FACTORY;
 
 public class AST_EXP_STRING extends AST_EXP {
 	public String val;
@@ -28,5 +33,11 @@ public class AST_EXP_STRING extends AST_EXP {
 
 	public TYPE SemantMe() {
 		return TYPE_STRING.getInstance();
+	}
+	
+	public TEMP IRme() {
+		TEMP t = TEMP_FACTORY.getInstance().getFreshTEMP();
+		IR.getInstance().Add_IRcommand(new IRcommandConstString(t,val));
+		return t;
 	}
 }

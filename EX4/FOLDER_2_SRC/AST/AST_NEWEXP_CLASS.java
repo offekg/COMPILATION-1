@@ -1,7 +1,13 @@
 package AST;
 
 import TYPES.*;
+import IR.IR;
+import IR.IRcommand_Call_Global_Function;
+import IR.IRcommand_LoadReturnValue;
+import IR.IRcommand_New_Array;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
+import TEMP.TEMP_FACTORY;
 
 public class AST_NEWEXP_CLASS extends AST_NEWEXP {
 	String expType;
@@ -37,5 +43,12 @@ public class AST_NEWEXP_CLASS extends AST_NEWEXP {
 			OutputFileWriter.writeError(this.lineNumber, String.format("non existing type assignment %s\n", expType));
 		}
 		return t;
+	}
+	
+	public TEMP IRme() {
+		TEMP dest = TEMP_FACTORY.getInstance().getFreshTEMP();
+		IR.getInstance().Add_IRcommand(new IRcommand_Call_Global_Function(expType + "_constructor"));
+		IR.getInstance().Add_IRcommand(new IRcommand_LoadReturnValue(dest));
+		return dest;
 	}
 }

@@ -2,6 +2,9 @@ package AST;
 
 import TYPES.*;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
+import IR.*;
+import TEMP.TEMP_FACTORY;
 
 public class AST_CFIELD_VARDEC extends AST_CFIELD {
 	public AST_DEC_VARDEC vardec;
@@ -13,6 +16,12 @@ public class AST_CFIELD_VARDEC extends AST_CFIELD {
 		/* PRINT CORRESPONDING DERIVATION RULE */
 		/***************************************/
 		System.out.print("====================== CFIELD -> VARDEC\n");
+	}
+	
+	public void setDefaultValue(int currentSize, TEMP instanceAddr) {
+		TEMP value = TEMP_FACTORY.getInstance().getFreshTEMP();
+		IR.getInstance().Add_IRcommand(new IRcommand_Move(value, vardec.IRme()));
+		IR.getInstance().Add_IRcommand(new IRcommand_Field_Set(instanceAddr, currentSize, value));
 	}
 
 	public TYPE_CLASS_VAR_DEC SemantMe() {
