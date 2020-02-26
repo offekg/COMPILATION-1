@@ -7,6 +7,8 @@ package MIPS;
 /* GENERAL IMPORTS */
 /*******************/
 import java.io.PrintWriter;
+import java.util.LinkedList;
+import java.util.List;
 
 /*******************/
 /* PROJECT IMPORTS */
@@ -88,6 +90,11 @@ public class sir_MIPS_a_lot
 		int idxdst=dst.getSerialNumber();
 		int idxaddrs=addrs.getSerialNumber();
 		fileWriter.format("\tlb Temp_%d, %d(Temp_%d)\n", idxdst, offset, idxaddrs);
+	}
+	public void la(TEMP dst, String addrLabel)
+	{
+		int idxdst=dst.getSerialNumber();
+		fileWriter.format("\tla Temp_%d, %s\n", idxdst, addrLabel);
 	}
 	public void sb(TEMP src, int offset, TEMP addrs)
 	{
@@ -213,6 +220,25 @@ public class sir_MIPS_a_lot
 	}
 	
 	/**************************************/
+	/*          Global data               */
+	/**************************************/
+	static List<String> dataList = null;
+	
+	public static void add_to_global_data_list(String string_label, String type, String data) {
+		if(dataList == null)
+			dataList = new LinkedList<String>();
+		else {
+			dataList.add(String.format("%s: .%s %s\n",string_label,type,data));
+		}
+	}
+	
+	public void writeGlobalData() {
+		for(String data : dataList) {
+			instance.fileWriter.print(data);
+		}	
+	}
+	
+	/**************************************/
 	/* USUAL SINGLETON IMPLEMENTATION ... */
 	/**************************************/
 	private static sir_MIPS_a_lot instance = null;
@@ -259,6 +285,7 @@ public class sir_MIPS_a_lot
 			instance.fileWriter.print("string_access_violation: .asciiz \"Access Violation\"\n");
 			instance.fileWriter.print("string_illegal_div_by_0: .asciiz \"Illegal Division By Zero\"\n");
 			instance.fileWriter.print("string_invalid_ptr_dref: .asciiz \"Invalid Pointer Dereference\"\n");
+			instance.writeGlobalData();
 		}
 		return instance;
 	}

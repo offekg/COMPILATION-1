@@ -15,5 +15,7 @@ public class Context {
 	public static HashMap<String, LinkedList<String>> classFieldList = new HashMap<>();
 	public static HashMap<String, AST_DEC_CLASSDEC> classAST = new HashMap<>();
 	public static HashMap<String, String> globalFunctions = new HashMap<>();
+	public static HashMap<String, String> stringLabels = new HashMap<>();
 	public static HashSet<String> classNames = new HashSet<>();
+	
 }

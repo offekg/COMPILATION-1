@@ -12,6 +12,7 @@ package IR;
 /*******************/
 
 import TEMP.*;
+import UTILS.Context;
 import MIPS.*;
 
 public class IRcommandConstString extends IRcommand {
@@ -27,6 +28,8 @@ public class IRcommandConstString extends IRcommand {
 	/* MIPS me !!! */
 	/***************/
 	public void MIPSme() {
+		String sLabel = Context.stringLabels.get(value);
+		sir_MIPS_a_lot.getInstance().la(t, sLabel);
 	}
 	
 	@Override
