@@ -1,11 +1,18 @@
 package AST;
 
 import TYPES.*;
+import UTILS.Context;
+import IR.IR;
+import IR.IRcommand_Array_Access;
+import IR.IRcommand_Field_Access;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
+import TEMP.TEMP_FACTORY;
 
 public class AST_VAR_FIELD extends AST_VAR {
 	public AST_VAR var;
 	public String fieldName;
+	public String objectStaticClassName;
 
 	/******************/
 	/* CONSTRUCTOR(S) */
@@ -73,6 +80,7 @@ public class AST_VAR_FIELD extends AST_VAR {
 			OutputFileWriter.writeError(this.lineNumber, "access field of a non-class variable\n");
 		} else {
 			tc = (TYPE_CLASS) t;
+			this.objectStaticClassName = tc.name;
 		}
 
 		/************************************/
@@ -88,5 +96,13 @@ public class AST_VAR_FIELD extends AST_VAR {
 		/*********************************************/
 		OutputFileWriter.writeError(this.lineNumber, String.format("field %s does not exist in class\n", fieldName));
 		return null;
+	}
+	
+	public TEMP IRme() {
+		TEMP temp = TEMP_FACTORY.getInstance().getFreshTEMP();
+		TEMP objTemp = var.IRme();
+		int fieldNumber = Context.classFieldList.get(objectStaticClassName).indexOf(fieldName);
+		IR.getInstance().Add_IRcommand(new IRcommand_Field_Access(objTemp, fieldNumber, temp));
+		return temp;
 	}
 }

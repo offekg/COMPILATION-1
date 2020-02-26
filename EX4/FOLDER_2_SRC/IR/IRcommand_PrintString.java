@@ -29,4 +29,9 @@ public class IRcommand_PrintString extends IRcommand
 	{
 		sir_MIPS_a_lot.getInstance().print_string(t);
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println("print_string " + t.getSymbol());
+	}
 }

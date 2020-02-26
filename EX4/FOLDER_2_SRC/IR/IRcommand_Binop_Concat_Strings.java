@@ -65,5 +65,11 @@ public class IRcommand_Binop_Concat_Strings extends IRcommand {
         sir_MIPS_a_lot.getInstance().addi(dstStrPointer, dstStrPointer, -1); //so there won't be a space between
             
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println(dst.getSymbol() + " = concat_strings " + t2.getSymbol()
+							+ ", " + t2.getSymbol());
+	}
 }
 

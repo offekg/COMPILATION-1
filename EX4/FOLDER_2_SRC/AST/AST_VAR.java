@@ -13,4 +13,16 @@ public abstract class AST_VAR extends AST_Node {
 	public TYPE SemantMe() {
 		return null;
 	}
+	
+	public boolean isVarSimple() {
+		return this instanceof AST_VAR_SIMPLE;
+	}
+	
+	public boolean isVarField() {
+		return this instanceof AST_VAR_FIELD;
+	}
+	
+	public boolean isVarSubscrip() {
+		return this instanceof AST_VAR_SUBSCRIPT;
+	}
 }

@@ -29,4 +29,9 @@ public class IRcommand_Label extends IRcommand
 	{
 		sir_MIPS_a_lot.getInstance().label(label_name);
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println(label_name + ":");
+	}
 }

@@ -13,14 +13,16 @@ package IR;
 import TEMP.*;
 import MIPS.*;
 
-public class IRcommand_New_Array extends IRcommand
+public class IRcommand_Field_Access extends IRcommand
 {
+	TEMP instanceAddr;
+	int fieldNumber;
 	TEMP dest;
-	TEMP size;
 	
-	public IRcommand_New_Array(TEMP dest,TEMP size)
+	public IRcommand_Field_Access(TEMP instanceAddr, int fieldNumber, TEMP dest)
 	{
-		this.size = size;
+		this.instanceAddr = instanceAddr;
+		this.fieldNumber = fieldNumber;
 		this.dest = dest;
 	}
 	
@@ -33,6 +35,7 @@ public class IRcommand_New_Array extends IRcommand
 	
 	@Override
 	public void printMe() {
-		System.out.println(dest.getSymbol() + " = new_array " + size.getSymbol());
+		System.out.println(dest.getSymbol() + " = field_access " + instanceAddr.getSymbol()
+							+ ", " + fieldNumber);
 	}
 }

@@ -97,7 +97,12 @@ public class IRcommand_Binop_EQ_Strings extends IRcommand
 		/******************/
 		/* [5] label_end: */
 		/******************/
-		sir_MIPS_a_lot.getInstance().label(label_end);
-		
+		sir_MIPS_a_lot.getInstance().label(label_end);		
+	}
+	
+	@Override
+	public void printMe() {
+		System.out.println(dst.getSymbol() + " = eq_strings " + t2.getSymbol()
+							+ ", " + t2.getSymbol());
 	}
 }

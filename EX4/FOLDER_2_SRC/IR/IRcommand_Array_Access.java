@@ -13,29 +13,29 @@ package IR;
 import TEMP.*;
 import MIPS.*;
 
-public class IRcommand_Binop_Div_Integers extends IRcommand
+public class IRcommand_Array_Access extends IRcommand
 {
-	public TEMP t1;
-	public TEMP t2;
+	public TEMP arrTemp;
+	public TEMP subscriptTemp;
 	public TEMP dst;
 	
-	public IRcommand_Binop_Div_Integers(TEMP dst,TEMP t1,TEMP t2)
+	public IRcommand_Array_Access(TEMP dst,TEMP arrTemp,TEMP subscriptTemp)
 	{
 		this.dst = dst;
-		this.t1 = t1;
-		this.t2 = t2;
+		this.arrTemp = arrTemp;
+		this.subscriptTemp = subscriptTemp;
 	}
+	
 	/***************/
 	/* MIPS me !!! */
 	/***************/
 	public void MIPSme()
 	{
-		sir_MIPS_a_lot.getInstance().div(dst,t1,t2);
 	}
-	
+
 	@Override
 	public void printMe() {
-		System.out.println(dst.getSymbol() + " = div_integers " + t2.getSymbol()
-							+ ", " + t2.getSymbol());
+		System.out.println(dst.getSymbol() + " = array_access " + arrTemp.getSymbol()
+							+ ", " + subscriptTemp.getSymbol());
 	}
 }

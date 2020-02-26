@@ -29,4 +29,9 @@ public class IRcommand_Jump_Label extends IRcommand
 	{
 		sir_MIPS_a_lot.getInstance().jump(label_name);
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println("jump " + label_name);
+	}
 }

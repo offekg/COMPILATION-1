@@ -24,4 +24,9 @@ public class IRcommand_Function_Prologue extends IRcommand {
 	/***************/
 	public void MIPSme() {
 	}
+
+	@Override
+	public void printMe() {
+		System.out.println("function_prologut");
+	}
 }

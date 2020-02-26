@@ -26,4 +26,9 @@ public class IRcommand_Pop extends IRcommand {
 	/***************/
 	public void MIPSme() {
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println(temp.getSymbol() + " = pop_stack");
+	}
 }

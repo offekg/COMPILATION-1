@@ -28,4 +28,9 @@ public class IRcommand_Call_Virtual_Function extends IRcommand {
 	/***************/
 	public void MIPSme() {
 	}
+
+	@Override
+	public void printMe() {
+		System.out.println("virtual_function_call " + temp.getSymbol() + ", " + funcName);
+	}
 }

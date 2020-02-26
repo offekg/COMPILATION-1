@@ -72,4 +72,10 @@ public class IRcommand_Binop_EQ_Integers extends IRcommand
 		/******************/
 		sir_MIPS_a_lot.getInstance().label(label_end);
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println(dst.getSymbol() + " = eq_integers " + t2.getSymbol()
+							+ ", " + t2.getSymbol());
+	}
 }

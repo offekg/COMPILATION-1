@@ -32,4 +32,9 @@ public class IRcommand_Push extends IRcommand {
 	public void MIPSme() {
 		sir_MIPS_a_lot.getInstance().push(temp); // what if null?
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println("push_to_stack " + temp.getSymbol());
+	}
 }

@@ -1,8 +1,12 @@
 package AST;
 
 import TYPES.*;
+import UTILS.Context;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
+
+import java.util.List;
+
 import IR.*;
 import TEMP.TEMP_FACTORY;
 
@@ -66,5 +70,12 @@ public class AST_CFIELD_VARDEC extends AST_CFIELD {
 		/****************************************/
 		if (vardec != null)
 			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, vardec.SerialNumber);
+	}
+	
+	public TEMP IRme() {
+		String myClass = Context.currentClassBuilder;
+		List<String> fieldList = Context.classFieldList.get(myClass);
+		fieldList.add(vardec.name);
+		return null;
 	}
 }

@@ -24,4 +24,8 @@ public class TEMP
 	{
 		return serial;
 	}
+	
+	public String getSymbol() {
+		return ("t" + serial);
+	}
 }

@@ -23,4 +23,9 @@ public class IRcommand_Function_Epilogue extends IRcommand {
 	/***************/
 	public void MIPSme() {
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println("function_epilogue");
+	}
 }

@@ -18,7 +18,11 @@ JFlex_GENERATED_FILE      = ${SRC_DIR}/Lexer.java
 CUP_GENERATED_FILES       = ${SRC_DIR}/Parser.java ${SRC_DIR}/TokenNames.java
 JFlex_CUP_GENERATED_FILES = ${JFlex_GENERATED_FILE} ${CUP_GENERATED_FILES}
 SRC_FILES                 = ${SRC_DIR}/*.java              \
+                            ${SRC_DIR}/IR/*.java           \
                             ${SRC_DIR}/AST/*.java          \
+                            ${SRC_DIR}/TEMP/*.java         \
+                            ${SRC_DIR}/UTILS/*.java         \
+                            ${SRC_DIR}/MIPS/*.java         \
                             ${SRC_DIR}/TYPES/*.java        \
                             ${SRC_DIR}/SYMBOL_TABLE/*.java
 EXTERNAL_JAR_FILES        = ${EXTERNAL_JARS_DIR}/java-cup-11b-runtime.jar
@@ -51,8 +55,8 @@ CUP_FLAGS =                                \
 #########################
 # DEFINITIONS :: PARSER #
 #########################
-INPUT    = ${INPUT_DIR}/InputPicassoProgram.txt
-OUTPUT   = ${OUTPUT_DIR}/OutputStatus.txt
+INPUT    = ${INPUT_DIR}/Input.txt
+OUTPUT   = ${OUTPUT_DIR}/SemanticStatus.txt
 
 ##########
 # TARGET #
@@ -118,13 +122,13 @@ compile:
 	
 everything:
 	clear
-	@echo "*****************************"
-	@echo "*                           *"
-	@echo "*                           *"
-	@echo "* [0] Remove PARSER program *"
-	@echo "*                           *"
-	@echo "*                           *"
-	@echo "*****************************"
+	@echo "******************************"
+	@echo "*                            *"
+	@echo "*                            *"
+	@echo "* [0] Remove COMPIER program *"
+	@echo "*                            *"
+	@echo "*                            *"
+	@echo "******************************"
 	rm -rf COMPILER
 	@echo "\n"
 	@echo "************************************************************"
@@ -200,51 +204,61 @@ everything:
 	@echo "*                                              *"
 	@echo "*                                              *"
 	@echo "************************************************"
-	eog ${OUTPUT_DIR}/AST.jpeg &
-	@echo "*********************************************************"
-	@echo "*                                                       *"
-	@echo "*                                                       *"
-	@echo "* [9] Create a jpeg SYMBOL TABLE visualization in steps *"
-	@echo "*                                                       *"
-	@echo "*                                                       *"
-	@echo "*********************************************************"
-	dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_0.jpeg  ${OUTPUT_DIR}/SYMBOL_TABLE_0_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_1.jpeg  ${OUTPUT_DIR}/SYMBOL_TABLE_1_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_2.jpeg  ${OUTPUT_DIR}/SYMBOL_TABLE_2_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_3.jpeg  ${OUTPUT_DIR}/SYMBOL_TABLE_3_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_4.jpeg  ${OUTPUT_DIR}/SYMBOL_TABLE_4_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_5.jpeg  ${OUTPUT_DIR}/SYMBOL_TABLE_5_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_6.jpeg  ${OUTPUT_DIR}/SYMBOL_TABLE_6_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_7.jpeg  ${OUTPUT_DIR}/SYMBOL_TABLE_7_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_8.jpeg  ${OUTPUT_DIR}/SYMBOL_TABLE_8_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_9.jpeg  ${OUTPUT_DIR}/SYMBOL_TABLE_9_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_10.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_10_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_11.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_11_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_12.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_12_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_13.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_13_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_14.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_14_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_15.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_15_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_16.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_16_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_17.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_17_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_18.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_18_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_19.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_19_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_20.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_20_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_21.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_21_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_22.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_22_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_23.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_23_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_24.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_24_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_25.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_25_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_26.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_26_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_27.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_27_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_28.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_28_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_29.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_29_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@dot -Tjpeg -o${OUTPUT_DIR}/SYMBOL_TABLE_30.jpeg ${OUTPUT_DIR}/SYMBOL_TABLE_30_IN_GRAPHVIZ_DOT_FORMAT.txt
-	@echo "******************************************************************"
-	@echo "*                                                                *"
-	@echo "*                                                                *"
-	@echo "* [10] Open the (first) jpeg SYMBOL TABLE visualization with eog *"
-	@echo "*                                                                *"
-	@echo "*                                                                *"
-	@echo "******************************************************************"
-	eog ${OUTPUT_DIR}/SYMBOL_TABLE_0.jpeg &
-	
+	#eog ${OUTPUT_DIR}/AST.jpeg &
+	@echo "\n"
+	@echo "***********************************************************"
+	@echo "*                                                         *"
+	@echo "*                                                         *"
+	@echo "* [10] Allocate registers (just for this running example) *"
+	@echo "*                                                         *"
+	@echo "*                                                         *"
+	@echo "***********************************************************"
+	sed -i 's/\bTemp_0\b/$$t0/g'  ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_1\b/$$t1/g'  ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_2\b/$$t2/g'  ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_3\b/$$t3/g'  ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_4\b/$$t4/g'  ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_5\b/$$t5/g'  ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_6\b/$$t6/g'  ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_7\b/$$t7/g'  ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_8\b/$$t0/g'  ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_9\b/$$t1/g'  ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_10\b/$$t2/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_11\b/$$t3/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_12\b/$$t4/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_13\b/$$t5/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_14\b/$$t6/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_15\b/$$t7/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_16\b/$$t0/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_17\b/$$t1/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_18\b/$$t2/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_19\b/$$t3/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_20\b/$$t4/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_21\b/$$t5/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_22\b/$$t6/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_23\b/$$t7/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_24\b/$$t0/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_25\b/$$t1/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_26\b/$$t2/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_27\b/$$t3/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_28\b/$$t4/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_29\b/$$t5/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_30\b/$$t6/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_31\b/$$t7/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_32\b/$$t0/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_33\b/$$t1/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_34\b/$$t2/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_35\b/$$t3/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_36\b/$$t4/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_37\b/$$t5/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_38\b/$$t6/g' ${OUTPUT_DIR}/MIPS.txt
+	sed -i 's/\bTemp_39\b/$$t7/g' ${OUTPUT_DIR}/MIPS.txt
+	@echo "\n"
+	@echo "*****************************************"
+	@echo "*                                       *"
+	@echo "*                                       *"
+	@echo "* [11] Run spim and redirect its output *"
+	@echo "*                                       *"
+	@echo "*                                       *"
+	@echo "*****************************************"
+	spim -f ${OUTPUT_DIR}/MIPS.txt #> ${OUTPUT_DIR}/MIPS_OUTPUT.txt

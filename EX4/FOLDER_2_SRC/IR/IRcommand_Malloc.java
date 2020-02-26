@@ -33,4 +33,9 @@ public class IRcommand_Malloc extends IRcommand
 		sir_MIPS_a_lot.getInstance().li(tSize, size);
 		sir_MIPS_a_lot.getInstance().malloc(t,tSize);
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println(t.getSymbol() + " = malloc (" + size + ")");
+	}
 }

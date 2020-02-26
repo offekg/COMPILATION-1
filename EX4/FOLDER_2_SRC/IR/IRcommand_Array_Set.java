@@ -13,14 +13,16 @@ package IR;
 import TEMP.*;
 import MIPS.*;
 
-public class IRcommandConstInt extends IRcommand
+public class IRcommand_Array_Set extends IRcommand
 {
-	TEMP t;
-	int value;
+	TEMP arrTemp;
+	TEMP subscriptTemp;
+	TEMP value;
 	
-	public IRcommandConstInt(TEMP t,int value)
+	public IRcommand_Array_Set(TEMP arrTemp, TEMP subscriptTemp, TEMP value)
 	{
-		this.t = t;
+		this.arrTemp = arrTemp;
+		this.subscriptTemp = subscriptTemp;
 		this.value = value;
 	}
 	
@@ -29,11 +31,12 @@ public class IRcommandConstInt extends IRcommand
 	/***************/
 	public void MIPSme()
 	{
-		sir_MIPS_a_lot.getInstance().li(t,value);
 	}
 	
 	@Override
 	public void printMe() {
-		System.out.println(t.getSymbol() + " = " + value);
+		System.out.println("array_set " + arrTemp.getSymbol()
+							+ ", " + subscriptTemp.getSymbol()
+							+ ", " + value.getSymbol());
 	}
 }

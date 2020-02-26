@@ -1,7 +1,12 @@
 package AST;
 
 import TYPES.*;
+import UTILS.Context;
+
+import java.util.List;
+
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
 
 public class AST_CFIELD_FUNCDEC extends AST_CFIELD {
 	public AST_DEC_FUNCDEC funcdec;
@@ -46,5 +51,13 @@ public class AST_CFIELD_FUNCDEC extends AST_CFIELD {
 		/****************************************/
 		if (funcdec != null)
 			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, funcdec.SerialNumber);
+	}
+	
+	public TEMP IRme() {
+		String myClass = Context.currentClassBuilder;
+		List<String> methodList = Context.classMethodList.get(myClass);
+		methodList.add(funcdec.funcName);
+		funcdec.IRme();
+		return null;
 	}
 }
