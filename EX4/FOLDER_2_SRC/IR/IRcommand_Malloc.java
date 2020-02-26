@@ -29,5 +29,8 @@ public class IRcommand_Malloc extends IRcommand
 	/***************/
 	public void MIPSme()
 	{
+		TEMP tSize = TEMP_FACTORY.getInstance().getFreshTEMP();
+		sir_MIPS_a_lot.getInstance().li(tSize, size);
+		sir_MIPS_a_lot.getInstance().malloc(t,tSize);
 	}
 }

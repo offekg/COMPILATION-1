@@ -15,13 +15,13 @@ import MIPS.*;
 
 public class IRcommand_Move extends IRcommand
 {
-	TEMP dest;
+	TEMP dst;
 	TEMP src;
 	
 	public IRcommand_Move(TEMP dest,TEMP src)
 	{
-		this.src      = src;
-		this.dest = dest;
+		this.src  = src;
+		this.dst = dest;
 	}
 	
 	/***************/
@@ -29,5 +29,6 @@ public class IRcommand_Move extends IRcommand
 	/***************/
 	public void MIPSme()
 	{
+		sir_MIPS_a_lot.getInstance().move(dst,src);
 	}
 }
