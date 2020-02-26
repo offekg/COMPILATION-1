@@ -178,6 +178,15 @@ public class sir_MIPS_a_lot
 				
 		fileWriter.format("\tbeq Temp_%d,$zero,%s\n",i1,label);				
 	}
+	public void malloc(TEMP t,TEMP size)
+	{
+		int idxsize= size.getSerialNumber();
+		int idxt = t.getSerialNumber();
+		fileWriter.format("\tmove $a0,Temp_%d\n",idxsize);
+		fileWriter.format("\tli $v0,9\n");
+		fileWriter.format("\tsyscall\n");
+		fileWriter.format("\tmove Temp_%d, $v0\n",idxt);		
+	}
 	
 	/**************************************/
 	/* USUAL SINGLETON IMPLEMENTATION ... */
