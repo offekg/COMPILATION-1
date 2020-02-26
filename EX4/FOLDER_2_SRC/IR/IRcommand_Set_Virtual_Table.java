@@ -28,4 +28,9 @@ public class IRcommand_Set_Virtual_Table extends IRcommand {
 	/***************/
 	public void MIPSme() {
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println("set_vt " + addr.getSymbol() + ", " + className);
+	}
 }

@@ -32,4 +32,10 @@ public class IRcommand_Binop_Mul_Integers extends IRcommand
 	{
 		sir_MIPS_a_lot.getInstance().mul(dst,t1,t2);
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println(dst.getSymbol() + " = mul_integers " + t2.getSymbol()
+							+ ", " + t2.getSymbol());
+	}
 }

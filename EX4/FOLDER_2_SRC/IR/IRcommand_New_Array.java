@@ -30,4 +30,9 @@ public class IRcommand_New_Array extends IRcommand
 	public void MIPSme()
 	{
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println(dest.getSymbol() + " = new_array " + size.getSymbol());
+	}
 }

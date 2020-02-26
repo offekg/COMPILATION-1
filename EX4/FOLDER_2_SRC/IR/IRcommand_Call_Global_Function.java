@@ -26,4 +26,9 @@ public class IRcommand_Call_Global_Function extends IRcommand {
 	/***************/
 	public void MIPSme() {
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println("global_function_call " + funcName);
+	}
 }

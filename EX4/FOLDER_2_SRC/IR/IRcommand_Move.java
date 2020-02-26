@@ -31,4 +31,8 @@ public class IRcommand_Move extends IRcommand
 	{
 		sir_MIPS_a_lot.getInstance().move(dst,src);
 	}
+	@Override
+	public void printMe() {
+		System.out.println(dst.getSymbol() + " = " + src.getSymbol());
+	}
 }

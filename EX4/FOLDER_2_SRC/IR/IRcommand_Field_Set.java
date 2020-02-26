@@ -32,4 +32,11 @@ public class IRcommand_Field_Set extends IRcommand
 	public void MIPSme()
 	{
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println("field_set " + instanceAddr.getSymbol()
+							+ ", " + fieldNumber
+							+ ", " + value.getSymbol());
+	}
 }

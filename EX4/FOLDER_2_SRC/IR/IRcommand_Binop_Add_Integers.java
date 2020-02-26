@@ -32,4 +32,10 @@ public class IRcommand_Binop_Add_Integers extends IRcommand
 	{
 		sir_MIPS_a_lot.getInstance().add(dst,t1,t2);
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println(dst.getSymbol() + " = add_integers " + t2.getSymbol()
+							+ ", " + t2.getSymbol());
+	}
 }

@@ -28,4 +28,9 @@ public class IRcommandConstString extends IRcommand {
 	/***************/
 	public void MIPSme() {
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println(t.getSymbol() + " = " + value);
+	}
 }

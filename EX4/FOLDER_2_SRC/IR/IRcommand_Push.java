@@ -31,4 +31,9 @@ public class IRcommand_Push extends IRcommand {
 	/***************/
 	public void MIPSme() {
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println("push_to_stack " + temp.getSymbol());
+	}
 }

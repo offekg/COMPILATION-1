@@ -32,4 +32,10 @@ public class IRcommand_Binop_Div_Integers extends IRcommand
 	{
 		sir_MIPS_a_lot.getInstance().div(dst,t1,t2);
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println(dst.getSymbol() + " = div_integers " + t2.getSymbol()
+							+ ", " + t2.getSymbol());
+	}
 }

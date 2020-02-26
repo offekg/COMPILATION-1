@@ -32,4 +32,11 @@ public class IRcommand_Array_Set extends IRcommand
 	public void MIPSme()
 	{
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println("array_set " + arrTemp.getSymbol()
+							+ ", " + subscriptTemp.getSymbol()
+							+ ", " + value.getSymbol());
+	}
 }

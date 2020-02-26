@@ -31,4 +31,9 @@ public class IRcommand_Store extends IRcommand
 	{
 		sir_MIPS_a_lot.getInstance().store(var_name,src);
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println(var_name + " = " + src.getSymbol());
+	}
 }

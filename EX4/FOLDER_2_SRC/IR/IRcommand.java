@@ -26,4 +26,7 @@ public abstract class IRcommand
 	/* MIPS me !!! */
 	/***************/
 	public abstract void MIPSme();
+	
+	/* print function for debugging */
+	public abstract void printMe();
 }

@@ -32,4 +32,10 @@ public class IRcommand_Field_Access extends IRcommand
 	public void MIPSme()
 	{
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println(dest.getSymbol() + " = field_access " + instanceAddr.getSymbol()
+							+ ", " + fieldNumber);
+	}
 }

@@ -32,4 +32,10 @@ public class IRcommand_Array_Access extends IRcommand
 	public void MIPSme()
 	{
 	}
+
+	@Override
+	public void printMe() {
+		System.out.println(dst.getSymbol() + " = array_access " + arrTemp.getSymbol()
+							+ ", " + subscriptTemp.getSymbol());
+	}
 }

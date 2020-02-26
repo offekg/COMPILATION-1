@@ -72,4 +72,10 @@ public class IRcommand_Binop_LT_Integers extends IRcommand
 		/******************/
 		sir_MIPS_a_lot.getInstance().label(label_end);
 	}
+	
+	@Override
+	public void printMe() {
+		System.out.println(dst.getSymbol() + " = lt_integers " + t2.getSymbol()
+							+ ", " + t2.getSymbol());
+	}
 }

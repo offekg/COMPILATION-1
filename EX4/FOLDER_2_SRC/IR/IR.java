@@ -38,6 +38,7 @@ public class IR
 			}
 			it.tail = new IRcommandList(cmd,null);
 		}
+		cmd.printMe();
 	}
 	
 	/***************/
@@ -47,6 +48,15 @@ public class IR
 	{
 		if (head != null) head.MIPSme();
 		if (tail != null) tail.MIPSme();
+	}
+	
+	/***********************/
+	/* Print for debugging */
+	/***********************/
+	public void printAll()
+	{
+		if (head != null) head.printMe();
+		if (tail != null) tail.printMe();
 	}
 
 	/**************************************/
