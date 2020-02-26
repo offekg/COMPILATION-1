@@ -208,9 +208,8 @@ public class sir_MIPS_a_lot
 	}
 	public void push(TEMP t){
 		int idxt = t.getSerialNumber();
-		
-		fileWriter.format("\taddi $sp, $sp, %d\t#\n",-WORD_SIZE); // move stack pointer up
-		fileWriter.format("\tsw Temp_%d,0($sp)\t\t# [Push %s]\n",idxt,var_name);//  save register value in stack 
+		fileWriter.format("\taddi $sp, $sp, %d\n",-WORD_SIZE); // move stack pointer up
+		fileWriter.format("\tsw Temp_%d,0($sp)\n",idxt);//  save register value in stack 
 	}
 	
 	/**************************************/
