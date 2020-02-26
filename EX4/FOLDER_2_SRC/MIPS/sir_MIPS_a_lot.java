@@ -206,6 +206,12 @@ public class sir_MIPS_a_lot
 		bnez(char1, loopLabel);
 		addi(len, len, -1);
 	}
+	public void push(TEMP t){
+		int idxt = t.getSerialNumber();
+		
+		fileWriter.format("\taddi $sp, $sp, %d\t#\n",-WORD_SIZE); // move stack pointer up
+		fileWriter.format("\tsw Temp_%d,0($sp)\t\t# [Push %s]\n",idxt,var_name);//  save register value in stack 
+	}
 	
 	/**************************************/
 	/* USUAL SINGLETON IMPLEMENTATION ... */

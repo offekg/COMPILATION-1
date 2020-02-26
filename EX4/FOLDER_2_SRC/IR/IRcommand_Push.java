@@ -30,6 +30,7 @@ public class IRcommand_Push extends IRcommand {
 	/* MIPS me !!! */
 	/***************/
 	public void MIPSme() {
+		sir_MIPS_a_lot.getInstance().push(temp); // what if null?
 	}
 	
 	@Override
