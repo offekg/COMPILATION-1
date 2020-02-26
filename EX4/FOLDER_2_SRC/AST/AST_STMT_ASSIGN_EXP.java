@@ -1,7 +1,11 @@
 package AST;
 
 import TYPES.*;
+import UTILS.Context;
+import IR.*;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
+import TEMP.TEMP_FACTORY;
 
 public class AST_STMT_ASSIGN_EXP extends AST_STMT {
 	public AST_VAR var;
@@ -67,6 +71,25 @@ public class AST_STMT_ASSIGN_EXP extends AST_STMT {
 
 		if (!exp_type.equalsOrSubclass(var_type)) {
 			OutputFileWriter.writeError(this.lineNumber, "type mismatch for var := exp\n");
+		}
+		return null;
+	}
+
+	public TEMP IRme() {
+		TEMP expTemp = exp.IRme();
+		if (var.isVarSimple()) {
+			AST_VAR_SIMPLE varSimple = (AST_VAR_SIMPLE) var;
+			IR.getInstance().Add_IRcommand(new IRcommand_Store(varSimple.name, expTemp));
+		} else if (var.isVarField()) {
+			AST_VAR_FIELD varField = (AST_VAR_FIELD) var;
+			TEMP objTemp = varField.var.IRme();
+			int fieldNumber = Context.classFieldList.get(varField.objectStaticClassName).indexOf(varField.fieldName);
+			IR.getInstance().Add_IRcommand(new IRcommand_Field_Set(objTemp, fieldNumber, expTemp));
+		} else if (var.isVarSubscrip()) {
+			AST_VAR_SUBSCRIPT varSubscript = (AST_VAR_SUBSCRIPT) var;
+			TEMP arrTemp = varSubscript.var.IRme();
+			TEMP subTemp = varSubscript.subscript.IRme();
+			IR.getInstance().Add_IRcommand(new IRcommand_Array_Set(arrTemp,subTemp, expTemp));
 		}
 		return null;
 	}

@@ -1,7 +1,12 @@
 package AST;
 
 import TYPES.*;
+import IR.IR;
+import IR.IRcommand_Array_Access;
+import IR.IRcommand_Load;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
+import TEMP.TEMP_FACTORY;
 
 public class AST_VAR_SUBSCRIPT extends AST_VAR {
 	public AST_VAR var;
@@ -71,5 +76,13 @@ public class AST_VAR_SUBSCRIPT extends AST_VAR {
 			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, var.SerialNumber);
 		if (subscript != null)
 			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, subscript.SerialNumber);
+	}
+	
+	public TEMP IRme() {
+		TEMP temp = TEMP_FACTORY.getInstance().getFreshTEMP();
+		TEMP arrTemp = var.IRme();
+		TEMP subTemp = subscript.IRme();
+		IR.getInstance().Add_IRcommand(new IRcommand_Array_Access(temp,arrTemp, subTemp));
+		return temp;
 	}
 }

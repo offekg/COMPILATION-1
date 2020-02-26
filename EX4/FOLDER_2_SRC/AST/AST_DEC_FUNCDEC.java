@@ -26,26 +26,6 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		System.out.print("====================== Dec (FUNC) -> FUNC DEC\n");
 	}
 
-	@Override
-	public TEMP IRme() {
-		String label = null;
-		if (Context.currentClassBuilder == null) {
-			label = IRcommand.getFreshLabel(this.funcName);
-			Context.globalFunctions.put(funcName, label);
-		} else {
-			Context.classMethodList.get(Context.currentClassBuilder).add(funcName);
-			label = Context.currentClassBuilder + "_" + funcName;
-		}
-		IR.getInstance().Add_IRcommand(new IRcommand_Label(label));
-		IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue());
-		if (this.params != null)
-			this.params.IRme();
-		if (this.funcBody != null)
-			this.funcBody.IRme();
-		IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue());
-		return null;
-	}
-
 	public TYPE SemantMe() {
 		/*************************/
 		/* [1] Begin Class Scope */
@@ -148,5 +128,25 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, params.SerialNumber);
 		if (funcBody != null)
 			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, funcBody.SerialNumber);
+	}
+	
+	@Override
+	public TEMP IRme() {
+		String label = null;
+		if (Context.currentClassBuilder == null) {
+			label = IRcommand.getFreshLabel(this.funcName);
+			Context.globalFunctions.put(funcName, label);
+		} else {
+			Context.classMethodList.get(Context.currentClassBuilder).add(funcName);
+			label = Context.currentClassBuilder + "_" + funcName;
+		}
+		IR.getInstance().Add_IRcommand(new IRcommand_Label(label));
+		IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue());
+		if (this.params != null)
+			this.params.IRme();
+		if (this.funcBody != null)
+			this.funcBody.IRme();
+		IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue());
+		return null;
 	}
 }

@@ -80,5 +80,9 @@ public class AST_CFIELD_LIST extends AST_Node {
 		if (tail != null)
 			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, tail.SerialNumber);
 	}
-
+	
+	public TEMP IRme() {
+		this.head.IRme();
+		return this.tail == null ? null : this.tail.IRme();
+	}
 }
