@@ -180,7 +180,7 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 	}
 	
 	public void setDefaultValues(AST_DEC_CLASSDEC currentClass, TEMP instanceAddr) {
-		int currentSize = 1;
+		int currentSize = 0;
         if (currentClass.father != null) {
             setDefaultValues(Context.classAST.get(currentClass.father), instanceAddr);
             currentSize += Context.classFieldList.get(father).size();

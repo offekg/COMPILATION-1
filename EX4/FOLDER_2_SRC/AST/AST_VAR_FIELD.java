@@ -99,9 +99,13 @@ public class AST_VAR_FIELD extends AST_VAR {
 	}
 	
 	public TEMP IRme() {
-		TEMP temp = TEMP_FACTORY.getInstance().getFreshTEMP();
 		TEMP objTemp = var.IRme();
-		int fieldNumber = Context.classFieldList.get(objectStaticClassName).indexOf(fieldName);
+		return fieldAccessIR(objTemp, objectStaticClassName, fieldName);
+	}
+	
+	public static TEMP fieldAccessIR(TEMP objTemp, String objectClass, String objectField) {
+		TEMP temp = TEMP_FACTORY.getInstance().getFreshTEMP();
+		int fieldNumber = Context.classFieldList.get(objectClass).indexOf(objectField);
 		IR.getInstance().Add_IRcommand(new IRcommand_Field_Access(objTemp, fieldNumber, temp));
 		return temp;
 	}

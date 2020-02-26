@@ -79,7 +79,15 @@ public class AST_STMT_ASSIGN_EXP extends AST_STMT {
 		TEMP expTemp = exp.IRme();
 		if (var.isVarSimple()) {
 			AST_VAR_SIMPLE varSimple = (AST_VAR_SIMPLE) var;
-			IR.getInstance().Add_IRcommand(new IRcommand_Store(varSimple.name, expTemp));
+			if (Context.currentClassBuilder != null) {
+				if (Context.classFieldList.get(Context.currentClassBuilder).contains(varSimple.name)) {
+					TEMP objTemp = Context.currentObject;
+					int fieldNumber = Context.classFieldList.get(Context.currentClassBuilder).indexOf(varSimple.name);
+					IR.getInstance().Add_IRcommand(new IRcommand_Field_Set(objTemp, fieldNumber, expTemp));
+				}
+			} else {
+				IR.getInstance().Add_IRcommand(new IRcommand_Store(varSimple.name, expTemp));
+			}
 		} else if (var.isVarField()) {
 			AST_VAR_FIELD varField = (AST_VAR_FIELD) var;
 			TEMP objTemp = varField.var.IRme();
@@ -89,7 +97,7 @@ public class AST_STMT_ASSIGN_EXP extends AST_STMT {
 			AST_VAR_SUBSCRIPT varSubscript = (AST_VAR_SUBSCRIPT) var;
 			TEMP arrTemp = varSubscript.var.IRme();
 			TEMP subTemp = varSubscript.subscript.IRme();
-			IR.getInstance().Add_IRcommand(new IRcommand_Array_Set(arrTemp,subTemp, expTemp));
+			IR.getInstance().Add_IRcommand(new IRcommand_Array_Set(arrTemp, subTemp, expTemp));
 		}
 		return null;
 	}

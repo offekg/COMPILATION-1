@@ -12,7 +12,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 	public String funcName;
 	public AST_FUNC_INPUT_VARS_LIST params;
 	public AST_STMT_LIST funcBody;
-
+	
 	public AST_DEC_FUNCDEC(String returnType, String funcName, AST_FUNC_INPUT_VARS_LIST params,
 			AST_STMT_LIST funcBody) {
 		this.returnType = returnType;
@@ -145,6 +145,11 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue());
 		if (this.params != null) {			
 			this.params.IRme();
+		}
+		if (Context.currentClassBuilder != null) {
+			TEMP objTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
+			IR.getInstance().Add_IRcommand(new IRcommand_Pop(objTemp));
+			Context.currentObject = objTemp;
 		}
 		if (this.funcBody != null) {			
 			this.funcBody.IRme();

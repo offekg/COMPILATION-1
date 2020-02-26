@@ -60,7 +60,7 @@ public class AST_STMT_ASSIGN_NEWEXP extends AST_STMT {
 			assignmentType = exp.SemantMe();
 
 		// Check that the new instance is of the same type
-		//TYPE assignmentType = newExp.SemantMe();
+		// TYPE assignmentType = newExp.SemantMe();
 		if (assignmentType == null) {
 			OutputFileWriter.writeError(this.lineNumber, String.format("could not resolve assignment\n"));
 		}
@@ -76,20 +76,29 @@ public class AST_STMT_ASSIGN_NEWEXP extends AST_STMT {
 		} else {
 			OutputFileWriter.writeError(this.lineNumber, "tried to assign a non array/class type with NEW\n");
 		}
-		
-		
-		/*if (!varType.equalsOrSubclass(assignmentType)) {
-			OutputFileWriter.writeError(this.lineNumber, "type mismatch for var := new exp\n");
-		}*/
+
+		/*
+		 * if (!varType.equalsOrSubclass(assignmentType)) {
+		 * OutputFileWriter.writeError(this.lineNumber,
+		 * "type mismatch for var := new exp\n"); }
+		 */
 
 		return null;
 	}
-	
+
 	public TEMP IRme() {
 		TEMP expTemp = exp.IRme();
 		if (var.isVarSimple()) {
 			AST_VAR_SIMPLE varSimple = (AST_VAR_SIMPLE) var;
-			IR.getInstance().Add_IRcommand(new IRcommand_Store(varSimple.name, expTemp));
+			if (Context.currentClassBuilder != null) {
+				if (Context.classFieldList.get(Context.currentClassBuilder).contains(varSimple.name)) {
+					TEMP objTemp = Context.currentObject;
+					int fieldNumber = Context.classFieldList.get(Context.currentClassBuilder).indexOf(varSimple.name);
+					IR.getInstance().Add_IRcommand(new IRcommand_Field_Set(objTemp, fieldNumber, expTemp));
+				}
+			} else {
+				IR.getInstance().Add_IRcommand(new IRcommand_Store(varSimple.name, expTemp));
+			}
 		} else if (var.isVarField()) {
 			AST_VAR_FIELD varField = (AST_VAR_FIELD) var;
 			TEMP objTemp = varField.var.IRme();
@@ -99,7 +108,7 @@ public class AST_STMT_ASSIGN_NEWEXP extends AST_STMT {
 			AST_VAR_SUBSCRIPT varSubscript = (AST_VAR_SUBSCRIPT) var;
 			TEMP arrTemp = varSubscript.var.IRme();
 			TEMP subTemp = varSubscript.subscript.IRme();
-			IR.getInstance().Add_IRcommand(new IRcommand_Array_Set(arrTemp,subTemp, expTemp));
+			IR.getInstance().Add_IRcommand(new IRcommand_Array_Set(arrTemp, subTemp, expTemp));
 		}
 		return null;
 	}

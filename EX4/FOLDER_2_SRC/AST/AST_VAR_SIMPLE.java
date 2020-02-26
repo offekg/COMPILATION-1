@@ -1,6 +1,7 @@
 package AST;
 
 import TYPES.*;
+import UTILS.Context;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
 import TEMP.TEMP_FACTORY;
@@ -62,6 +63,12 @@ public class AST_VAR_SIMPLE extends AST_VAR {
 	}
 	
 	public TEMP IRme() {
+		if (Context.currentClassBuilder != null) {
+			if (Context.classFieldList.get(Context.currentClassBuilder).contains(name)) {
+				TEMP objTemp = Context.currentObject;
+				return AST_VAR_FIELD.fieldAccessIR(objTemp, Context.currentClassBuilder, name);
+			}
+		}
 		TEMP temp = TEMP_FACTORY.getInstance().getFreshTEMP();
 		IR.getInstance().Add_IRcommand(new IRcommand_Load(temp,name));
 		return temp;
