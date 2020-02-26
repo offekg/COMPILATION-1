@@ -27,6 +27,6 @@ public class IRcommand_Function_Prologue extends IRcommand {
 
 	@Override
 	public void printMe() {
-		System.out.println("function_prologut");
+		System.out.println("function_prologue");
 	}
 }

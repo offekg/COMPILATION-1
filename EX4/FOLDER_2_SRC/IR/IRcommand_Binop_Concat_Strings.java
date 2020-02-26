@@ -68,7 +68,7 @@ public class IRcommand_Binop_Concat_Strings extends IRcommand {
 	
 	@Override
 	public void printMe() {
-		System.out.println(dst.getSymbol() + " = concat_strings " + t2.getSymbol()
+		System.out.println(dst.getSymbol() + " = concat " + t1.getSymbol()
 							+ ", " + t2.getSymbol());
 	}
 }

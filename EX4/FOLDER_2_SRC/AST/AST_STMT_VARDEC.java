@@ -2,6 +2,7 @@ package AST;
 
 import TYPES.*;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
 
 public class AST_STMT_VARDEC extends AST_STMT {
 	public AST_DEC_VARDEC vardec;
@@ -40,5 +41,9 @@ public class AST_STMT_VARDEC extends AST_STMT {
 
 	public TYPE SemantMe() {
 		return vardec.SemantMe();
+	}
+	
+	public TEMP IRme() {
+		return vardec.IRme();
 	}
 }

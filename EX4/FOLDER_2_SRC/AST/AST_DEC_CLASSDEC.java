@@ -108,6 +108,7 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 		}
 		SYMBOL_TABLE.getInstance().endScope();
 		Context.classAST.put(name, this);
+		Context.classNames.add(name);
 
 		/*********************************************************/
 		/* [5] Return value is irrelevant for class declarations */

@@ -85,7 +85,7 @@ public class AST_STMT_LIST extends AST_Node {
 			return new TYPE_LIST(head.SemantMe(), tail.SemantMe());
 		}
 	}
-	
+
 	@Override
 	public TEMP IRme() {
 		this.head.IRme();

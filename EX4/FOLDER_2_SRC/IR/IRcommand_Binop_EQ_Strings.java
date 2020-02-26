@@ -102,7 +102,7 @@ public class IRcommand_Binop_EQ_Strings extends IRcommand
 	
 	@Override
 	public void printMe() {
-		System.out.println(dst.getSymbol() + " = eq_strings " + t2.getSymbol()
+		System.out.println(dst.getSymbol() + " = eq_strings " + t1.getSymbol()
 							+ ", " + t2.getSymbol());
 	}
 }

@@ -58,6 +58,8 @@ public class Main {
 			/* [8] IR the AST ... */
 			/**********************/
 			AST.IRme();
+			
+			IR.getInstance().printAll();
 
 			/***********************/
 			/* [9] MIPS the IR ... */

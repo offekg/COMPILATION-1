@@ -75,7 +75,7 @@ public class IRcommand_Binop_LT_Integers extends IRcommand
 	
 	@Override
 	public void printMe() {
-		System.out.println(dst.getSymbol() + " = lt_integers " + t2.getSymbol()
+		System.out.println(dst.getSymbol() + " = lt " + t1.getSymbol()
 							+ ", " + t2.getSymbol());
 	}
 }

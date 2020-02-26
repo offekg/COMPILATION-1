@@ -35,7 +35,7 @@ public class IRcommand_Binop_Add_Integers extends IRcommand
 	
 	@Override
 	public void printMe() {
-		System.out.println(dst.getSymbol() + " = add_integers " + t2.getSymbol()
+		System.out.println(dst.getSymbol() + " = add " + t1.getSymbol()
 							+ ", " + t2.getSymbol());
 	}
 }

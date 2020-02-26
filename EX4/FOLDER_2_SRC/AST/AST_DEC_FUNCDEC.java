@@ -132,7 +132,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 	
 	@Override
 	public TEMP IRme() {
-		String label = null;
+		String label = "";
 		if (Context.currentClassBuilder == null) {
 			label = IRcommand.getFreshLabel(this.funcName);
 			Context.globalFunctions.put(funcName, label);
@@ -140,12 +140,16 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 			Context.classMethodList.get(Context.currentClassBuilder).add(funcName);
 			label = Context.currentClassBuilder + "_" + funcName;
 		}
+		Context.epilogueLabel = label + "_epilogue";
 		IR.getInstance().Add_IRcommand(new IRcommand_Label(label));
 		IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue());
-		if (this.params != null)
+		if (this.params != null) {			
 			this.params.IRme();
-		if (this.funcBody != null)
+		}
+		if (this.funcBody != null) {			
 			this.funcBody.IRme();
+		}
+		IR.getInstance().Add_IRcommand(new IRcommand_Label(Context.epilogueLabel));
 		IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue());
 		return null;
 	}

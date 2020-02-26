@@ -38,7 +38,6 @@ public class IR
 			}
 			it.tail = new IRcommandList(cmd,null);
 		}
-		cmd.printMe();
 	}
 	
 	/***************/
@@ -55,8 +54,10 @@ public class IR
 	/***********************/
 	public void printAll()
 	{
+		System.out.println("><><><><><><><><><><><><><><><><><><><><><><><");
 		if (head != null) head.printMe();
 		if (tail != null) tail.printMe();
+		System.out.println("><><><><><><><><><><><><><><><><><><><><><><><");
 	}
 
 	/**************************************/

@@ -75,7 +75,7 @@ public class IRcommand_Binop_EQ_Integers extends IRcommand
 	
 	@Override
 	public void printMe() {
-		System.out.println(dst.getSymbol() + " = eq_integers " + t2.getSymbol()
+		System.out.println(dst.getSymbol() + " = eq_integers " + t1.getSymbol()
 							+ ", " + t2.getSymbol());
 	}
 }

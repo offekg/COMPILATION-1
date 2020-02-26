@@ -3,6 +3,8 @@
 /***********/
 package IR;
 
+import UTILS.Context;
+
 /*******************/
 /* GENERAL IMPORTS */
 /*******************/
@@ -16,10 +18,14 @@ public abstract class IRcommand
 	/*****************/
 	/* Label Factory */
 	/*****************/
-	protected static int label_counter=0;
+	protected static int label_counter=-1;
 	public    static String getFreshLabel(String msg)
 	{
-		return String.format("Label_%d_%s",label_counter++,msg);
+		label_counter++;
+		while (Context.classNames.contains(String.format("Label_%d",label_counter))) {
+			label_counter++;
+		}
+		return String.format("Label_%d_%s",label_counter,msg);
 	}
 
 	/***************/
