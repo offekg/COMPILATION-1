@@ -32,7 +32,6 @@ public class IRcommand_Function_Epilogue extends IRcommand {
 		String funcEndLabel = IRcommand.getFreshLabel(funcName + "_epilogue");
 		sir_MIPS_a_lot.getInstance().function_epilogue(funcEndLabel,funcName);
 		Context.localFrameVarsList.removeLast();
-		Context.localFrameVarsListCounters.removeLast();
 	}
 	
 	@Override

@@ -29,7 +29,6 @@ public class IRcommand_Function_Prologue extends IRcommand {
 	/***************/
 	public void MIPSme() {
 		Context.localFrameVarsList.addLast(new HashMap<>());
-		Context.localFrameVarsListCounters.addLast(0);
 		sir_MIPS_a_lot.getInstance().function_prolog();
 	}
 
