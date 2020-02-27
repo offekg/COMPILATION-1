@@ -80,7 +80,7 @@ public class AST_STMT_RETURN extends AST_STMT {
 	
 	public TEMP IRme() {
 		TEMP tReturn = returnExp.IRme();
-		IR.getInstance().Add_IRcommand(new IRcommand_StoreReturnValueOnStack(tReturn));
+		IR.getInstance().Add_IRcommand(new IRcommand_StoreReturnValue(tReturn));
 		IR.getInstance().Add_IRcommand(new IRcommand_Jump_Label(Context.epilogueLabel));
 		return null;
 	}
