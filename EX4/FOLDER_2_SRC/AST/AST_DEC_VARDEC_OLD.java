@@ -1,7 +1,7 @@
 package AST;
 
 import TYPES.*;
-import IR.IR;
+import UTILS.Context;
 import IR.*;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
@@ -111,7 +111,13 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 			t = TEMP_FACTORY.getInstance().getFreshTEMP();
 			IR.getInstance().Add_IRcommand(new IRcommandConstInt(t,0));
 		}
-		IR.getInstance().Add_IRcommand(new IRcommand_Store(this.name, t));
+		if (this.isGlobal) {
+			Context.globals.add(name);
+			IR.getInstance().Add_IRcommand(new IRcommand_StoreGlobal(name, t));
+		} else {			
+			Context.varStack.getLast().add(name);
+			IR.getInstance().Add_IRcommand(new IRcommand_Store(name, t));
+		}
 		return t;
 	}
 }

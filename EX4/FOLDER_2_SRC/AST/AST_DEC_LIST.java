@@ -39,8 +39,12 @@ public class AST_DEC_LIST extends AST_Node {
 		/*************************************/
 		/* RECURSIVELY PRINT HEAD + TAIL ... */
 		/*************************************/
-		if (head != null)
+		if (head != null) {			
 			head.SemantMe();
+			if (head instanceof AST_DEC_VARDEC) {
+				((AST_DEC_VARDEC)head).isGlobal = true;
+			}
+		}
 		if (tail != null)
 			tail.SemantMe();
 

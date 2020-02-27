@@ -1,9 +1,11 @@
 package UTILS;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.SortedMap;
 import java.util.SortedSet;
 
@@ -15,6 +17,8 @@ public class Context {
 	public static String currentClassBuilder;
 	public static String epilogueLabel;
 	public static TEMP currentObject;
+	// Each element in the list is the set of variables available in the current frame.
+	public static LinkedList<HashSet<String>> varStack = new LinkedList<>(Arrays.asList(new HashSet<>(), new HashSet<>()));
 	
 	// Details of each class in the program:
 	//
@@ -41,9 +45,12 @@ public class Context {
 	// A mapping from the global function name to its label.
 	public static HashMap<String, String> globalFunctions = new HashMap<>();
 	
-	// A mapping from the string to its labael in the mips data section.
+	// A mapping from the string to its label in the MIPS data section.
 	public static HashMap<String, String> stringLabels = new HashMap<>();
 	
 	// The set of class names in the program.
 	public static HashSet<String> classNames = new HashSet<>();
+	
+	// The set of global variables.
+	public static HashSet<String> globals = varStack.getFirst();
 }

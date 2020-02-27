@@ -93,6 +93,10 @@ public class AST_STMT_ASSIGN_EXP extends AST_STMT {
 				}
 			} else {
 				expTemp = exp.IRme();
+				if (!Context.varStack.getLast().contains(varSimple.name) && Context.globals.contains(varSimple.name)) {
+					IR.getInstance().Add_IRcommand(new IRcommand_StoreGlobal(varSimple.name, expTemp));
+					return expTemp;
+				}
 				IR.getInstance().Add_IRcommand(new IRcommand_Store(varSimple.name, expTemp));
 			}
 		} else if (var.isVarField()) {

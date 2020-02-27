@@ -1,8 +1,10 @@
 package AST;
 
 import TYPES.*;
+import UTILS.Context;
 import IR.IR;
 import IR.IRcommand_Store;
+import IR.IRcommand_StoreGlobal;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
 import TEMP.TEMP_FACTORY;
@@ -19,8 +21,15 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 	
 	@Override
 	public TEMP IRme() {
+		Context.varStack.getLast().add(name);
 		TEMP expTemp = this.newExp.IRme();
-		IR.getInstance().Add_IRcommand(new IRcommand_Store(this.name, expTemp));
+		if (this.isGlobal) {
+			Context.globals.add(name);
+			IR.getInstance().Add_IRcommand(new IRcommand_StoreGlobal(name, expTemp));
+		} else {			
+			Context.varStack.getLast().add(name);
+			IR.getInstance().Add_IRcommand(new IRcommand_Store(name, expTemp));
+		}
 		return expTemp;
 	}
 
