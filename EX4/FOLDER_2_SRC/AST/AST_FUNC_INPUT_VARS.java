@@ -1,6 +1,7 @@
 package AST;
 
 import TYPES.*;
+import UTILS.Context;
 import IR.IR;
 import IR.IRcommand_Pop;
 import IR.IRcommand_Store;
@@ -22,6 +23,7 @@ public class AST_FUNC_INPUT_VARS extends AST_Node {
 	public TEMP IRme() {
 		TEMP paramTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
 		IR.getInstance().Add_IRcommand(new IRcommand_Pop(paramTemp));
+		Context.varStack.getLast().add(paramName);
 		IR.getInstance().Add_IRcommand(new IRcommand_Store(this.paramName, paramTemp));
 		return paramTemp;
 	}
