@@ -5,41 +5,46 @@ import java.util.*;
 class GraphManager {
 
 	private int verticesCount;
-	private ArrayList<ArrayList<Integer>> adjacencies;
+	private LinkedList<Integer> adjacencies[];
 	private HashMap<Integer, Integer> tempIndexToRegister;
 
+	@SuppressWarnings("unchecked")
 	GraphManager(int verticesCount) {
 		this.verticesCount = verticesCount;
-		adjacencies = new ArrayList<>();
+		adjacencies = new LinkedList[verticesCount];
 		tempIndexToRegister = new HashMap<>();
 
-		for (int i = 0; i < verticesCount; i++)
-			adjacencies.add(new ArrayList<>());
+		for (int i = 0; i < verticesCount; ++i)
+			adjacencies[i] = new LinkedList<Integer>();
 	}
 
+	// inspired by geeksforgeeks algorithm for greedy coloring
 	HashMap<Integer, Integer> greedyColoring() {
 		Integer result[] = new Integer[verticesCount];
 		boolean available[] = new boolean[verticesCount];
 
-		Arrays.fill(result, null);
-		Arrays.fill(available, true);
+		Arrays.fill(result, -1);
 		result[0] = 0;
+		Arrays.fill(available, true);
 
-		for (int vertex = 0; vertex < verticesCount; vertex++) {
-			for (Integer adj : adjacencies.get(vertex)) {
-				if (result[adj] != null) {
-					available[result[adj]] = false;
-				}
-			}
-			
-			int registerNum;
-			for (registerNum = 0; registerNum < verticesCount; registerNum++) {
-				if (available[registerNum])
-					break;
-			}
-			
-			result[vertex] = registerNum;
-			Arrays.fill(available, true);
+		for (int vertex = 1; vertex < verticesCount; vertex++) {
+            Iterator<Integer> adjancyIterator = adjacencies[vertex].iterator() ; 
+            while (adjancyIterator.hasNext()) 
+            { 
+                int currentAdj = adjancyIterator.next(); 
+                if (result[currentAdj] != -1) 
+                    available[result[currentAdj]] = false; 
+            } 
+
+            int colorIndex; 
+            for (colorIndex = 0; colorIndex < verticesCount; colorIndex++){ 
+                if (available[colorIndex]) 
+                    break; 
+            } 
+  
+            result[vertex] = colorIndex;
+            
+            Arrays.fill(available, true); 
 		}
 		
 		for (int i = 0; i < verticesCount; i++) {
@@ -50,8 +55,8 @@ class GraphManager {
 	}
 
 	void addEdge(int vertex1, int vertex2) {
-		adjacencies.get(vertex1).add(vertex2);
-		adjacencies.get(vertex2).add(vertex1);
+		adjacencies[vertex1].add(vertex2);
+		adjacencies[vertex2].add(vertex1);
 	}
 
 }

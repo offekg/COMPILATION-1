@@ -44,7 +44,7 @@ public class RA_optimization {
 		return tempContexts;
 	}
 
-	private static void markIntersectionsAndEdges(GraphManager graph) {
+	private static void buildInterferenceGraph(GraphManager graph) {
 		TempContext tempContexts[] = livenessMarking(inputFilePath);
 
 		for (int i = 0; i < tempContexts.length; i++) {
@@ -65,7 +65,7 @@ public class RA_optimization {
 
 	public static void optimize(String outputFilePath) throws IOException {
 		GraphManager graph = new GraphManager(tempsCount);
-		markIntersectionsAndEdges(graph);
+		buildInterferenceGraph(graph);
 		HashMap<Integer, Integer> colored = graph.greedyColoring();
 
 		for (int i = 0; i < tempsCount; i++) {
