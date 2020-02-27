@@ -2,6 +2,9 @@ package AST;
 
 import TYPES.*;
 import UTILS.Context;
+
+import java.util.HashSet;
+
 import IR.*;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
@@ -142,6 +145,8 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		Context.epilogueLabel = label + "_epilogue";
 		IR.getInstance().Add_IRcommand(new IRcommand_Label(label));
 		IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue());
+		// Adding a new stack of local variables.
+		Context.varStack.addLast(new HashSet<>());
 		if (this.params != null) {			
 			this.params.IRme();
 		}
@@ -153,6 +158,8 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		if (this.funcBody != null) {			
 			this.funcBody.IRme();
 		}
+		// Removing the stack added.
+		Context.varStack.removeLast();
 		IR.getInstance().Add_IRcommand(new IRcommand_Label(Context.epilogueLabel));
 		IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue());
 		return null;
