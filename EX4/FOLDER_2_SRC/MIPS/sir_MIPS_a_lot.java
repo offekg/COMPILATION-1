@@ -262,6 +262,13 @@ public class sir_MIPS_a_lot {
 		fileWriter.format("\tsw Temp_%d,0($sp)\n", idxt);// save register value in stack
 	}
 	
+	public void pop(TEMP t) {
+		int idxt = t.getSerialNumber();
+		fileWriter.format("\tlw Temp_%d,0($sp)\n", idxt);// load stack value to t
+		fileWriter.format("\taddi $sp, $sp, %d\n", WORD_SIZE); // move stack pointer down
+		
+	}
+	
 	public void abort() {
         fileWriter.format("\tli $v0, 10\n");
         fileWriter.format("\tsyscall\n");
