@@ -12,13 +12,14 @@ package IR;
 /*******************/
 
 import TEMP.*;
+import UTILS.Context;
 import MIPS.*;
 
-public class IRcommand_Load extends IRcommand {
+public class IRcommand_LoadLocalVar extends IRcommand {
 	TEMP dst;
 	String var_name;
 
-	public IRcommand_Load(TEMP dst, String var_name) {
+	public IRcommand_LoadLocalVar(TEMP dst, String var_name) {
 		this.dst = dst;
 		this.var_name = var_name;
 	}
@@ -27,7 +28,8 @@ public class IRcommand_Load extends IRcommand {
 	/* MIPS me !!! */
 	/***************/
 	public void MIPSme() {
-		sir_MIPS_a_lot.getInstance().load(dst, var_name);
+		int var_offset = Context.localFrameVarsList.getLast().get(var_name);
+		sir_MIPS_a_lot.getInstance().loadLocalVar(dst, var_offset);
 	}
 	
 	@Override

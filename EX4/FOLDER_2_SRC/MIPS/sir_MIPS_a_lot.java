@@ -71,7 +71,10 @@ public class sir_MIPS_a_lot {
 		int idxdst = dst.getSerialNumber();
 		fileWriter.format("\tlw Temp_%d,global_%s\n", idxdst, var_name);
 	}
-	
+	public void loadLocalVar(TEMP dst, int var_offset) {
+		int idxdst = dst.getSerialNumber();
+		fileWriter.format("\tlw Temp_%d,%d($fp)\n", idxdst,-(var_offset*WORD_SIZE));
+	}
 	public void lw(TEMP dst, TEMP src, int offset) {
 		int idxdst = dst.getSerialNumber();
 		int idxsrc = src.getSerialNumber();
@@ -81,6 +84,11 @@ public class sir_MIPS_a_lot {
 	public void store(String var_name, TEMP src) {
 		int idxsrc = src.getSerialNumber();
 		fileWriter.format("\tsw Temp_%d,global_%s\n", idxsrc, var_name);
+	}
+	public void storeLocalVar(int var_offset, TEMP src) {
+		int idxsrc = src.getSerialNumber();
+		fileWriter.format("\taddi $sp, $sp, %d\n", -WORD_SIZE); // move stack pointer down
+		fileWriter.format("\tsw Temp_%d,%d($fp)\n", idxsrc,-(var_offset*WORD_SIZE));// save register value in stack
 	}
 	
 	public void sw(TEMP src, TEMP dstAdd, int offset) {
@@ -243,6 +251,10 @@ public class sir_MIPS_a_lot {
 		fileWriter.format("\tmove Temp_%d, $v0\n", idxt);
 	}
 	
+	 public void allocate_stack(int size) {
+	        fileWriter.format("\taddi $sp, $sp, %d\n", -4 * size);
+	 }
+	
 	public void function_prolog() {
 		
 		fileWriter.format("\taddi $sp, $sp, -4\n");  // make space for return address
@@ -295,14 +307,14 @@ public class sir_MIPS_a_lot {
 
 	public void push(TEMP t) {
 		int idxt = t.getSerialNumber();
-		fileWriter.format("\taddi $sp, $sp, %d\n", -WORD_SIZE); // move stack pointer up
+		fileWriter.format("\taddi $sp, $sp, %d\n", -WORD_SIZE); // move stack pointer down
 		fileWriter.format("\tsw Temp_%d,0($sp)\n", idxt);// save register value in stack
 	}
 	
 	public void pop(TEMP t) {
 		int idxt = t.getSerialNumber();
 		fileWriter.format("\tlw Temp_%d,0($sp)\n", idxt);// load stack value to t
-		fileWriter.format("\taddi $sp, $sp, %d\n", WORD_SIZE); // move stack pointer down
+		fileWriter.format("\taddi $sp, $sp, %d\n", WORD_SIZE); // move stack pointer up
 		
 	}
 	

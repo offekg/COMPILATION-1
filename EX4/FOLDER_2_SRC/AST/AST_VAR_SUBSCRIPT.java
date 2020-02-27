@@ -3,7 +3,7 @@ package AST;
 import TYPES.*;
 import IR.IR;
 import IR.IRcommand_Array_Access;
-import IR.IRcommand_Load;
+import IR.IRcommand_LoadLocalVar;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
 import TEMP.TEMP_FACTORY;

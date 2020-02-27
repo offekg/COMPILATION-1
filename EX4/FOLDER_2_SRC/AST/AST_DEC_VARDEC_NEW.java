@@ -3,7 +3,7 @@ package AST;
 import TYPES.*;
 import UTILS.Context;
 import IR.IR;
-import IR.IRcommand_Store;
+import IR.IRcommand_StoreLocalVar;
 import IR.IRcommand_StoreGlobal;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
@@ -28,7 +28,7 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 			IR.getInstance().Add_IRcommand(new IRcommand_StoreGlobal(name, expTemp));
 		} else {			
 			Context.varStack.getLast().add(name);
-			IR.getInstance().Add_IRcommand(new IRcommand_Store(name, expTemp));
+			IR.getInstance().Add_IRcommand(new IRcommand_StoreLocalVar(name, expTemp));
 		}
 		return expTemp;
 	}

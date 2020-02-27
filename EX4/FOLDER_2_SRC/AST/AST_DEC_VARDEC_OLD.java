@@ -116,7 +116,7 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 			IR.getInstance().Add_IRcommand(new IRcommand_StoreGlobal(name, t));
 		} else {			
 			Context.varStack.getLast().add(name);
-			IR.getInstance().Add_IRcommand(new IRcommand_Store(name, t));
+			IR.getInstance().Add_IRcommand(new IRcommand_StoreLocalVar(name, t));
 		}
 		return t;
 	}

@@ -12,6 +12,10 @@ package IR;
 /*******************/
 
 import TEMP.*;
+import UTILS.Context;
+
+import java.util.HashSet;
+
 import MIPS.*;
 
 public class IRcommand_Function_Epilogue extends IRcommand {
@@ -27,6 +31,8 @@ public class IRcommand_Function_Epilogue extends IRcommand {
 	public void MIPSme() {
 		String funcEndLabel = IRcommand.getFreshLabel(funcName + "_epilogue");
 		sir_MIPS_a_lot.getInstance().function_epilogue(funcEndLabel,funcName);
+		Context.localFrameVarsList.removeLast();
+		Context.localFrameVarsListCounters.removeLast();
 	}
 	
 	@Override

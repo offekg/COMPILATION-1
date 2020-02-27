@@ -4,7 +4,7 @@ import TYPES.*;
 import UTILS.Context;
 import IR.IR;
 import IR.IRcommand_Pop;
-import IR.IRcommand_Store;
+import IR.IRcommand_StoreLocalVar;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
 import TEMP.TEMP_FACTORY;
@@ -24,7 +24,7 @@ public class AST_FUNC_INPUT_VARS extends AST_Node {
 		TEMP paramTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
 		IR.getInstance().Add_IRcommand(new IRcommand_Pop(paramTemp));
 		Context.varStack.getLast().add(paramName);
-		IR.getInstance().Add_IRcommand(new IRcommand_Store(this.paramName, paramTemp));
+		IR.getInstance().Add_IRcommand(new IRcommand_StoreLocalVar(this.paramName, paramTemp));
 		return paramTemp;
 	}
 

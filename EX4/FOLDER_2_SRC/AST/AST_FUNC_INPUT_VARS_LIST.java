@@ -4,7 +4,7 @@ import TYPES.*;
 import IR.IR;
 import IR.IRcommand;
 import IR.IRcommand_Pop;
-import IR.IRcommand_Store;
+import IR.IRcommand_StoreLocalVar;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
 import TEMP.TEMP_FACTORY;

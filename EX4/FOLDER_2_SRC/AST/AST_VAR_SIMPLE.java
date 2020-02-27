@@ -74,7 +74,7 @@ public class AST_VAR_SIMPLE extends AST_VAR {
 			IR.getInstance().Add_IRcommand(new IRcommand_LoadGlobal(temp,name));
 			return temp;
 		}
-		IR.getInstance().Add_IRcommand(new IRcommand_Load(temp,name));
+		IR.getInstance().Add_IRcommand(new IRcommand_LoadLocalVar(temp,name));
 		return temp;
 	}
 }
