@@ -186,6 +186,9 @@ public class sir_MIPS_a_lot {
 	public void jump(String inlabel) {
 		fileWriter.format("\tj %s\n", inlabel);
 	}
+	public void jal(String inlabel) {
+		fileWriter.format("\tjal %s\n", inlabel);
+	}
 
 	public void blt(TEMP oprnd1, TEMP oprnd2, String label) {
 		int i1 = oprnd1.getSerialNumber();
@@ -238,6 +241,33 @@ public class sir_MIPS_a_lot {
 		fileWriter.format("\tli $v0,9\n");
 		fileWriter.format("\tsyscall\n");
 		fileWriter.format("\tmove Temp_%d, $v0\n", idxt);
+	}
+	
+	public void function_prolog() {
+		
+		fileWriter.format("\taddi $sp, $sp, -4\n");  // make space for return address
+		fileWriter.format("\tsw	$ra, 0($sp)\n");    // save return address
+		fileWriter.format("\taddi $sp, $sp, -4\n");  // make space for prev fp
+		fileWriter.format("\tsw	$fp, 0($sp)\n");    // save fp
+        
+        fileWriter.format("\tmove $fp, $sp\n");    // set new fp to be current sp
+        
+        //if we need to alocate space for the frame, then we will get the size and move the sp:
+        /*fileWriter.format("\taddi $sp, $sp, %d\n", -4 * (SizeFrame+1));    // allocate the stack frame + 1 for func name
+        storeLocalVar(0,funcNameTemp); //the function name pointer is at offset 0 from fp*/
+	}
+	public void function_epilogue(String end_label, String funcName) {
+		
+        label(end_label);
+        //fileWriter.format("\taddi $sp, $sp, %d\n", 4 * (SizeFrame+1)); if we do decide to move sp by size
+        fileWriter.format("\tmove $sp, $fp\n");
+        fileWriter.format("\tlw	$ra, 4($fp)\n");  //bring back the relevant ra
+        fileWriter.format("\tlw	$fp, 0($fp)\n");
+        fileWriter.format("\taddi $sp, $sp, 8\n");
+        if (funcName.equals("main")) {
+            return;
+        }
+        fileWriter.format("\tjr $ra\n"); //set PC back to ra
 	}
 
 	 public void cleanAlloactedMem(TEMP addr, TEMP size, String label) {

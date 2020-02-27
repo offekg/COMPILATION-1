@@ -27,6 +27,7 @@ public class IRcommand_Call_Virtual_Function extends IRcommand {
 	/* MIPS me !!! */
 	/***************/
 	public void MIPSme() {
+		
 	}
 
 	@Override

@@ -16,6 +16,7 @@ import MIPS.*;
 
 public class IRcommand_Function_Epilogue extends IRcommand {
 	String funcName;
+
 	public IRcommand_Function_Epilogue(String funcName) {
 		this.funcName = funcName;
 	}
@@ -24,6 +25,8 @@ public class IRcommand_Function_Epilogue extends IRcommand {
 	/* MIPS me !!! */
 	/***************/
 	public void MIPSme() {
+		String funcEndLabel = IRcommand.getFreshLabel(funcName + "_epilogue");
+		sir_MIPS_a_lot.getInstance().function_epilogue(funcEndLabel,funcName);
 	}
 	
 	@Override
