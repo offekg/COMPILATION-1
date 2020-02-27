@@ -10,32 +10,32 @@ package IR;
 /*******************/
 /* PROJECT IMPORTS */
 /*******************/
+
 import TEMP.*;
 import MIPS.*;
 
-public class IRcommand_Field_Access extends IRcommand
-{
+public class IRcommand_Field_Access extends IRcommand {
 	TEMP instanceAddr;
 	int fieldNumber;
 	TEMP dest;
-	
-	public IRcommand_Field_Access(TEMP instanceAddr, int fieldNumber, TEMP dest)
-	{
+
+	public IRcommand_Field_Access(TEMP instanceAddr, int fieldNumber, TEMP dest) {
 		this.instanceAddr = instanceAddr;
 		this.fieldNumber = fieldNumber;
 		this.dest = dest;
 	}
-	
+
 	/***************/
 	/* MIPS me !!! */
 	/***************/
-	public void MIPSme()
-	{
+	public void MIPSme() {
+		sir_MIPS_a_lot.getInstance().beqz(instanceAddr, "abort");
+		// Adding 4 because the first address is the VTable.
+		sir_MIPS_a_lot.getInstance().lw(dest, instanceAddr, (fieldNumber * 4) + 4);
 	}
-	
+
 	@Override
 	public void printMe() {
-		System.out.println(dest.getSymbol() + " = field_access " + instanceAddr.getSymbol()
-							+ ", " + fieldNumber);
+		System.out.println(dest.getSymbol() + " = field_access " + instanceAddr.getSymbol() + ", " + fieldNumber);
 	}
 }

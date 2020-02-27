@@ -3,6 +3,8 @@
 /***********/
 package IR;
 
+import MIPS.sir_MIPS_a_lot;
+
 /*******************/
 /* GENERAL IMPORTS */
 /*******************/
@@ -47,6 +49,8 @@ public class IR
 	{
 		if (head != null) head.MIPSme();
 		if (tail != null) tail.MIPSme();
+		sir_MIPS_a_lot.getInstance().label("abort");
+		sir_MIPS_a_lot.getInstance().abort();
 	}
 	
 	/***********************/
