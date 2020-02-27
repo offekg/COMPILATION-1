@@ -1,0 +1,3 @@
+int funct(){
+	int funct :=5;
+	return funct; }

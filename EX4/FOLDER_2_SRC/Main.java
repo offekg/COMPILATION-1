@@ -1,10 +1,11 @@
 
+import IR.*;
+import AST.*;
+import MIPS.*;
 import java.io.*;
 import java.io.PrintWriter;
+import UTILS.RA_optimization;
 import java_cup.runtime.Symbol;
-import AST.*;
-import IR.*;
-import MIPS.*;
 import SYMBOL_TABLE.OutputFileWriter;
 
 public class Main {
@@ -75,6 +76,11 @@ public class Main {
 			/* [11] Finalize MIPS file */
 			/***************************/
 			sir_MIPS_a_lot.getInstance().finalizeFile();
+			
+			/************************/
+			/* [11] RA optimization */
+			/************************/
+			RA_optimization.optimize(outputFilename);
 
 			/**************************/
 			/* [12] Close output file */
