@@ -44,7 +44,7 @@ public class RA_optimization {
 		return tempContexts;
 	}
 
-	private static void buildInterferenceGraph(GraphManager graph) {
+	private static void buildInterferenceGraph(GraphManager graph) throws IOException {
 		TempContext tempContexts[] = livenessMarking(inputFilePath);
 
 		for (int i = 0; i < tempContexts.length; i++) {

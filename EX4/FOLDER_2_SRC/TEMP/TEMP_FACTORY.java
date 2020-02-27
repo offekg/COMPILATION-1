@@ -13,14 +13,14 @@ package TEMP;
 
 public class TEMP_FACTORY
 {
-	private int counter=0;
+	private static int counter=0;
 	
 	public TEMP getFreshTEMP()
 	{
 		return new TEMP(counter++);
 	}
 	
-	public int getCounter() {
+	public static int getCounter() {
 		return counter;
 	}
 	
