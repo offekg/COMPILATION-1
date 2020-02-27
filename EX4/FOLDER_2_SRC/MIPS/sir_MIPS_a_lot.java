@@ -71,6 +71,7 @@ public class sir_MIPS_a_lot {
 		int idxdst = dst.getSerialNumber();
 		fileWriter.format("\tlw Temp_%d,global_%s\n", idxdst, var_name);
 	}
+	
 	public void lw(TEMP dst, TEMP src, int offset) {
 		int idxdst = dst.getSerialNumber();
 		int idxsrc = src.getSerialNumber();
@@ -159,14 +160,15 @@ public class sir_MIPS_a_lot {
 		int idxdst = dst.getSerialNumber();
 		int idxsrc = src.getSerialNumber();
 		fileWriter.format("\tsll Temp_%d,Temp_%d,%d\n", idxdst, idxsrc, i);
-		
 	}
+
 	public void srl(TEMP dst, TEMP src, int i) {
 		int idxdst = dst.getSerialNumber();
 		int idxsrc = src.getSerialNumber();
 		fileWriter.format("\tsrl Temp_%d,Temp_%d,%d\n", idxdst, idxsrc, i);
 		
 	}
+
 	public void label(String inlabel) {
 		if (inlabel.equals("main")) {
 			fileWriter.format(".text\n");
