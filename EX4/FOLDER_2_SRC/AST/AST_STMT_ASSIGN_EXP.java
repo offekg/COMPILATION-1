@@ -2,6 +2,10 @@ package AST;
 
 import TYPES.*;
 import UTILS.Context;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import IR.*;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
@@ -76,27 +80,33 @@ public class AST_STMT_ASSIGN_EXP extends AST_STMT {
 	}
 
 	public TEMP IRme() {
-		TEMP expTemp = exp.IRme();
+		TEMP expTemp; // left hand side should be evaluated first.
 		if (var.isVarSimple()) {
 			AST_VAR_SIMPLE varSimple = (AST_VAR_SIMPLE) var;
 			if (Context.currentClassBuilder != null) {
-				if (Context.classFieldList.get(Context.currentClassBuilder).contains(varSimple.name)) {
+				if (Context.classFields.get(Context.currentClassBuilder).contains(varSimple.name)) {
 					TEMP objTemp = Context.currentObject;
-					int fieldNumber = Context.classFieldList.get(Context.currentClassBuilder).indexOf(varSimple.name);
+					List<String> fieldList = new ArrayList<>(Context.classFields.get(Context.currentClassBuilder));
+					int fieldNumber = fieldList.indexOf(varSimple.name);
+					expTemp = exp.IRme();
 					IR.getInstance().Add_IRcommand(new IRcommand_Field_Set(objTemp, fieldNumber, expTemp));
 				}
 			} else {
+				expTemp = exp.IRme();
 				IR.getInstance().Add_IRcommand(new IRcommand_Store(varSimple.name, expTemp));
 			}
 		} else if (var.isVarField()) {
 			AST_VAR_FIELD varField = (AST_VAR_FIELD) var;
 			TEMP objTemp = varField.var.IRme();
-			int fieldNumber = Context.classFieldList.get(varField.objectStaticClassName).indexOf(varField.fieldName);
+			expTemp = exp.IRme();
+			List<String> fieldList = new ArrayList<>(Context.classFields.get(varField.objectStaticClassName));
+			int fieldNumber = fieldList.indexOf(varField.fieldName);
 			IR.getInstance().Add_IRcommand(new IRcommand_Field_Set(objTemp, fieldNumber, expTemp));
 		} else if (var.isVarSubscrip()) {
 			AST_VAR_SUBSCRIPT varSubscript = (AST_VAR_SUBSCRIPT) var;
 			TEMP arrTemp = varSubscript.var.IRme();
 			TEMP subTemp = varSubscript.subscript.IRme();
+			expTemp = exp.IRme();
 			IR.getInstance().Add_IRcommand(new IRcommand_Array_Set(arrTemp, subTemp, expTemp));
 		}
 		return null;

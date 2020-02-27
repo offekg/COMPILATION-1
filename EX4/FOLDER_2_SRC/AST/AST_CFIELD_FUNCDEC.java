@@ -4,6 +4,7 @@ import TYPES.*;
 import UTILS.Context;
 
 import java.util.List;
+import java.util.SortedMap;
 
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
@@ -55,8 +56,8 @@ public class AST_CFIELD_FUNCDEC extends AST_CFIELD {
 	
 	public TEMP IRme() {
 		String myClass = Context.currentClassBuilder;
-		List<String> methodList = Context.classMethodList.get(myClass);
-		methodList.add(funcdec.funcName);
+		SortedMap<String, String> methods = Context.classMethods.get(myClass);
+		methods.put(funcdec.funcName, myClass);
 		funcdec.IRme();
 		return null;
 	}

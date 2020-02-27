@@ -5,6 +5,7 @@ import UTILS.Context;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import IR.*;
@@ -74,8 +75,8 @@ public class AST_CFIELD_VARDEC extends AST_CFIELD {
 	
 	public TEMP IRme() {
 		String myClass = Context.currentClassBuilder;
-		List<String> fieldList = Context.classFieldList.get(myClass);
-		fieldList.add(vardec.name);
+		LinkedHashSet<String> fields = Context.classFields.get(myClass);
+		fields.add(vardec.name);
 		return null;
 	}
 }

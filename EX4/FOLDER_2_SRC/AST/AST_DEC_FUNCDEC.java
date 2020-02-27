@@ -137,7 +137,6 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 			label = IRcommand.getFreshLabel(this.funcName);
 			Context.globalFunctions.put(funcName, label);
 		} else {
-			Context.classMethodList.get(Context.currentClassBuilder).add(funcName);
 			label = Context.currentClassBuilder + "_" + funcName;
 		}
 		Context.epilogueLabel = label + "_epilogue";

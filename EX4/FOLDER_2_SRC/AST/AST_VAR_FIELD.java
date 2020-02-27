@@ -2,6 +2,10 @@ package AST;
 
 import TYPES.*;
 import UTILS.Context;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import IR.IR;
 import IR.IRcommand_Array_Access;
 import IR.IRcommand_Field_Access;
@@ -105,7 +109,8 @@ public class AST_VAR_FIELD extends AST_VAR {
 	
 	public static TEMP fieldAccessIR(TEMP objTemp, String objectClass, String objectField) {
 		TEMP temp = TEMP_FACTORY.getInstance().getFreshTEMP();
-		int fieldNumber = Context.classFieldList.get(objectClass).indexOf(objectField);
+		List<String> fieldList = new ArrayList<>(Context.classFields.get(objectClass));
+		int fieldNumber = fieldList.indexOf(objectField);
 		IR.getInstance().Add_IRcommand(new IRcommand_Field_Access(objTemp, fieldNumber, temp));
 		return temp;
 	}

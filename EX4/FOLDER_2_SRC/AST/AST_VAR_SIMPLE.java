@@ -64,7 +64,7 @@ public class AST_VAR_SIMPLE extends AST_VAR {
 	
 	public TEMP IRme() {
 		if (Context.currentClassBuilder != null) {
-			if (Context.classFieldList.get(Context.currentClassBuilder).contains(name)) {
+			if (Context.classFields.get(Context.currentClassBuilder).contains(name)) {
 				TEMP objTemp = Context.currentObject;
 				return AST_VAR_FIELD.fieldAccessIR(objTemp, Context.currentClassBuilder, name);
 			}

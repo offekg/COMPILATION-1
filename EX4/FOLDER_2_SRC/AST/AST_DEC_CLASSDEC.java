@@ -4,7 +4,12 @@ import TYPES.*;
 import IR.*;
 import UTILS.Context;
 
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
@@ -152,14 +157,14 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 	}
 	
 	public TEMP IRme() {
-		LinkedList<String> methodList = new LinkedList<>();
-		LinkedList<String> fieldList = new LinkedList<>();
+		SortedMap<String, String> methods = new TreeMap<>();
+		LinkedHashSet<String> fields = new LinkedHashSet<>();
+		Context.classMethods.put(name, methods);
+		Context.classFields.put(name, fields);
 		if (father != null) {
-			methodList.addAll(Context.classMethodList.get(father));
-			fieldList.addAll(Context.classFieldList.get(father));
+			methods.putAll(Context.classMethods.get(father));
+			fields.addAll(Context.classFields.get(father));
 		}
-		Context.classMethodList.put(name, methodList);
-		Context.classFieldList.put(name, fieldList);
 		Context.currentClassBuilder = name;
 		cFieldList.IRme();
 		createClassConstructorIR();
@@ -170,7 +175,7 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 	public void createClassConstructorIR() {
 		IR.getInstance().Add_IRcommand(new IRcommand_Label(name + "_constructor"));
 		IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue());
-		int sizeToAllocate = Context.classFieldList.get(Context.currentClassBuilder).size() + 1;
+		int sizeToAllocate = Context.classFields.get(Context.currentClassBuilder).size() + 1;
 		TEMP t = TEMP_FACTORY.getInstance().getFreshTEMP();
 		IR.getInstance().Add_IRcommand(new IRcommand_Malloc(t, sizeToAllocate));
 		IR.getInstance().Add_IRcommand(new IRcommand_Set_Virtual_Table(t, name));
@@ -183,7 +188,7 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 		int currentSize = 0;
         if (currentClass.father != null) {
             setDefaultValues(Context.classAST.get(currentClass.father), instanceAddr);
-            currentSize += Context.classFieldList.get(father).size();
+            currentSize += Context.classFields.get(father).size();
         }
         currentClass.cFieldList.setDefaultValues(currentSize, instanceAddr);
 	}
