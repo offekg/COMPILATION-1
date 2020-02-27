@@ -161,6 +161,12 @@ public class sir_MIPS_a_lot {
 		fileWriter.format("\tsll Temp_%d,Temp_%d,%d\n", idxdst, idxsrc, i);
 		
 	}
+	public void srl(TEMP dst, TEMP src, int i) {
+		int idxdst = dst.getSerialNumber();
+		int idxsrc = src.getSerialNumber();
+		fileWriter.format("\tsrl Temp_%d,Temp_%d,%d\n", idxdst, idxsrc, i);
+		
+	}
 	public void label(String inlabel) {
 		if (inlabel.equals("main")) {
 			fileWriter.format(".text\n");
@@ -226,6 +232,20 @@ public class sir_MIPS_a_lot {
 		fileWriter.format("\tsyscall\n");
 		fileWriter.format("\tmove Temp_%d, $v0\n", idxt);
 	}
+
+	 public void cleanAlloactedMem(TEMP addr, TEMP size, String label) {
+	        TEMP offset = TEMP_FACTORY.getInstance().getFreshTEMP();
+
+	        int idxaddr = addr.getSerialNumber();
+	        int idxsize = size.getSerialNumber();
+	        int idxoffs = offset.getSerialNumber();
+
+	        fileWriter.format("\tadd Temp_%d, Temp_%d, Temp_%d\n", idxoffs, idxaddr, idxsize);
+	        label(label);
+	        fileWriter.format("\taddi Temp_%d, Temp_%d, -4\n", idxoffs, idxoffs);
+	        fileWriter.format("\tsw $zero, 0(Temp_%d)\n", idxoffs);
+	        fileWriter.format("\tbne Temp_%d, Temp_%d, %s\n", idxoffs, idxaddr, label);
+	 }
 
 	public void add_str_length(TEMP len, TEMP char1, TEMP offset, String loopLabel) {
 		label(loopLabel);
