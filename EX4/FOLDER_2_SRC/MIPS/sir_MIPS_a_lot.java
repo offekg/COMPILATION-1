@@ -88,6 +88,11 @@ public class sir_MIPS_a_lot {
 		int idxsrc = src.getSerialNumber();
 		fileWriter.format("\tsw Temp_%d,%d(Temp_%d)\n", idxsrc, offset, idxdst);
 	}
+	
+	public void storeReturnValue(TEMP src) {
+		int idxsrc = src.getSerialNumber();
+		fileWriter.format("\tmove $v0, Temp_%d\n", idxsrc);
+	}
 
 	public void move(TEMP dst, TEMP src) {
 		int idxsrc = src.getSerialNumber();
@@ -262,6 +267,13 @@ public class sir_MIPS_a_lot {
 		int idxt = t.getSerialNumber();
 		fileWriter.format("\taddi $sp, $sp, %d\n", -WORD_SIZE); // move stack pointer up
 		fileWriter.format("\tsw Temp_%d,0($sp)\n", idxt);// save register value in stack
+	}
+	
+	public void pop(TEMP t) {
+		int idxt = t.getSerialNumber();
+		fileWriter.format("\tlw Temp_%d,0($sp)\n", idxt);// load stack value to t
+		fileWriter.format("\taddi $sp, $sp, %d\n", WORD_SIZE); // move stack pointer down
+		
 	}
 	
 	public void abort() {

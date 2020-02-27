@@ -180,7 +180,7 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 		IR.getInstance().Add_IRcommand(new IRcommand_Malloc(t, sizeToAllocate));
 		IR.getInstance().Add_IRcommand(new IRcommand_Set_Virtual_Table(t, name));
         setDefaultValues(this, t);
-		IR.getInstance().Add_IRcommand(new IRcommand_StoreReturnValueOnStack(t));
+		IR.getInstance().Add_IRcommand(new IRcommand_StoreReturnValue(t));
         IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue());
 	}
 	
