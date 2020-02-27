@@ -10,6 +10,7 @@ package MIPS;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.SortedMap;
 
 /*******************/
 /* PROJECT IMPORTS */
@@ -262,9 +263,9 @@ public class sir_MIPS_a_lot {
 
 	public static void add_VTs_to_data_list() { //need to handle inherited met	hods
 		String methods = "";
-		for(String class_name : Context.classMethodList.keySet()) {
-			for(String method : Context.classMethodList.get(class_name)) {
-				methods += class_name + "_" + method + ",";
+		for(String class_name : Context.classMethods.keySet()) {
+			for(String method : Context.classMethods.get(class_name).keySet()) {
+				methods +=  Context.classMethods.get(class_name).get(method) + "_" + method + ",";
 			}
 			add_to_global_data_list("VT_" + class_name, ".word", methods);
 		}
