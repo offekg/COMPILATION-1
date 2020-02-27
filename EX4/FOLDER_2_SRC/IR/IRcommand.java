@@ -4,6 +4,7 @@
 package IR;
 
 import MIPS.*;
+import TEMP.*;
 import UTILS.Context;
 
 /*******************/
