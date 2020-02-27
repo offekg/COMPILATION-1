@@ -161,7 +161,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		// Removing the stack added.
 		Context.varStack.removeLast();
 		IR.getInstance().Add_IRcommand(new IRcommand_Label(Context.epilogueLabel));
-		IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue());
+		IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue(funcName));
 		return null;
 	}
 }
