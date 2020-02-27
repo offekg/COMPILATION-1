@@ -70,10 +70,21 @@ public class sir_MIPS_a_lot {
 		int idxdst = dst.getSerialNumber();
 		fileWriter.format("\tlw Temp_%d,global_%s\n", idxdst, var_name);
 	}
-
+	public void lw(TEMP dst, TEMP src, int offset) {
+		int idxdst = dst.getSerialNumber();
+		int idxsrc = src.getSerialNumber();
+		fileWriter.format("\tlw Temp_%d,%d(Temp_%d)\n", idxdst, offset, idxsrc);
+	}
+	
 	public void store(String var_name, TEMP src) {
 		int idxsrc = src.getSerialNumber();
 		fileWriter.format("\tsw Temp_%d,global_%s\n", idxsrc, var_name);
+	}
+	
+	public void sw(TEMP src, TEMP dstAdd, int offset) {
+		int idxdst = dstAdd.getSerialNumber();
+		int idxsrc = src.getSerialNumber();
+		fileWriter.format("\tsw Temp_%d,%d(Temp_%d)\n", idxsrc, offset, idxdst);
 	}
 
 	public void move(TEMP dst, TEMP src) {
@@ -114,7 +125,7 @@ public class sir_MIPS_a_lot {
 
 	public void addi(TEMP dst, TEMP src, int immd) {
 		int idxdst = dst.getSerialNumber();
-		int idxsrc = dst.getSerialNumber();
+		int idxsrc = src.getSerialNumber();
 
 		fileWriter.format("\taddi Temp_%d,Temp_%d,%d\n", idxdst, idxsrc, immd);
 	}
@@ -142,7 +153,13 @@ public class sir_MIPS_a_lot {
 
 		fileWriter.format("\tdiv Temp_%d,Temp_%d,Temp_%d\n", dstidx, i1, i2);
 	}
-
+	
+	public void sll(TEMP dst, TEMP src, int i) {
+		int idxdst = dst.getSerialNumber();
+		int idxsrc = src.getSerialNumber();
+		fileWriter.format("\tsll Temp_%d,Temp_%d,%d\n", idxdst, idxsrc, i);
+		
+	}
 	public void label(String inlabel) {
 		if (inlabel.equals("main")) {
 			fileWriter.format(".text\n");
@@ -161,6 +178,11 @@ public class sir_MIPS_a_lot {
 		int i2 = oprnd2.getSerialNumber();
 
 		fileWriter.format("\tblt Temp_%d,Temp_%d,%s\n", i1, i2, label);
+	}
+	
+	public void bltz(TEMP oprnd1, String label) {
+		int i1 = oprnd1.getSerialNumber();
+		fileWriter.format("\tblt Temp_%d,$zero,%s\n", i1, label);
 	}
 
 	public void bge(TEMP oprnd1, TEMP oprnd2, String label) {
@@ -218,6 +240,12 @@ public class sir_MIPS_a_lot {
 		fileWriter.format("\taddi $sp, $sp, %d\n", -WORD_SIZE); // move stack pointer up
 		fileWriter.format("\tsw Temp_%d,0($sp)\n", idxt);// save register value in stack
 	}
+	
+	public void abort() {
+        fileWriter.format("\tli $v0, 10\n");
+        fileWriter.format("\tsyscall\n");
+    }
+
 
 	/**************************************/
 	/* Global data */
@@ -247,6 +275,7 @@ public class sir_MIPS_a_lot {
 			instance.fileWriter.print(data);
 		}
 	}
+
 
 	/**************************************/
 	/* USUAL SINGLETON IMPLEMENTATION ... */
@@ -298,4 +327,6 @@ public class sir_MIPS_a_lot {
 		}
 		return instance;
 	}
+
+
 }
