@@ -23,6 +23,7 @@ public class IRcommand_Function_Prologue extends IRcommand {
 	/* MIPS me !!! */
 	/***************/
 	public void MIPSme() {
+		sir_MIPS_a_lot.getInstance().function_prolog();
 	}
 
 	@Override

@@ -12,6 +12,7 @@ package IR;
 /*******************/
 
 import TEMP.*;
+import UTILS.Context;
 import MIPS.*;
 
 public class IRcommand_Call_Global_Function extends IRcommand {
@@ -25,6 +26,8 @@ public class IRcommand_Call_Global_Function extends IRcommand {
 	/* MIPS me !!! */
 	/***************/
 	public void MIPSme() {
+		String func_label = Context.globalFunctions.get(funcName);
+		sir_MIPS_a_lot.getInstance().jal(func_label);
 	}
 	
 	@Override
