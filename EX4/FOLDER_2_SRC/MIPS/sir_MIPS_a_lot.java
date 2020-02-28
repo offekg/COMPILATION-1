@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedMap;
 
+import IR.IRcommand;
 /*******************/
 /* PROJECT IMPORTS */
 /*******************/
@@ -336,6 +337,18 @@ public class sir_MIPS_a_lot {
 	public void abort() {
 		fileWriter.format("\tli $v0, 10\n");
 		fileWriter.format("\tsyscall\n");
+	}
+
+	public void zeroDivisionCheck(TEMP t){
+		String zeroDivLabel = IRcommand.getFreshLabel("zero_division");
+		sir_MIPS_a_lot.getInstance().beqz(t, zeroDivLabel);
+		sir_MIPS_a_lot.getInstance().label(zeroDivLabel);
+		// put error string in here?
+		fileWriter.format("\tsw $a0,string_illegal_div_by_0\n");
+		fileWriter.format("\tli $v0,4\n"); // print string syscall num is 4
+		fileWriter.format("\tsyscall\n");
+		sir_MIPS_a_lot.getInstance().abort();
+
 	}
 
 	/**************************************/
