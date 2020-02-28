@@ -346,11 +346,11 @@ public class sir_MIPS_a_lot {
 	public void zeroDivisionCheck(TEMP t){
 		String zeroDivLabel = IRcommand.getFreshLabel("zero_division");
 		sir_MIPS_a_lot.getInstance().beqz(t, zeroDivLabel);
+		// add label to handel error
 		sir_MIPS_a_lot.getInstance().label(zeroDivLabel);
-		// put error string in here?
-		fileWriter.format("\tsw $a0,string_illegal_div_by_0\n");
-		fileWriter.format("\tli $v0,4\n"); // print string syscall num is 4
-		fileWriter.format("\tsyscall\n");
+		TEMP tAbort_msg = TEMP_FACTORY.getInstance().getFreshTEMP();
+		sir_MIPS_a_lot.getInstance().la(tAbort_msg, "string_illegal_div_by_0");
+		sir_MIPS_a_lot.getInstance().print_string(tAbort_msg);
 		sir_MIPS_a_lot.getInstance().abort();
 
 	}
