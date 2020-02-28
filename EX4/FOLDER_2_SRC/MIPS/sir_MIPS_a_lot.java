@@ -211,6 +211,11 @@ public class sir_MIPS_a_lot {
 	public void jal(String inlabel) {
 		fileWriter.format("\tjal %s\n", inlabel);
 	}
+	
+	public void jal(TEMP target_address) {
+		int idxaddr = target_address.getSerialNumber();
+		fileWriter.format("\tjal Temp_%d\n", idxaddr);
+	}
 
 	public void blt(TEMP oprnd1, TEMP oprnd2, String label) {
 		int i1 = oprnd1.getSerialNumber();

@@ -12,6 +12,7 @@ public class AST_VAR_SIMPLE extends AST_VAR {
 	/* simple variable name */
 	/************************/
 	public String name;
+	public String className;
 
 	/******************/
 	/* CONSTRUCTOR(S) */
@@ -58,7 +59,7 @@ public class AST_VAR_SIMPLE extends AST_VAR {
 		if (varType == null) {
 			OutputFileWriter.writeError(this.lineNumber, String.format("tried using undeclaired val %s\n", name));
 		}
-		
+		className = varType.name;
 		return varType;
 	}
 	

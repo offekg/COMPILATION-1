@@ -2,6 +2,9 @@ package AST;
 
 import TYPES.*;
 import UTILS.Context;
+
+import java.util.SortedMap;
+
 import IR.IR;
 import IR.IRcommand_Call_Global_Function;
 import IR.IRcommand_Call_Virtual_Function;
@@ -148,19 +151,27 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 			IR.getInstance().Add_IRcommand(new IRcommand_Push(t2));
 			cur = cur.tail;
 		}
+		
+		int offset;
 
 		// //push return address
 		// IR.getInstance().Add_IRcommand(new IRcommand_Push());
 		if (this.var != null) {
+			String className = ((AST_VAR_SIMPLE)var).className;
+			offset = findFunctionIndexInVtable(className);
+			
 			TEMP temp = this.var.IRme();
-			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(temp, this.funcName));
+			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(temp, offset));
 			TEMP returnTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
 			IR.getInstance().Add_IRcommand(new IRcommand_LoadReturnValue(returnTemp));
 			return returnTemp;
 		}
 		if (!this.isGlobal) {
+			String className = Context.currentClassBuilder;
+			offset = findFunctionIndexInVtable(className);
+			
 			TEMP currentObject = Context.currentObject;
-			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(currentObject, this.funcName));
+			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(currentObject, offset));
 			TEMP returnTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
 			IR.getInstance().Add_IRcommand(new IRcommand_LoadReturnValue(returnTemp));
 			return returnTemp;
@@ -169,5 +180,20 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 		TEMP returnTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
 		IR.getInstance().Add_IRcommand(new IRcommand_LoadReturnValue(returnTemp));
 		return returnTemp;
+	}
+	
+	public int findFunctionIndexInVtable(String className) {
+		int count = 0;
+		SortedMap<String, String> funcs = Context.classMethods.get(className);
+		
+		for (String funcNameInVtable : funcs.keySet()) {
+			if (funcNameInVtable.equals(this.funcName)) {
+				return count;
+			}
+			count++;
+		}
+		
+		// garbage return, wont get here.
+		return -1;
 	}
 }
