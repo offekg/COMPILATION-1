@@ -63,15 +63,4 @@ public abstract class IRcommand {
 		sir_MIPS_a_lot.getInstance().label(integerValidLabel);
 	}
 
-	public void zeroDivisionCheck(TEMP t){
-		String zeroDivLabel = getFreshLabel("zero_division");
-		sir_MIPS_a_lot.getInstance().beqz(t, zeroDivLabel);
-		sir_MIPS_a_lot.getInstance().label(zeroDivLabel);
-		// put error string in here?
-		//fileWriter.format("\tmove $a0,Temp_%d\n", idx);
-		fileWriter.format("\tli $v0,4\n"); // print string syscall num is 4
-		fileWriter.format("\tsyscall\n");
-		sir_MIPS_a_lot.getInstance().abort();
-
-	}
 }
