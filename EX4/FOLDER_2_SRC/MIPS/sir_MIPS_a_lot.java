@@ -44,6 +44,10 @@ public class sir_MIPS_a_lot {
 		fileWriter.format("\tli $a0,32\n");
 		fileWriter.format("\tli $v0,11\n");
 		fileWriter.format("\tsyscall\n");
+		// print space after int is printed
+		fileWriter.format("\tsw $a0,space\n");
+		fileWriter.format("\tli $v0,4\n"); // print string syscall num is 4
+		fileWriter.format("\tsyscall\n");
 	}
 
 	public void print_string(TEMP t) {
@@ -434,6 +438,8 @@ public class sir_MIPS_a_lot {
 			instance.fileWriter.print("string_access_violation: .asciiz \"Access Violation\"\n");
 			instance.fileWriter.print("string_illegal_div_by_0: .asciiz \"Illegal Division By Zero\"\n");
 			instance.fileWriter.print("string_invalid_ptr_dref: .asciiz \"Invalid Pointer Dereference\"\n");
+			instance.fileWriter.print("space: .asciiz \" \"\n");
+
 			add_VTs_to_data_list();
 			add_global_variables_to_data_list();
 			instance.writeGlobalData();
