@@ -343,6 +343,7 @@ public class sir_MIPS_a_lot {
 			for(String method : Context.classMethods.get(class_name).keySet()) {
 				methods +=  Context.classMethods.get(class_name).get(method) + "_" + method + ",";
 			}
+			methods += "\n ";
 			add_to_global_data_list("VT_" + class_name, ".word", methods);
 		}
 	}
