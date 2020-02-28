@@ -356,7 +356,7 @@ public class sir_MIPS_a_lot {
 		TEMP tAbort_msg = TEMP_FACTORY.getInstance().getFreshTEMP();
 		sir_MIPS_a_lot.getInstance().la(tAbort_msg, "string_illegal_div_by_0");
 		sir_MIPS_a_lot.getInstance().print_string(tAbort_msg);
-		sir_MIPS_a_lot.getInstance().abort();
+		sir_MIPS_a_lot.getInstance().jump("abort");
 
 	}
 
