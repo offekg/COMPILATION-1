@@ -340,6 +340,7 @@ public class sir_MIPS_a_lot {
 	public static void add_VTs_to_data_list() { //need to handle inherited met	hods
 		String methods = "";
 		for(String class_name : Context.classMethods.keySet()) {
+			methods = "";
 			for(String method : Context.classMethods.get(class_name).keySet()) {
 				methods +=  Context.classMethods.get(class_name).get(method) + "_" + method + ",";
 			}
