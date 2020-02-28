@@ -71,32 +71,40 @@ public class sir_MIPS_a_lot {
 		int idxdst = dst.getSerialNumber();
 		fileWriter.format("\tlw Temp_%d,global_%s\n", idxdst, var_name);
 	}
+
 	public void loadLocalVar(TEMP dst, int var_offset) {
 		int idxdst = dst.getSerialNumber();
-		fileWriter.format("\tlw Temp_%d,%d($fp)\n", idxdst,-(var_offset*WORD_SIZE));
+		fileWriter.format("\tlw Temp_%d,%d($fp)\n", idxdst, -(var_offset * WORD_SIZE));
 	}
+
 	public void lw(TEMP dst, TEMP src, int offset) {
 		int idxdst = dst.getSerialNumber();
 		int idxsrc = src.getSerialNumber();
 		fileWriter.format("\tlw Temp_%d,%d(Temp_%d)\n", idxdst, offset, idxsrc);
 	}
 	
+	public void lw(TEMP dst, String label) {
+		int idxdst = dst.getSerialNumber();
+		fileWriter.format("\tlw Temp_%d,%s\n", idxdst, label);
+	}
+
 	public void store(String var_name, TEMP src) {
 		int idxsrc = src.getSerialNumber();
 		fileWriter.format("\tsw Temp_%d,global_%s\n", idxsrc, var_name);
 	}
+
 	public void storeLocalVar(int var_offset, TEMP src) {
 		int idxsrc = src.getSerialNumber();
 		fileWriter.format("\taddi $sp, $sp, %d\n", -WORD_SIZE); // move stack pointer down
-		fileWriter.format("\tsw Temp_%d,%d($fp)\n", idxsrc,-(var_offset*WORD_SIZE));// save register value in stack
+		fileWriter.format("\tsw Temp_%d,%d($fp)\n", idxsrc, -(var_offset * WORD_SIZE));// save register value in stack
 	}
-	
+
 	public void sw(TEMP src, TEMP dstAdd, int offset) {
 		int idxdst = dstAdd.getSerialNumber();
 		int idxsrc = src.getSerialNumber();
 		fileWriter.format("\tsw Temp_%d,%d(Temp_%d)\n", idxsrc, offset, idxdst);
 	}
-	
+
 	public void storeReturnValue(TEMP src) {
 		int idxsrc = src.getSerialNumber();
 		fileWriter.format("\tmove $v0, Temp_%d\n", idxsrc);
@@ -168,7 +176,7 @@ public class sir_MIPS_a_lot {
 
 		fileWriter.format("\tdiv Temp_%d,Temp_%d,Temp_%d\n", dstidx, i1, i2);
 	}
-	
+
 	public void sll(TEMP dst, TEMP src, int i) {
 		int idxdst = dst.getSerialNumber();
 		int idxsrc = src.getSerialNumber();
@@ -179,7 +187,7 @@ public class sir_MIPS_a_lot {
 		int idxdst = dst.getSerialNumber();
 		int idxsrc = src.getSerialNumber();
 		fileWriter.format("\tsrl Temp_%d,Temp_%d,%d\n", idxdst, idxsrc, i);
-		
+
 	}
 
 	public void label(String inlabel) {
@@ -194,6 +202,7 @@ public class sir_MIPS_a_lot {
 	public void jump(String inlabel) {
 		fileWriter.format("\tj %s\n", inlabel);
 	}
+
 	public void jal(String inlabel) {
 		fileWriter.format("\tjal %s\n", inlabel);
 	}
@@ -204,7 +213,7 @@ public class sir_MIPS_a_lot {
 
 		fileWriter.format("\tblt Temp_%d,Temp_%d,%s\n", i1, i2, label);
 	}
-	
+
 	public void bltz(TEMP oprnd1, String label) {
 		int i1 = oprnd1.getSerialNumber();
 		fileWriter.format("\tblt Temp_%d,$zero,%s\n", i1, label);
@@ -250,51 +259,57 @@ public class sir_MIPS_a_lot {
 		fileWriter.format("\tsyscall\n");
 		fileWriter.format("\tmove Temp_%d, $v0\n", idxt);
 	}
-	
-	 public void allocate_stack(int size) {
-	        fileWriter.format("\taddi $sp, $sp, %d\n", -4 * size);
-	 }
-	
+
+	public void allocate_stack(int size) {
+		fileWriter.format("\taddi $sp, $sp, %d\n", -4 * size);
+	}
+
 	public void function_prolog() {
-		
-		fileWriter.format("\taddi $sp, $sp, -4\n");  // make space for return address
-		fileWriter.format("\tsw	$ra, 0($sp)\n");    // save return address
-		fileWriter.format("\taddi $sp, $sp, -4\n");  // make space for prev fp
-		fileWriter.format("\tsw	$fp, 0($sp)\n");    // save fp
-        
-        fileWriter.format("\tmove $fp, $sp\n");    // set new fp to be current sp
-        
-        //if we need to alocate space for the frame, then we will get the size and move the sp:
-        /*fileWriter.format("\taddi $sp, $sp, %d\n", -4 * (SizeFrame+1));    // allocate the stack frame + 1 for func name
-        storeLocalVar(0,funcNameTemp); //the function name pointer is at offset 0 from fp*/
+
+		fileWriter.format("\taddi $sp, $sp, -4\n"); // make space for return address
+		fileWriter.format("\tsw	$ra, 0($sp)\n"); // save return address
+		fileWriter.format("\taddi $sp, $sp, -4\n"); // make space for prev fp
+		fileWriter.format("\tsw	$fp, 0($sp)\n"); // save fp
+
+		fileWriter.format("\tmove $fp, $sp\n"); // set new fp to be current sp
+
+		// if we need to alocate space for the frame, then we will get the size and move
+		// the sp:
+		/*
+		 * fileWriter.format("\taddi $sp, $sp, %d\n", -4 * (SizeFrame+1)); // allocate
+		 * the stack frame + 1 for func name storeLocalVar(0,funcNameTemp); //the
+		 * function name pointer is at offset 0 from fp
+		 */
 	}
+
 	public void function_epilogue(String end_label, String funcName) {
-		
-        label(end_label);
-        //fileWriter.format("\taddi $sp, $sp, %d\n", 4 * (SizeFrame+1)); if we do decide to move sp by size
-        fileWriter.format("\tmove $sp, $fp\n");
-        fileWriter.format("\tlw	$ra, 4($fp)\n");  //bring back the relevant ra
-        fileWriter.format("\tlw	$fp, 0($fp)\n");
-        fileWriter.format("\taddi $sp, $sp, 8\n");
-        if (funcName.equals("main")) {
-            return;
-        }
-        fileWriter.format("\tjr $ra\n"); //set PC back to ra
+
+		label(end_label);
+		// fileWriter.format("\taddi $sp, $sp, %d\n", 4 * (SizeFrame+1)); if we do
+		// decide to move sp by size
+		fileWriter.format("\tmove $sp, $fp\n");
+		fileWriter.format("\tlw	$ra, 4($fp)\n"); // bring back the relevant ra
+		fileWriter.format("\tlw	$fp, 0($fp)\n");
+		fileWriter.format("\taddi $sp, $sp, 8\n");
+		if (funcName.equals("main")) {
+			return;
+		}
+		fileWriter.format("\tjr $ra\n"); // set PC back to ra
 	}
 
-	 public void cleanAlloactedMem(TEMP addr, TEMP size, String label) {
-	        TEMP offset = TEMP_FACTORY.getInstance().getFreshTEMP();
+	public void cleanAlloactedMem(TEMP addr, TEMP size, String label) {
+		TEMP offset = TEMP_FACTORY.getInstance().getFreshTEMP();
 
-	        int idxaddr = addr.getSerialNumber();
-	        int idxsize = size.getSerialNumber();
-	        int idxoffs = offset.getSerialNumber();
+		int idxaddr = addr.getSerialNumber();
+		int idxsize = size.getSerialNumber();
+		int idxoffs = offset.getSerialNumber();
 
-	        fileWriter.format("\tadd Temp_%d, Temp_%d, Temp_%d\n", idxoffs, idxaddr, idxsize);
-	        label(label);
-	        fileWriter.format("\taddi Temp_%d, Temp_%d, -4\n", idxoffs, idxoffs);
-	        fileWriter.format("\tsw $zero, 0(Temp_%d)\n", idxoffs);
-	        fileWriter.format("\tbne Temp_%d, Temp_%d, %s\n", idxoffs, idxaddr, label);
-	 }
+		fileWriter.format("\tadd Temp_%d, Temp_%d, Temp_%d\n", idxoffs, idxaddr, idxsize);
+		label(label);
+		fileWriter.format("\taddi Temp_%d, Temp_%d, -4\n", idxoffs, idxoffs);
+		fileWriter.format("\tsw $zero, 0(Temp_%d)\n", idxoffs);
+		fileWriter.format("\tbne Temp_%d, Temp_%d, %s\n", idxoffs, idxaddr, label);
+	}
 
 	public void add_str_length(TEMP len, TEMP char1, TEMP offset, String loopLabel) {
 		label(loopLabel);
@@ -310,19 +325,18 @@ public class sir_MIPS_a_lot {
 		fileWriter.format("\taddi $sp, $sp, %d\n", -WORD_SIZE); // move stack pointer down
 		fileWriter.format("\tsw Temp_%d,0($sp)\n", idxt);// save register value in stack
 	}
-	
+
 	public void pop(TEMP t) {
 		int idxt = t.getSerialNumber();
 		fileWriter.format("\tlw Temp_%d,0($sp)\n", idxt);// load stack value to t
 		fileWriter.format("\taddi $sp, $sp, %d\n", WORD_SIZE); // move stack pointer up
-		
-	}
-	
-	public void abort() {
-        fileWriter.format("\tli $v0, 10\n");
-        fileWriter.format("\tsyscall\n");
-    }
 
+	}
+
+	public void abort() {
+		fileWriter.format("\tli $v0, 10\n");
+		fileWriter.format("\tsyscall\n");
+	}
 
 	/**************************************/
 	/* Global data */
@@ -337,15 +351,22 @@ public class sir_MIPS_a_lot {
 		}
 	}
 
-	public static void add_VTs_to_data_list() { //need to handle inherited met	hods
+	public static void add_VTs_to_data_list() { // need to handle inherited met hods
 		String methods = "";
-		for(String class_name : Context.classMethods.keySet()) {
+		for (String class_name : Context.classMethods.keySet()) {
 			methods = "";
-			for(String method : Context.classMethods.get(class_name).keySet()) {
-				methods +=  Context.classMethods.get(class_name).get(method) + "_" + method + ",";
+			for (String method : Context.classMethods.get(class_name).keySet()) {
+				methods += Context.classMethods.get(class_name).get(method) + "_" + method + ",";
 			}
 			methods += "\n ";
 			add_to_global_data_list("VT_" + class_name, ".word", methods);
+		}
+	}
+
+	// Adding all the global variables as labels in the data section.
+	public static void add_global_variables_to_data_list() {
+		for (String global : Context.globals) {
+			add_to_global_data_list(global, ".word", "0");
 		}
 	}
 
@@ -354,7 +375,6 @@ public class sir_MIPS_a_lot {
 			instance.fileWriter.print(data);
 		}
 	}
-
 
 	/**************************************/
 	/* USUAL SINGLETON IMPLEMENTATION ... */
@@ -402,10 +422,10 @@ public class sir_MIPS_a_lot {
 			instance.fileWriter.print("string_illegal_div_by_0: .asciiz \"Illegal Division By Zero\"\n");
 			instance.fileWriter.print("string_invalid_ptr_dref: .asciiz \"Invalid Pointer Dereference\"\n");
 			add_VTs_to_data_list();
+			add_global_variables_to_data_list();
 			instance.writeGlobalData();
 		}
 		return instance;
 	}
-
 
 }

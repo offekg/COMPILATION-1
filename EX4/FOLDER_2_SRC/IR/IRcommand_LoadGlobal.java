@@ -27,7 +27,7 @@ public class IRcommand_LoadGlobal extends IRcommand {
 	/* MIPS me !!! */
 	/***************/
 	public void MIPSme() {
-		sir_MIPS_a_lot.getInstance().la(dst, var_name);
+		sir_MIPS_a_lot.getInstance().lw(dst, var_name);
 	}
 	
 	@Override
