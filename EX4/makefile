@@ -55,7 +55,7 @@ CUP_FLAGS =                                \
 #########################
 # DEFINITIONS :: PARSER #
 #########################
-INPUT    = ${INPUT_DIR}/Input.txt
+INPUT    = ${INPUT_DIR}/InputPicassoProgram.txt
 OUTPUT   = ${OUTPUT_DIR}/SemanticStatus.txt
 
 ##########
@@ -261,4 +261,4 @@ everything:
 	@echo "*                                       *"
 	@echo "*                                       *"
 	@echo "*****************************************"
-	spim -f ${OUTPUT_DIR}/MIPS.txt #> ${OUTPUT_DIR}/MIPS_OUTPUT.txt
+	spim -f ${OUTPUT_DIR}/MIPS.txt #> ${OUTPUT_DIR}/OutputMIPS.s

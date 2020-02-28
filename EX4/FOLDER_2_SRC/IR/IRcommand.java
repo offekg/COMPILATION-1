@@ -62,4 +62,11 @@ public abstract class IRcommand {
 
 		sir_MIPS_a_lot.getInstance().label(integerValidLabel);
 	}
+
+	public void zeroDivisionCheck(TEMP t){
+		String zeroDivLabel = getFreshLabel("zero_division");
+		sir_MIPS_a_lot.getInstance().beqz(t, zeroDivLabel);
+		
+
+	}
 }
