@@ -86,4 +86,22 @@ public class AST_DEC_LIST extends AST_Node {
 		this.head.IRme();
 		return this.tail == null ? null : this.tail.IRme();
 	}
+	
+	public void IRmeOnlyGlobals() {
+        if(head instanceof AST_DEC_VARDEC){
+            head.IRme();
+        }
+        if(tail != null){
+            tail.IROnlyGlobals();
+        }
+    }
+	
+	public void IRmeWithoutGlobals() {
+        if(!(head instanceof AST_DEC_VARDEC)){
+            head.IRme();
+        }
+        if(tail != null){
+            tail.IRmeWithoutGlobals();
+        }
+    }
 }
