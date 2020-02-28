@@ -18,7 +18,7 @@ public class Context {
 	public static String epilogueLabel;
 	public static TEMP currentObject;
 	// Each element in the list is the set of variables available in the current frame.
-	public static LinkedList<HashSet<String>> varStack = new LinkedList<>(Arrays.asList(new HashSet<>(), new HashSet<>()));
+	public static LinkedList<LinkedHashSet<String>> varStack = new LinkedList<>(Arrays.asList(new LinkedHashSet<>(), new LinkedHashSet<>()));
 	
 	// Details of each class in the program:
 	//
@@ -52,7 +52,7 @@ public class Context {
 	public static HashSet<String> classNames = new HashSet<>();
 	
 	// The set of global variables.
-	public static HashSet<String> globals = varStack.getFirst();
+	public static LinkedHashSet<String> globals = varStack.getFirst();
 	
 	// Each element in the list is the set of variables available in the current frame.
 	public static LinkedList<HashMap<String, Integer>> localFrameVarsList = new LinkedList<>(Arrays.asList(new HashMap<>()));

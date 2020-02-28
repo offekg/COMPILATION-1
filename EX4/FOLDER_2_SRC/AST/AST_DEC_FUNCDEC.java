@@ -4,6 +4,7 @@ import TYPES.*;
 import UTILS.Context;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 import IR.*;
 import SYMBOL_TABLE.*;
@@ -146,7 +147,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		IR.getInstance().Add_IRcommand(new IRcommand_Label(label));
 		IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue());
 		// Adding a new stack of local variables.
-		Context.varStack.addLast(new HashSet<>());
+		Context.varStack.addLast(new LinkedHashSet<>());
 		if (this.params != null) {			
 			this.params.IRme();
 		}

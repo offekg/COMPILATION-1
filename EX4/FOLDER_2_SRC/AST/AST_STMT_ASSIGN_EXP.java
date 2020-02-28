@@ -97,7 +97,7 @@ public class AST_STMT_ASSIGN_EXP extends AST_STMT {
 					IR.getInstance().Add_IRcommand(new IRcommand_StoreGlobal(varSimple.name, expTemp));
 					return expTemp;
 				}
-				IR.getInstance().Add_IRcommand(new IRcommand_Store(varSimple.name, expTemp));
+				IR.getInstance().Add_IRcommand(new IRcommand_StoreLocalVar(varSimple.name, expTemp));
 			}
 		} else if (var.isVarField()) {
 			AST_VAR_FIELD varField = (AST_VAR_FIELD) var;

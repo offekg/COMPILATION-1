@@ -62,6 +62,8 @@ public class AST_PROGRAM extends AST_Node {
 	}
 	
 	public TEMP IRme() {
-		return decList.IRme();
+		decList.IRmeOnlyGlobals();
+		decList.IRmeWithoutGlobals();;
+		return null;
 	}
 }

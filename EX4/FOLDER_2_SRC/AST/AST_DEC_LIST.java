@@ -92,7 +92,7 @@ public class AST_DEC_LIST extends AST_Node {
             head.IRme();
         }
         if(tail != null){
-            tail.IROnlyGlobals();
+            tail.IRmeOnlyGlobals();
         }
     }
 	
