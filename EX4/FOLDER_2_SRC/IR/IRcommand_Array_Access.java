@@ -49,7 +49,7 @@ public class IRcommand_Array_Access extends IRcommand
 		// handle invalid access
 		sir_MIPS_a_lot.getInstance().label(abort_label);
 		TEMP tAbort_msg = TEMP_FACTORY.getInstance().getFreshTEMP();
-		sir_MIPS_a_lot.getInstance().la(tAbort_msg, "string_invalid_ptr_dref");
+		sir_MIPS_a_lot.getInstance().la(tAbort_msg, "string_access_violation");
 		sir_MIPS_a_lot.getInstance().print_string(tAbort_msg);
 		sir_MIPS_a_lot.getInstance().abort();
 		

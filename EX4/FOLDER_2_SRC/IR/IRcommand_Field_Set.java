@@ -29,7 +29,8 @@ public class IRcommand_Field_Set extends IRcommand {
 	/* MIPS me !!! */
 	/***************/
 	public void MIPSme() {
-		sir_MIPS_a_lot.getInstance().beqz(instanceAddr, "abort");
+		sir_MIPS_a_lot.getInstance().objectInitializedCheck(instanceAddr);
+		//sir_MIPS_a_lot.getInstance().beqz(instanceAddr, "abort");
 		// Adding 4 because the first address is the VTable.
 		sir_MIPS_a_lot.getInstance().sw(value, instanceAddr, (fieldNumber * 4) + 4);
 	}

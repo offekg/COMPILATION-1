@@ -360,6 +360,19 @@ public class sir_MIPS_a_lot {
 
 	}
 
+	public void objectInitializedCheck(TEMP t){
+		String objectInitLabel = IRcommand.getFreshLabel("object_initialized");
+		sir_MIPS_a_lot.getInstance().beqz(t, objectInitLabel);
+		// add label to handel error
+		sir_MIPS_a_lot.getInstance().label(objectInitLabel);
+		TEMP tAbort_msg = TEMP_FACTORY.getInstance().getFreshTEMP();
+		sir_MIPS_a_lot.getInstance().la(tAbort_msg, "string_invalid_ptr_dref");
+		sir_MIPS_a_lot.getInstance().print_string(tAbort_msg);
+		sir_MIPS_a_lot.getInstance().jump("abort");
+
+	}
+
+
 	/**************************************/
 	/* Global data */
 	/**************************************/
