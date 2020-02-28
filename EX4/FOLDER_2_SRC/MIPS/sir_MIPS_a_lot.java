@@ -424,6 +424,7 @@ public class sir_MIPS_a_lot {
 			add_VTs_to_data_list();
 			add_global_variables_to_data_list();
 			instance.writeGlobalData();
+			instance.label("main");
 		}
 		return instance;
 	}
