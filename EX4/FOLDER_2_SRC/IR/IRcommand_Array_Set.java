@@ -46,7 +46,7 @@ public class IRcommand_Array_Set extends IRcommand
 		sir_MIPS_a_lot.getInstance().add(arrayPointer, arrayPointer, arrTemp);
 		
 		sir_MIPS_a_lot.getInstance().sw(value, arrayPointer, 0);
-		
+		// adding label that handel invalid access : 
 		sir_MIPS_a_lot.getInstance().label(abort_label);
 		TEMP tAbort_msg = TEMP_FACTORY.getInstance().getFreshTEMP();
 		sir_MIPS_a_lot.getInstance().la(tAbort_msg, "string_invalid_ptr_dref");

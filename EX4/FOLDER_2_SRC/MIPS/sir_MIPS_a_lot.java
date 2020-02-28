@@ -45,7 +45,7 @@ public class sir_MIPS_a_lot {
 		fileWriter.format("\tli $v0,11\n");
 		fileWriter.format("\tsyscall\n");
 		// print space after int is printed
-		fileWriter.format("\tsw $a0,space\n");
+		fileWriter.format("\tla $a0,space\n");
 		fileWriter.format("\tli $v0,4\n"); // print string syscall num is 4
 		fileWriter.format("\tsyscall\n");
 	}
