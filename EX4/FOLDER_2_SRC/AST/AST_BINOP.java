@@ -28,10 +28,10 @@ public class AST_BINOP extends AST_Node {
 			this.sOP = "/";
 		}
 		if (this.OP == 4) {
-			this.sOP = "<";
+			this.sOP = ">";
 		}
 		if (this.OP == 5) {
-			this.sOP = ">";
+			this.sOP = "<";
 		}
 		if (this.OP == 6) {
 			this.sOP = "=";
