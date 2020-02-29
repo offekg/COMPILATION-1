@@ -16,7 +16,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 	public String funcName;
 	public AST_FUNC_INPUT_VARS_LIST params;
 	public AST_STMT_LIST funcBody;
-	
+
 	public AST_DEC_FUNCDEC(String returnType, String funcName, AST_FUNC_INPUT_VARS_LIST params,
 			AST_STMT_LIST funcBody) {
 		this.returnType = returnType;
@@ -133,7 +133,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		if (funcBody != null)
 			AST_GRAPHVIZ.getInstance().logEdge(SerialNumber, funcBody.SerialNumber);
 	}
-	
+
 	@Override
 	public TEMP IRme() {
 		String label = "";
@@ -148,7 +148,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue());
 		// Adding a new stack of local variables.
 		Context.varStack.addLast(new LinkedHashSet<>());
-		if (this.params != null) {			
+		if (this.params != null) {
 			this.params.IRme();
 		}
 		if (Context.currentClassBuilder != null) {
@@ -156,7 +156,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 			IR.getInstance().Add_IRcommand(new IRcommand_Pop(objTemp));
 			Context.currentObject = objTemp;
 		}
-		if (this.funcBody != null) {			
+		if (this.funcBody != null) {
 			this.funcBody.IRme();
 		}
 		// Removing the stack added.

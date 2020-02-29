@@ -3,6 +3,7 @@ package AST;
 import TYPES.*;
 import UTILS.Context;
 import IR.IR;
+import IR.IRcommand_Get_Input_Var;
 import IR.IRcommand_Pop;
 import IR.IRcommand_StoreLocalVar;
 import SYMBOL_TABLE.*;
@@ -22,7 +23,8 @@ public class AST_FUNC_INPUT_VARS extends AST_Node {
 	@Override
 	public TEMP IRme() {
 		TEMP paramTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
-		IR.getInstance().Add_IRcommand(new IRcommand_Pop(paramTemp));
+		int index = Context.varStack.getLast().size();
+		IR.getInstance().Add_IRcommand(new IRcommand_Get_Input_Var(paramTemp, index));
 		Context.varStack.getLast().add(paramName);
 		IR.getInstance().Add_IRcommand(new IRcommand_StoreLocalVar(this.paramName, paramTemp));
 		return paramTemp;

@@ -143,12 +143,12 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 
 		// //push return address
 		// IR.getInstance().Add_IRcommand(new IRcommand_Push());
-		
+
 		int offset;
 		if (this.var != null) {
-			String className = ((AST_VAR_SIMPLE)var).className;
+			String className = ((AST_VAR_SIMPLE) var).className;
 			offset = findFunctionIndexInVtable(className);
-			
+
 			TEMP temp = this.var.IRme();
 			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(temp, offset));
 			return null;
@@ -156,7 +156,7 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 		if (!this.isGlobal) {
 			String className = Context.currentClassBuilder;
 			offset = findFunctionIndexInVtable(className);
-			
+
 			TEMP currentObject = Context.currentObject;
 			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(currentObject, offset));
 			return null;
@@ -164,18 +164,18 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 		IR.getInstance().Add_IRcommand(new IRcommand_Call_Global_Function(this.funcName));
 		return null;
 	}
-	
+
 	public int findFunctionIndexInVtable(String className) {
 		int count = 0;
 		SortedMap<String, String> funcs = Context.classMethods.get(className);
-		
+
 		for (String funcNameInVtable : funcs.keySet()) {
 			if (funcNameInVtable.equals(this.funcName)) {
 				return count;
 			}
 			count++;
 		}
-		
+
 		// garbage return, wont get here.
 		return -1;
 	}
