@@ -25,6 +25,7 @@ public class IRcommand_Pop extends IRcommand {
 	/* MIPS me !!! */
 	/***************/
 	public void MIPSme() {
+		sir_MIPS_a_lot.getInstance().pop(temp);
 	}
 	
 	@Override
