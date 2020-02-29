@@ -27,7 +27,7 @@ public class IRcommand_Get_Input_Var extends IRcommand {
 	/* MIPS me !!! */
 	/***************/
 	public void MIPSme() {
-		sir_MIPS_a_lot.getInstance().loadLocalVar(temp, -(index + 1));
+		sir_MIPS_a_lot.getInstance().loadLocalVar(temp, -(index + 2));
 	}
 	
 	@Override
