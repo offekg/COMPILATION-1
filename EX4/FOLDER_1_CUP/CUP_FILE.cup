@@ -394,9 +394,17 @@ exp			::=		var:v											{: RESULT = new AST_EXP_VAR(v); RESULT.setLineNumber(
 
 					| ID:name LPAREN expList:l RPAREN               {: RESULT = new AST_EXP_FUNC_CALL(null,name,l); RESULT.setLineNumber(nameleft);      :}
 
-					| MINUS INT:i 									{: RESULT = new AST_EXP_MINUS(i); RESULT.setLineNumber(ileft);		 :}
+					| MINUS INT:i 									{: if (i > 32768) {
+																			throw new Exception(-i + ": Invalid Integer");
+																		}
+																		RESULT = new AST_EXP_MINUS(i); RESULT.setLineNumber(ileft);		 
+																	:}
 
-					| INT:i 										{: RESULT = new AST_EXP_INT(i); RESULT.setLineNumber(ileft);		     :}
+					| INT:i 										{: if (i > 32767) {
+																			throw new Exception(i + ": Invalid Integer");
+																		}
+																		RESULT = new AST_EXP_INT(i); RESULT.setLineNumber(ileft);		     
+																	:}
 
 					| NIL:nil											{: RESULT = new AST_EXP_NIL(); RESULT.setLineNumber(nilleft);			 :}
 
