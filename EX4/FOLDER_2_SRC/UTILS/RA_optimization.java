@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class RA_optimization {
 	static int tempsCount = TEMP_FACTORY.getCounter();
 	static String inputFilePath = "FOLDER_5_OUTPUT/MIPS.txt";
-	static Pattern tempsRegex = Pattern.compile("Temp_(d+)");
+	static Pattern tempsRegex = Pattern.compile("Temp_(\\d+)");
 
 	static String mipsFileContent = "";
 
@@ -33,12 +33,14 @@ public class RA_optimization {
 				int index = Integer.parseInt(matchedRegex.group(1));
 
 				if (tempContexts[index] != null) {
-					tempContexts[index].end = lineNumber++;
+					tempContexts[index].end = lineNumber;
 				} else {
-					TempContext newTemp = new TempContext(index, lineNumber, lineNumber++);
+					TempContext newTemp = new TempContext(index, lineNumber, lineNumber);
 					tempContexts[index] = newTemp;
 				}
 			}
+			
+			lineNumber++;
 		}
 
 		return tempContexts;
@@ -52,7 +54,7 @@ public class RA_optimization {
 
 			for (int j = i + 1; j < tempContexts.length; j++) {
 				TempContext temp2 = tempContexts[j];
-
+				
 				if (temp1.isTempsIntersecting(temp2)) {
 					temp1.intersections.add(temp2.index);
 					temp2.intersections.add(temp1.index);
@@ -68,11 +70,11 @@ public class RA_optimization {
 		buildInterferenceGraph(graph);
 		HashMap<Integer, Integer> colored = graph.greedyColoring();
 
-		for (int i = 0; i < tempsCount; i++) {
-			mipsFileContent.replaceAll("Temp_" + String.valueOf(i), "$t" + colored.get(i));
+		for (int i = tempsCount - 1; i >= 0; i--) {
+			mipsFileContent = mipsFileContent.replaceAll("Temp_" + String.valueOf(i), "\\$t" + colored.get(i));
 		}
-
-		FileWriter outputWriter = new FileWriter(outputFilePath);
+		
+		FileWriter outputWriter = new FileWriter(inputFilePath);
 		outputWriter.write(mipsFileContent);
 		outputWriter.close();
 
