@@ -101,7 +101,7 @@ public class sir_MIPS_a_lot {
 
 	public void storeLocalVar(int var_offset, TEMP src) {
 		int idxsrc = src.getSerialNumber();
-		fileWriter.format("\taddi $sp, $sp, %d\n", -WORD_SIZE); // move stack pointer down
+		//fileWriter.format("\taddi $sp, $sp, %d\n", -WORD_SIZE); // move stack pointer down
 		fileWriter.format("\tsw Temp_%d,%d($fp)\n", idxsrc, -(var_offset * WORD_SIZE));// save register value in stack
 	}
 
@@ -262,13 +262,13 @@ public class sir_MIPS_a_lot {
 		fileWriter.format("\tbne Temp_%d, $zero, %s\n", i1, label);
 	}
 
-	public void malloc(TEMP dst, TEMP size) {
-		int idxdst = dst.getSerialNumber();
-		int idxSize = size.getSerialNumber();
+	public void malloc(TEMP t, TEMP size) {
+		int idxt = t.getSerialNumber();
+		int idxSize = t.getSerialNumber();
 		fileWriter.format("\tmove $a0,Temp_%d\n", idxSize);
 		fileWriter.format("\tli $v0,9\n");
 		fileWriter.format("\tsyscall\n");
-		fileWriter.format("\tmove Temp_%d, $v0\n", idxdst);
+		fileWriter.format("\tmove Temp_%d, $v0\n", idxt);
 	}
 
 	public void allocate_stack(int size) {
@@ -410,10 +410,8 @@ public class sir_MIPS_a_lot {
 	}
 
 	public void writeGlobalData() {
-		if(dataList != null) {
-			for (String data : dataList) {
-				instance.fileWriter.print(data);
-			}
+		if (dataList != null){
+
 		}
 	}
 
