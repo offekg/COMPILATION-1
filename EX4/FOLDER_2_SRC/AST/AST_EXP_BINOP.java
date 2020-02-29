@@ -135,11 +135,11 @@ public class AST_EXP_BINOP extends AST_EXP {
 			break;
 
 		case 4:
-			IR.getInstance().Add_IRcommand(new IRcommand_Binop_LT_Integers(dst, t1, t2));
+			IR.getInstance().Add_IRcommand(new IRcommand_Binop_LT_Integers(dst, t2, t1));
 			break;
 
 		case 5:
-			IR.getInstance().Add_IRcommand(new IRcommand_Binop_LT_Integers(dst, t2, t1));
+			IR.getInstance().Add_IRcommand(new IRcommand_Binop_LT_Integers(dst, t1, t2));
 			break;
 
 		case 6:
