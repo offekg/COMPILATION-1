@@ -262,13 +262,13 @@ public class sir_MIPS_a_lot {
 		fileWriter.format("\tbne Temp_%d, $zero, %s\n", i1, label);
 	}
 
-	public void malloc(TEMP t, TEMP size) {
-		int idxt = t.getSerialNumber();
-		int idxSize = t.getSerialNumber();
+	public void malloc(TEMP dst, TEMP size) {
+		int idxdst = dst.getSerialNumber();
+		int idxSize = size.getSerialNumber();
 		fileWriter.format("\tmove $a0,Temp_%d\n", idxSize);
 		fileWriter.format("\tli $v0,9\n");
 		fileWriter.format("\tsyscall\n");
-		fileWriter.format("\tmove Temp_%d, $v0\n", idxt);
+		fileWriter.format("\tmove Temp_%d, $v0\n", idxdst);
 	}
 
 	public void allocate_stack(int size) {
@@ -410,8 +410,10 @@ public class sir_MIPS_a_lot {
 	}
 
 	public void writeGlobalData() {
-		if (dataList != null){
-
+		if(dataList != null) {
+			for (String data : dataList) {
+				instance.fileWriter.print(data);
+			}
 		}
 	}
 
