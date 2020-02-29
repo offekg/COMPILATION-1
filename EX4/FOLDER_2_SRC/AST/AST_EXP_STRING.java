@@ -43,7 +43,7 @@ public class AST_EXP_STRING extends AST_EXP {
 		if(!Context.globalFunctions.containsKey(val)) {
 			sLabel = "Const_String_number_" + numOfHardCodedStrings;
 			numOfHardCodedStrings++;
-			Context.globalFunctions.put(val, sLabel);
+			Context.stringLabels.put(val, sLabel);
 			//sir_MIPS_a_lot.add_to_global_data_list(sLabel, ".asciiz", "\"" + val + "\""); maybe to many ""
 			sir_MIPS_a_lot.add_to_global_data_list(sLabel, ".asciiz", val);
 		}
