@@ -44,7 +44,8 @@ public class AST_EXP_STRING extends AST_EXP {
 			sLabel = "Const_String_number_" + numOfHardCodedStrings;
 			numOfHardCodedStrings++;
 			Context.globalFunctions.put(val, sLabel);
-			sir_MIPS_a_lot.add_to_global_data_list(sLabel, ".asciiz", "\"" + val + "\"");
+			//sir_MIPS_a_lot.add_to_global_data_list(sLabel, ".asciiz", "\"" + val + "\""); maybe to many ""
+			sir_MIPS_a_lot.add_to_global_data_list(sLabel, ".asciiz", val);
 		}
 		
 		return TYPE_STRING.getInstance();

@@ -410,8 +410,10 @@ public class sir_MIPS_a_lot {
 	}
 
 	public void writeGlobalData() {
-		for (String data : dataList) {
-			instance.fileWriter.print(data);
+		if(dataList != null) {
+			for (String data : dataList) {
+				instance.fileWriter.print(data);
+			}
 		}
 	}
 
