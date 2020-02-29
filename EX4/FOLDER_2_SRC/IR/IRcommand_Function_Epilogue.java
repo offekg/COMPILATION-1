@@ -20,17 +20,18 @@ import MIPS.*;
 
 public class IRcommand_Function_Epilogue extends IRcommand {
 	String funcName;
+	String epilogueLabel;
 
 	public IRcommand_Function_Epilogue(String funcName) {
 		this.funcName = funcName;
+		this.epilogueLabel = Context.epilogueLabel;
 	}
 
 	/***************/
 	/* MIPS me !!! */
 	/***************/
 	public void MIPSme() {
-		String funcEndLabel = IRcommand.getFreshLabel(funcName + "_epilogue");
-		sir_MIPS_a_lot.getInstance().function_epilogue(funcEndLabel,funcName);
+		sir_MIPS_a_lot.getInstance().function_epilogue(epilogueLabel,funcName);
 		Context.localFrameVarsList.removeLast();
 	}
 	

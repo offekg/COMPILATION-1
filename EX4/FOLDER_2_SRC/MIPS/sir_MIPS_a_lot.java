@@ -30,6 +30,7 @@ public class sir_MIPS_a_lot {
 	/* The file writer ... */
 	/***********************/
 	public void finalizeFile() {
+		label("exit");
 		fileWriter.print("\tli $v0,10\n");
 		fileWriter.print("\tsyscall\n");
 		fileWriter.close();
@@ -344,6 +345,11 @@ public class sir_MIPS_a_lot {
 	}
 
 	public void abort() {
+		jump("abort");
+	}
+	
+	public void createAbort() {
+		label("abort");
 		fileWriter.format("\tli $v0, 10\n");
 		fileWriter.format("\tsyscall\n");
 	}
@@ -356,7 +362,7 @@ public class sir_MIPS_a_lot {
 		TEMP tAbort_msg = TEMP_FACTORY.getInstance().getFreshTEMP();
 		sir_MIPS_a_lot.getInstance().la(tAbort_msg, "string_illegal_div_by_0");
 		sir_MIPS_a_lot.getInstance().print_string(tAbort_msg);
-		sir_MIPS_a_lot.getInstance().jump("abort");
+		abort();
 
 	}
 
@@ -368,7 +374,7 @@ public class sir_MIPS_a_lot {
 		TEMP tAbort_msg = TEMP_FACTORY.getInstance().getFreshTEMP();
 		sir_MIPS_a_lot.getInstance().la(tAbort_msg, "string_invalid_ptr_dref");
 		sir_MIPS_a_lot.getInstance().print_string(tAbort_msg);
-		sir_MIPS_a_lot.getInstance().jump("abort");
+		abort();
 
 	}
 
@@ -381,9 +387,7 @@ public class sir_MIPS_a_lot {
 	public static void add_to_global_data_list(String string_label, String type, String data) {
 		if (dataList == null)
 			dataList = new LinkedList<String>();
-		else {
-			dataList.add(String.format("%s: %s %s\n", string_label, type, data));
-		}
+		dataList.add(String.format("%s: %s %s\n", string_label, type, data));
 	}
 
 	public static void add_VTs_to_data_list() { // need to handle inherited met hods

@@ -173,7 +173,9 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 	}
 	
 	public void createClassConstructorIR() {
-		IR.getInstance().Add_IRcommand(new IRcommand_Label(name + "_constructor"));
+		String label = name + "_constructor";
+		Context.epilogueLabel = label + "_epilogue";
+		IR.getInstance().Add_IRcommand(new IRcommand_Label(label));
 		IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue());
 		int sizeToAllocate = Context.classFields.get(Context.currentClassBuilder).size() + 1;
 		TEMP t = TEMP_FACTORY.getInstance().getFreshTEMP();
