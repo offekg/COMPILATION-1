@@ -148,12 +148,11 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 
 		// push all expList to stack
 		AST_EXP_LIST cur = expList;
-		List<TEMP> argList = new LinkedList<>();
+		LinkedList<TEMP> argList = new LinkedList<>();
 		while (cur != null) {
-			argList.add(cur.head.IRme());
+			argList.addFirst(cur.head.IRme());
 			cur = cur.tail;
 		}
-		Collections.reverse(argList);
 		argList.forEach(t1 -> {			
 			IR.getInstance().Add_IRcommand(new IRcommand_Push(t1));
 		});

@@ -137,12 +137,11 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 
 		// push all args to stack
 		AST_EXP_LIST cur = args;
-		List<TEMP> argList = new LinkedList<>();
+		LinkedList<TEMP> argList = new LinkedList<>();
 		while (cur != null) {
-			argList.add(cur.head.IRme());
+			argList.addFirst(cur.head.IRme());
 			cur = cur.tail;
 		}
-		Collections.reverse(argList);
 		argList.forEach(t1 -> {			
 			IR.getInstance().Add_IRcommand(new IRcommand_Push(t1));
 		});
