@@ -39,7 +39,7 @@ public class IRcommand_New_Array extends IRcommand
 		//return size to original, and store at first cell allocated.
 		sir_MIPS_a_lot.getInstance().srl(this.size,this.size,2);
         sir_MIPS_a_lot.getInstance().addi(this.size,this.size,-1);
-        sir_MIPS_a_lot.getInstance().move(dest,size);
+        sir_MIPS_a_lot.getInstance().sw(size,dest,0);
 	}
 	
 	@Override
