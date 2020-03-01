@@ -1,14 +1,15 @@
 package IR;
 
+import MIPS.sir_MIPS_a_lot;
 import TEMP.*;
 
 public class IRcommand_LoadReturnValue extends IRcommand{
 	
-	public TEMP t;
+	public TEMP dst;
 	
 	public IRcommand_LoadReturnValue(TEMP t)
 	{
-		this.t = t;
+		this.dst = t;
         
 	}
 
@@ -16,13 +17,13 @@ public class IRcommand_LoadReturnValue extends IRcommand{
 	public void MIPSme() {
 		
 
-		//sir_MIPS_a_lot.getInstance().storeReturnValueONStack(t);
+		sir_MIPS_a_lot.getInstance().loadReturnValue(dst);
 
 	}
 	
 	@Override
 	public void printMe() {
-		System.out.println(t.getSymbol() + " = v0");
+		System.out.println(dst.getSymbol() + " = v0");
 	}
 
 }

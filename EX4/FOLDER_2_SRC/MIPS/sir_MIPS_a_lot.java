@@ -116,6 +116,10 @@ public class sir_MIPS_a_lot {
 		fileWriter.format("\tmove $v0, Temp_%d\n", idxsrc);
 	}
 
+	public void loadReturnValue(TEMP dst) {
+		int idxdst = dst.getSerialNumber();
+		fileWriter.format("\tmove Temp_%d, $v0\n", idxdst);
+	}
 	public void move(TEMP dst, TEMP src) {
 		int idxsrc = src.getSerialNumber();
 		int idxdst = dst.getSerialNumber();
