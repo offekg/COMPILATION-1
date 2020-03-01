@@ -384,8 +384,6 @@ exp			::=		var:v											{: RESULT = new AST_EXP_VAR(v); RESULT.setLineNumber(
 
 					| LPAREN exp:e RPAREN							{: RESULT = new AST_EXP_EXP(e); RESULT.setLineNumber(eleft);			 :}
 
-					| exp:e1 BINOP:b exp:e2							{: RESULT = new AST_EXP_BINOP(e1,e2,b); RESULT.setLineNumber(e1left);	 :}
-
 					| var:v DOT ID:name LPAREN RPAREN   			{: RESULT = new AST_EXP_FUNC_CALL(v,name,null); RESULT.setLineNumber(vleft);:}
 
 					| var:v DOT ID:name LPAREN expList:l RPAREN     {: RESULT = new AST_EXP_FUNC_CALL(v,name,l); RESULT.setLineNumber(vleft);         :}
@@ -410,6 +408,20 @@ exp			::=		var:v											{: RESULT = new AST_EXP_VAR(v); RESULT.setLineNumber(
 
 					| STRING:s 										{: RESULT = new AST_EXP_STRING(s); RESULT.setLineNumber(sleft);		 :}
 
+					| exp:e1 EQ exp:e2							{: RESULT = new AST_EXP_BINOP(e1,e2,new AST_BINOP(6)); RESULT.setLineNumber(e1left);	 :}
+					
+					| exp:e1 LT exp:e2							{: RESULT = new AST_EXP_BINOP(e1,e2,new AST_BINOP(5)); RESULT.setLineNumber(e1left);	 :}
+					
+					| exp:e1 GT exp:e2							{: RESULT = new AST_EXP_BINOP(e1,e2,new AST_BINOP(4)); RESULT.setLineNumber(e1left);	 :}
+					
+					| exp:e1 DIVIDE:b exp:e2							{: RESULT = new AST_EXP_BINOP(e1,e2,new AST_BINOP(3)); RESULT.setLineNumber(e1left);	 :}
+					
+					| exp:e1 TIMES:b exp:e2							{: RESULT = new AST_EXP_BINOP(e1,e2,new AST_BINOP(2)); RESULT.setLineNumber(e1left);	 :}
+					
+					| exp:e1 MINUS:b exp:e2							{: RESULT = new AST_EXP_BINOP(e1,e2,new AST_BINOP(1)); RESULT.setLineNumber(e1left);	 :}
+					
+					| exp:e1 PLUS:b exp:e2							{: RESULT = new AST_EXP_BINOP(e1,e2,new AST_BINOP(0)); RESULT.setLineNumber(e1left);	 :}
+					
 					; 
 
 					
