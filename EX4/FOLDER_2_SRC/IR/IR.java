@@ -49,6 +49,9 @@ public class IR
 	{
 		if (head != null) head.MIPSme();
 		if (tail != null) tail.MIPSme();
+		sir_MIPS_a_lot.getInstance().createAccessViolation();
+		sir_MIPS_a_lot.getInstance().createDivisionByZero();
+		sir_MIPS_a_lot.getInstance().createInvalidPtrDref();
 		sir_MIPS_a_lot.getInstance().createAbort();
 	}
 	

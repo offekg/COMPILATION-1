@@ -352,6 +352,28 @@ public class sir_MIPS_a_lot {
 		jump("abort");
 	}
 	
+	public void createAccessViolation() {
+		label("Access_Violation");
+		TEMP tAbort_msg = TEMP_FACTORY.getInstance().getFreshTEMP();
+		sir_MIPS_a_lot.getInstance().la(tAbort_msg, "string_access_violation");
+		sir_MIPS_a_lot.getInstance().print_string(tAbort_msg);
+		sir_MIPS_a_lot.getInstance().abort();		
+	}
+	public void createDivisionByZero() {
+		label("Division_By_Zero");
+		TEMP tAbort_msg = TEMP_FACTORY.getInstance().getFreshTEMP();
+		sir_MIPS_a_lot.getInstance().la(tAbort_msg, "string_illegal_div_by_0");
+		sir_MIPS_a_lot.getInstance().print_string(tAbort_msg);
+		sir_MIPS_a_lot.getInstance().abort();	
+	}
+	public void createInvalidPtrDref() {
+		label("Invalid_Ptr_Dref");
+		TEMP tAbort_msg = TEMP_FACTORY.getInstance().getFreshTEMP();
+		sir_MIPS_a_lot.getInstance().la(tAbort_msg, "string_invalid_ptr_dref");
+		sir_MIPS_a_lot.getInstance().print_string(tAbort_msg);
+		sir_MIPS_a_lot.getInstance().abort();	
+	}
+	
 	public void createAbort() {
 		label("abort");
 		fileWriter.format("\tli $v0, 10\n");
@@ -359,27 +381,13 @@ public class sir_MIPS_a_lot {
 	}
 
 	public void zeroDivisionCheck(TEMP t){
-		String zeroDivLabel = IRcommand.getFreshLabel("zero_division");
+		String zeroDivLabel = "Division_By_Zero";
 		sir_MIPS_a_lot.getInstance().beqz(t, zeroDivLabel);
-		// add label to handel error
-		sir_MIPS_a_lot.getInstance().label(zeroDivLabel);
-		TEMP tAbort_msg = TEMP_FACTORY.getInstance().getFreshTEMP();
-		sir_MIPS_a_lot.getInstance().la(tAbort_msg, "string_illegal_div_by_0");
-		sir_MIPS_a_lot.getInstance().print_string(tAbort_msg);
-		abort();
-
 	}
 
 	public void objectInitializedCheck(TEMP t){
-		String objectInitLabel = IRcommand.getFreshLabel("object_initialized");
+		String objectInitLabel = "Invalid_Ptr_Dref";
 		sir_MIPS_a_lot.getInstance().beqz(t, objectInitLabel);
-		// add label to handel error
-		sir_MIPS_a_lot.getInstance().label(objectInitLabel);
-		TEMP tAbort_msg = TEMP_FACTORY.getInstance().getFreshTEMP();
-		sir_MIPS_a_lot.getInstance().la(tAbort_msg, "string_invalid_ptr_dref");
-		sir_MIPS_a_lot.getInstance().print_string(tAbort_msg);
-		abort();
-
 	}
 
 

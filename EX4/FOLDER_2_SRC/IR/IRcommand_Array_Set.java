@@ -32,7 +32,7 @@ public class IRcommand_Array_Set extends IRcommand
 	public void MIPSme()
 	{
 		//check index is valid
-		String abort_label = getFreshLabel("bad_index_abort");
+		String abort_label = "Access_Violation";
 		sir_MIPS_a_lot.getInstance().bltz(subscriptTemp,abort_label);
 		TEMP arraySize = TEMP_FACTORY.getInstance().getFreshTEMP();
 		sir_MIPS_a_lot.getInstance().lw(arraySize,arrTemp,0);
@@ -46,12 +46,8 @@ public class IRcommand_Array_Set extends IRcommand
 		sir_MIPS_a_lot.getInstance().add(arrayPointer, arrayPointer, arrTemp);
 		
 		sir_MIPS_a_lot.getInstance().sw(value, arrayPointer, 0);
-		// adding label that handel invalid access : 
-		sir_MIPS_a_lot.getInstance().label(abort_label);
-		TEMP tAbort_msg = TEMP_FACTORY.getInstance().getFreshTEMP();
-		sir_MIPS_a_lot.getInstance().la(tAbort_msg, "string_access_violation");
-		sir_MIPS_a_lot.getInstance().print_string(tAbort_msg);
-		sir_MIPS_a_lot.getInstance().abort();		
+		// adding label that handel invalid access :
+	
 	}
 	
 	@Override
