@@ -37,6 +37,13 @@ public class IRcommand_Field_Set extends IRcommand {
 
 	@Override
 	public void printMe() {
-		System.out.println("field_set " + instanceAddr.getSymbol() + ", " + fieldNumber + ", " + value.getSymbol());
+		if (value != null){
+			System.out.println("field_set " + instanceAddr.getSymbol() + ", " + fieldNumber + ", " + value.getSymbol());
+
+		}
+		else{
+			System.out.println("field_set " + instanceAddr.getSymbol() + ", " + fieldNumber + ",null");
+
+		}
 	}
 }
