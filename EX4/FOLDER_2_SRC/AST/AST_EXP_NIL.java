@@ -2,6 +2,9 @@ package AST;
 
 import TYPES.*;
 import SYMBOL_TABLE.*;
+import TEMP.TEMP;
+import TEMP.TEMP_FACTORY;
+import IR.*;
 
 public class AST_EXP_NIL extends AST_EXP {
 	public AST_EXP_NIL() {
@@ -25,5 +28,11 @@ public class AST_EXP_NIL extends AST_EXP {
 
 	public TYPE SemantMe() {
 		return TYPE_NILL.getInstance();
+	}
+	
+	public TEMP IRme() {
+		TEMP temp = TEMP_FACTORY.getInstance().getFreshTEMP();
+		IR.getInstance().Add_IRcommand(new IRcommandConstInt(temp,0));
+		return temp;
 	}
 }
