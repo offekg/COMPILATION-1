@@ -174,6 +174,7 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 	
 	public void createClassConstructorIR() {
 		String label = name + "_constructor";
+		Context.globalFunctions.put(label, label);
 		Context.epilogueLabel = label + "_epilogue";
 		IR.getInstance().Add_IRcommand(new IRcommand_Label(label));
 		IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue());
