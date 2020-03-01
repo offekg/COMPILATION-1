@@ -378,6 +378,7 @@ public class sir_MIPS_a_lot {
 		label("abort");
 		fileWriter.format("\tli $v0, 10\n");
 		fileWriter.format("\tsyscall\n");
+		fileWriter.close();
 	}
 
 	public void zeroDivisionCheck(TEMP t){
