@@ -35,7 +35,7 @@ public class IRcommand_Array_Access extends IRcommand
 		String abort_label = getFreshLabel("bad_index_abort");
 		sir_MIPS_a_lot.getInstance().bltz(subscriptTemp,abort_label);
 		TEMP arraySize = TEMP_FACTORY.getInstance().getFreshTEMP();
-		sir_MIPS_a_lot.getInstance().lw(arraySize,arrTemp,0);
+		sir_MIPS_a_lot.getInstance().move(arraySize,arrTemp);
 		sir_MIPS_a_lot.getInstance().bge(subscriptTemp,arraySize,abort_label);
 		
 		//get pointer to wanted cell
