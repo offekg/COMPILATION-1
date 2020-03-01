@@ -3,6 +3,9 @@ package AST;
 import TYPES.*;
 import UTILS.Context;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.SortedMap;
 
 import IR.*;
@@ -134,12 +137,15 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 
 		// push all args to stack
 		AST_EXP_LIST cur = args;
-		TEMP t2;
+		List<TEMP> argList = new LinkedList<>();
 		while (cur != null) {
-			t2 = cur.head.IRme();
-			IR.getInstance().Add_IRcommand(new IRcommand_Push(t2));
+			argList.add(cur.head.IRme());
 			cur = cur.tail;
 		}
+		Collections.reverse(argList);
+		argList.forEach(t1 -> {			
+			IR.getInstance().Add_IRcommand(new IRcommand_Push(t1));
+		});
 
 		// //push return address
 		// IR.getInstance().Add_IRcommand(new IRcommand_Push());

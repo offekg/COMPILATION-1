@@ -3,6 +3,9 @@ package AST;
 import TYPES.*;
 import UTILS.Context;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.SortedMap;
 
 import IR.IR;
@@ -145,12 +148,15 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 
 		// push all expList to stack
 		AST_EXP_LIST cur = expList;
-		TEMP t2;
+		List<TEMP> argList = new LinkedList<>();
 		while (cur != null) {
-			t2 = cur.head.IRme();
-			IR.getInstance().Add_IRcommand(new IRcommand_Push(t2));
+			argList.add(cur.head.IRme());
 			cur = cur.tail;
 		}
+		Collections.reverse(argList);
+		argList.forEach(t1 -> {			
+			IR.getInstance().Add_IRcommand(new IRcommand_Push(t1));
+		});
 		
 		int offset;
 
