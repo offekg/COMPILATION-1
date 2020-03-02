@@ -181,7 +181,9 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 		int sizeToAllocate = Context.classFields.get(Context.currentClassBuilder).size() + 1;
 		TEMP t = TEMP_FACTORY.getInstance().getFreshTEMP();
 		IR.getInstance().Add_IRcommand(new IRcommand_Malloc(t, sizeToAllocate));
-		IR.getInstance().Add_IRcommand(new IRcommand_Set_Virtual_Table(t, name));
+		//check if there are functions, and set VT if there are:
+		if (Context.classMethods.size() > 0)
+			IR.getInstance().Add_IRcommand(new IRcommand_Set_Virtual_Table(t, name));
         setDefaultValues(this, t);
 		IR.getInstance().Add_IRcommand(new IRcommand_StoreReturnValue(t));
         IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue("constructor", 0));
