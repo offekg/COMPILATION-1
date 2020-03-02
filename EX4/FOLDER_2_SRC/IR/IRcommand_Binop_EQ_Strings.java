@@ -63,7 +63,7 @@ public class IRcommand_Binop_EQ_Strings extends IRcommand
         sir_MIPS_a_lot.getInstance().lb(char2, 0, offset2);
         
         //check if chars are equal 
-        sir_MIPS_a_lot.getInstance().bne(char1, char1, label_AssignOne); 
+        sir_MIPS_a_lot.getInstance().bne(char1, char2, label_AssignOne); 
         
         //if we saw they are equal, and finished the strings.
         sir_MIPS_a_lot.getInstance().beqz(char1, label_AssignZero);
