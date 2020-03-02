@@ -414,6 +414,9 @@ public class sir_MIPS_a_lot {
 			if(!methods.equals("\n")){
 				add_to_global_data_list("VT_" + class_name, ".word", methods);
 			}
+			else{
+				add_to_global_data_list("VT_" + class_name, "", "\n");
+			}
 		}
 	}
 
