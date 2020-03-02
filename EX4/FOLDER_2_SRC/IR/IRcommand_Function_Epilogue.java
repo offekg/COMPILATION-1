@@ -33,7 +33,7 @@ public class IRcommand_Function_Epilogue extends IRcommand {
 	/* MIPS me !!! */
 	/***************/
 	public void MIPSme() {
-		sir_MIPS_a_lot.getInstance().function_epilogue(epilogueLabel,funcName);
+		sir_MIPS_a_lot.getInstance().function_epilogue(epilogueLabel,funcName, numParams);
 		Context.localFrameVarsList.removeLast();
 	}
 	

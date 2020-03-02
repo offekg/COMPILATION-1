@@ -297,15 +297,16 @@ public class sir_MIPS_a_lot {
 		 */
 	}
 
-	public void function_epilogue(String end_label, String funcName) {
+	public void function_epilogue(String epilogue_label, String funcName, int numParams) {
 
-		label(end_label);
+		label(epilogue_label);
 		// fileWriter.format("\taddi $sp, $sp, %d\n", 4 * (SizeFrame+1)); if we do
 		// decide to move sp by size
 		fileWriter.format("\tmove $sp, $fp\n");
 		fileWriter.format("\tlw	$ra, 4($fp)\n"); // bring back the relevant ra
 		fileWriter.format("\tlw	$fp, 0($fp)\n");
 		fileWriter.format("\taddi $sp, $sp, 8\n");
+		fileWriter.format("\taddi $sp, $sp, %d\n", WORD_SIZE * numParams); //roll up sp to before params where pushed
 		if (funcName.equals("main")) {
 			return;
 		}
