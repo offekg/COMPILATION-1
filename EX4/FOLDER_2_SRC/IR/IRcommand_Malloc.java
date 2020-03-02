@@ -15,13 +15,13 @@ import MIPS.*;
 
 public class IRcommand_Malloc extends IRcommand
 {
-	int size;
+	int size_in_cells;
 	TEMP t;
 	
 	public IRcommand_Malloc(TEMP t, int size)
 	{
 		this.t = t;
-		this.size = size;
+		this.size_in_cells = size;
 	}
 	
 	/***************/
@@ -30,12 +30,12 @@ public class IRcommand_Malloc extends IRcommand
 	public void MIPSme()
 	{
 		TEMP tSize = TEMP_FACTORY.getInstance().getFreshTEMP();
-		sir_MIPS_a_lot.getInstance().li(tSize, size);
+		sir_MIPS_a_lot.getInstance().li(tSize, size_in_cells * 4);
 		sir_MIPS_a_lot.getInstance().malloc(t,tSize);
 	}
 	
 	@Override
 	public void printMe() {
-		System.out.println(t.getSymbol() + " = malloc (" + size + ")");
+		System.out.println(t.getSymbol() + " = malloc (" + size_in_cells + " * 4)");
 	}
 }
