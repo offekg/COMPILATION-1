@@ -35,6 +35,7 @@ public class IRcommand_Call_Virtual_Function extends IRcommand {
         sir_MIPS_a_lot.getInstance().lw(func_label_address, object, 0);
         sir_MIPS_a_lot.getInstance().addi(func_label_address,func_label_address,4*offset);
         sir_MIPS_a_lot.getInstance().jal(func_label_address);
+        //sir_MIPS_a_lot.getInstance().pop(??); need to pop out the object?
 	}
 
 	@Override

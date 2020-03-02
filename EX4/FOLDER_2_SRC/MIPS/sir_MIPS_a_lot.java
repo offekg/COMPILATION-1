@@ -82,6 +82,12 @@ public class sir_MIPS_a_lot {
 		int idxdst = dst.getSerialNumber();
 		fileWriter.format("\tlw Temp_%d,%d($fp)\n", idxdst, -(var_offset * WORD_SIZE));
 	}
+	
+	public void loadFuncParam(TEMP dst, int param_index) {
+		int idxdst = dst.getSerialNumber();
+		fileWriter.format("\tlw Temp_%d,%d($fp)\n", idxdst, ((param_index + 10) * WORD_SIZE));
+		// + 2 for ra and fp and + 8 for registers
+	}
 
 	public void lw(TEMP dst, TEMP src, int offset) {
 		int idxdst = dst.getSerialNumber();
@@ -281,6 +287,7 @@ public class sir_MIPS_a_lot {
 
 	public void function_prolog() {
 
+		store_registers(); //store all 8 registers
 		fileWriter.format("\taddi $sp, $sp, -4\n"); // make space for return address
 		fileWriter.format("\tsw	$ra, 0($sp)\n"); // save return address
 		fileWriter.format("\taddi $sp, $sp, -4\n"); // make space for prev fp
@@ -306,6 +313,7 @@ public class sir_MIPS_a_lot {
 		fileWriter.format("\tlw	$ra, 4($fp)\n"); // bring back the relevant ra
 		fileWriter.format("\tlw	$fp, 0($fp)\n");
 		fileWriter.format("\taddi $sp, $sp, 8\n");
+		re_store_registers();
 		fileWriter.format("\taddi $sp, $sp, %d\n", WORD_SIZE * numParams); //roll up sp to before params where pushed
 		if (funcName.equals("main")) {
 			return;
@@ -346,8 +354,21 @@ public class sir_MIPS_a_lot {
 		int idxt = t.getSerialNumber();
 		fileWriter.format("\tlw Temp_%d,0($sp)\n", idxt);// load stack value to t
 		fileWriter.format("\taddi $sp, $sp, %d\n", WORD_SIZE); // move stack pointer up
-
 	}
+	
+	public void store_registers() {
+        fileWriter.format("\taddi $sp, $sp, -32\n");
+        for (int i = 0; i < 8; i++) {
+            fileWriter.format("\tsw	$t%d, %d($sp)\n", i, 4 * i);
+        }
+    }
+	 public void re_store_registers() {
+	    for (int i = 0; i < 8; i++) {
+	        fileWriter.format("\tlw	$t%d, %d($sp)\n", i, 4 * i);
+	    }
+	    fileWriter.format("\taddi $sp, $sp, 32\n");
+	}
+
 
 	public void abort() {
 		jump("abort");
