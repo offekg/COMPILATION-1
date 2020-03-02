@@ -28,7 +28,9 @@ public class IRcommand_Set_Virtual_Table extends IRcommand {
 	/***************/
 	public void MIPSme() {
 		String classVTlabel = "VT_" + className;
-		sir_MIPS_a_lot.getInstance().la(addr, classVTlabel);
+		TEMP vt = TEMP_FACTORY.getInstance().getFreshTEMP();
+		sir_MIPS_a_lot.getInstance().la(vt, classVTlabel);
+		sir_MIPS_a_lot.getInstance().sw(vt, addr, 0);
 	}
 	
 	@Override
