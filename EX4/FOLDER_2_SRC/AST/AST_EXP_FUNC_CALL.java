@@ -146,7 +146,36 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 			return null;
 		}
 
-		// push all expList to stack
+		// //push return address
+		// IR.getInstance().Add_IRcommand(new IRcommand_Push());
+
+		int offset;
+		if (this.var != null) {
+			String className = ((AST_VAR_SIMPLE) var).className;
+			offset = findFunctionIndexInVtable(className);
+
+			TEMP temp = this.var.IRme();
+			IR.getInstance().Add_IRcommand(new IRcommand_Push(temp));
+			pushArgs();
+			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(temp, offset));
+			return null;
+		}
+		if (!this.isGlobal) {
+			String className = Context.currentClassBuilder;
+			offset = findFunctionIndexInVtable(className);
+			TEMP currentObject = Context.currentObject;
+			IR.getInstance().Add_IRcommand(new IRcommand_Push(currentObject));
+			pushArgs();
+			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(currentObject, offset));
+			return null;
+		}
+		pushArgs();
+		IR.getInstance().Add_IRcommand(new IRcommand_Call_Global_Function(this.funcName));
+		return null;
+	}
+	
+	public void pushArgs() {
+		// push all args to stack
 		AST_EXP_LIST cur = expList;
 		LinkedList<TEMP> argList = new LinkedList<>();
 		while (cur != null) {
@@ -156,35 +185,6 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 		argList.forEach(t1 -> {			
 			IR.getInstance().Add_IRcommand(new IRcommand_Push(t1));
 		});
-		
-		int offset;
-
-		// //push return address
-		// IR.getInstance().Add_IRcommand(new IRcommand_Push());
-		if (this.var != null) {
-			String className = ((AST_VAR_SIMPLE)var).className;
-			offset = findFunctionIndexInVtable(className);
-			
-			TEMP temp = this.var.IRme();
-			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(temp, offset));
-			TEMP returnTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
-			IR.getInstance().Add_IRcommand(new IRcommand_LoadReturnValue(returnTemp));
-			return returnTemp;
-		}
-		if (!this.isGlobal) {
-			String className = Context.currentClassBuilder;
-			offset = findFunctionIndexInVtable(className);
-			
-			TEMP currentObject = Context.currentObject;
-			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(currentObject, offset));
-			TEMP returnTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
-			IR.getInstance().Add_IRcommand(new IRcommand_LoadReturnValue(returnTemp));
-			return returnTemp;
-		}
-		IR.getInstance().Add_IRcommand(new IRcommand_Call_Global_Function(this.funcName));
-		TEMP returnTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
-		IR.getInstance().Add_IRcommand(new IRcommand_LoadReturnValue(returnTemp));
-		return returnTemp;
 	}
 	
 	public int findFunctionIndexInVtable(String className) {

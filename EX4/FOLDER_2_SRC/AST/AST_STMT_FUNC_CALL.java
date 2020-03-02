@@ -135,6 +135,35 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 			return null;
 		}
 
+		// //push return address
+		// IR.getInstance().Add_IRcommand(new IRcommand_Push());
+
+		int offset;
+		if (this.var != null) {
+			String className = ((AST_VAR_SIMPLE) var).className;
+			offset = findFunctionIndexInVtable(className);
+
+			TEMP temp = this.var.IRme();
+			IR.getInstance().Add_IRcommand(new IRcommand_Push(temp));
+			pushArgs();
+			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(temp, offset));
+			return null;
+		}
+		if (!this.isGlobal) {
+			String className = Context.currentClassBuilder;
+			offset = findFunctionIndexInVtable(className);
+			TEMP currentObject = Context.currentObject;
+			IR.getInstance().Add_IRcommand(new IRcommand_Push(currentObject));
+			pushArgs();
+			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(currentObject, offset));
+			return null;
+		}
+		pushArgs();
+		IR.getInstance().Add_IRcommand(new IRcommand_Call_Global_Function(this.funcName));
+		return null;
+	}
+	
+	public void pushArgs() {
 		// push all args to stack
 		AST_EXP_LIST cur = args;
 		LinkedList<TEMP> argList = new LinkedList<>();
@@ -145,29 +174,6 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 		argList.forEach(t1 -> {			
 			IR.getInstance().Add_IRcommand(new IRcommand_Push(t1));
 		});
-
-		// //push return address
-		// IR.getInstance().Add_IRcommand(new IRcommand_Push());
-
-		int offset;
-		if (this.var != null) {
-			String className = ((AST_VAR_SIMPLE) var).className;
-			offset = findFunctionIndexInVtable(className);
-
-			TEMP temp = this.var.IRme();
-			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(temp, offset));
-			return null;
-		}
-		if (!this.isGlobal) {
-			String className = Context.currentClassBuilder;
-			offset = findFunctionIndexInVtable(className);
-
-			TEMP currentObject = Context.currentObject;
-			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(currentObject, offset));
-			return null;
-		}
-		IR.getInstance().Add_IRcommand(new IRcommand_Call_Global_Function(this.funcName));
-		return null;
 	}
 
 	public int findFunctionIndexInVtable(String className) {
