@@ -151,10 +151,11 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		if (this.params != null) {
 			this.params.IRme();
 		}
+		int index = Context.varStack.getLast().size();
 		if (Context.currentClassBuilder != null) {
 			TEMP objTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
-			int index = Context.varStack.getLast().size();
 			IR.getInstance().Add_IRcommand(new IRcommand_Get_Input_Var(objTemp, index));
+			index++;
 			Context.currentObject = objTemp;
 		}
 		if (this.funcBody != null) {
@@ -162,7 +163,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		}
 		// Removing the stack added.
 		Context.varStack.removeLast();
-		IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue(funcName));
+		IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue(funcName, index));
 		return null;
 	}
 }

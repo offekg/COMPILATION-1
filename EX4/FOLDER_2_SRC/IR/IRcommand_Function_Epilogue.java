@@ -21,10 +21,12 @@ import MIPS.*;
 public class IRcommand_Function_Epilogue extends IRcommand {
 	String funcName;
 	String epilogueLabel;
+	int numParams;
 
-	public IRcommand_Function_Epilogue(String funcName) {
+	public IRcommand_Function_Epilogue(String funcName, int numParams) {
 		this.funcName = funcName;
 		this.epilogueLabel = Context.epilogueLabel;
+		this.numParams = numParams;
 	}
 
 	/***************/
@@ -37,6 +39,6 @@ public class IRcommand_Function_Epilogue extends IRcommand {
 	
 	@Override
 	public void printMe() {
-		System.out.println("function_epilogue");
+		System.out.println("function_epilogue " + numParams);
 	}
 }
