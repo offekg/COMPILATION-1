@@ -49,19 +49,7 @@ public class IRcommand_Binop_EQ_Strings extends IRcommand
         TEMP offset1 = TEMP_FACTORY.getInstance().getFreshTEMP();
         TEMP offset2 = TEMP_FACTORY.getInstance().getFreshTEMP();
 
-		/*******************************/
-		/* check addresses are not zero
-		as can happen in case of null */
-		/*******************************/
-		String label_t1_is_null  = getFreshLabel("t1_is_null");
-		// case t1 is null
-		sir_MIPS_a_lot.getInstance().beqz(t1, label_t1_is_null);
-		sir_MIPS_a_lot.getInstance().label(label_t1_is_null);
-		sir_MIPS_a_lot.getInstance().beqz(t2, label_AssignZero); // t1 == t2 == null , assign 0
-		sir_MIPS_a_lot.getInstance().jump(label_AssignOne); // t1== null, t2 != null, assign 1
-		// case t2 is null , here t1 is not null
-		sir_MIPS_a_lot.getInstance().beqz(t2, label_AssignOne);// t1 != null, t2 == null, assign 1
-		// else, t1, t2 both not zero, so star compare chars
+
 
 		/******************************************/
 		/* [2] compare loop:
@@ -75,7 +63,7 @@ public class IRcommand_Binop_EQ_Strings extends IRcommand
         sir_MIPS_a_lot.getInstance().lb(char2, 0, offset2);
         
         //check if chars are equal 
-        sir_MIPS_a_lot.getInstance().bne(char1, char1, label_AssignOne); 
+        sir_MIPS_a_lot.getInstance().bne(char1, char2, label_AssignOne); 
         
         //if we saw they are equal, and finished the strings.
         sir_MIPS_a_lot.getInstance().beqz(char1, label_AssignZero);
