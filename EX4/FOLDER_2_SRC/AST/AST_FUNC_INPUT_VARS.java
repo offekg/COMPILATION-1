@@ -4,7 +4,6 @@ import TYPES.*;
 import UTILS.Context;
 import IR.IR;
 import IR.IRcommand_Get_Input_Var;
-import IR.IRcommand_Pop;
 import IR.IRcommand_StoreLocalVar;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
