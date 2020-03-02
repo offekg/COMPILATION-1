@@ -62,7 +62,7 @@ public class IRcommand_Binop_Concat_Strings extends IRcommand {
         sir_MIPS_a_lot.getInstance().addi(dstStrPointer, dstStrPointer, 1);
         sir_MIPS_a_lot.getInstance().addi(srcPointer, srcPointer, 1);
         sir_MIPS_a_lot.getInstance().bnez(tChar, s2_concat_loop);
-        sir_MIPS_a_lot.getInstance().sb(tChar,0, dstStrPointer);
+        //sir_MIPS_a_lot.getInstance().sb(tChar,0, dstStrPointer);
             
 	}
 	
