@@ -158,7 +158,9 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 			IR.getInstance().Add_IRcommand(new IRcommand_Push(temp));
 			pushArgs();
 			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(temp, offset));
-			return null;
+			TEMP returnTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
+			IR.getInstance().Add_IRcommand(new IRcommand_LoadReturnValue(returnTemp));
+			return returnTemp;
 		}
 		if (!this.isGlobal) {
 			String className = Context.currentClassBuilder;
@@ -167,11 +169,15 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 			IR.getInstance().Add_IRcommand(new IRcommand_Push(currentObject));
 			pushArgs();
 			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(currentObject, offset));
-			return null;
+			TEMP returnTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
+			IR.getInstance().Add_IRcommand(new IRcommand_LoadReturnValue(returnTemp));
+			return returnTemp;
 		}
 		pushArgs();
 		IR.getInstance().Add_IRcommand(new IRcommand_Call_Global_Function(this.funcName));
-		return null;
+		TEMP returnTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
+		IR.getInstance().Add_IRcommand(new IRcommand_LoadReturnValue(returnTemp));
+		return returnTemp;
 	}
 	
 	public void pushArgs() {
