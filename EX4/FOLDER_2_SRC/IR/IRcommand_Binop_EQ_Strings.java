@@ -47,9 +47,24 @@ public class IRcommand_Binop_EQ_Strings extends IRcommand
         TEMP char2 = TEMP_FACTORY.getInstance().getFreshTEMP();
         //temps for offset of strings
         TEMP offset1 = TEMP_FACTORY.getInstance().getFreshTEMP();
-        TEMP offset2 = TEMP_FACTORY.getInstance().getFreshTEMP();
+		TEMP offset2 = TEMP_FACTORY.getInstance().getFreshTEMP();
 
+		/*******************************/
+		/* check strings are not null  */
+		/*******************************/
+		String label_t1_is_null  = getFreshLabel("t1_is_null");
+		String label_t1_is_not_null  = getFreshLabel("t1_is_not_null");
 
+		// case t1 is null
+		sir_MIPS_a_lot.getInstance().beqz(t1, label_t1_is_null);
+		sir_MIPS_a_lot.getInstance().jump(label_t1_is_not_null);
+		sir_MIPS_a_lot.getInstance().label(label_t1_is_null);
+		sir_MIPS_a_lot.getInstance().beqz(t2, label_AssignZero); // t1 == t2 == null , assign 0
+		sir_MIPS_a_lot.getInstance().bnez(t2, label_AssignOne); // t1 == null ,t2!=null, assign 1
+		// case t2 is null , here t1 is not null
+		sir_MIPS_a_lot.getInstance().label(label_t1_is_not_null);
+		sir_MIPS_a_lot.getInstance().beqz(t2, label_AssignOne);// t1 != null, t2 == null, assign 1
+		// else, t1, t2 both not zero, so star compare chars
 
 		/******************************************/
 		/* [2] compare loop:
