@@ -34,11 +34,10 @@ public class AST_CFIELD_LIST extends AST_Node {
 		this.tail = tail;
 	}
 	
-	public void setDefaultValues(int currentSize, TEMP instanceAddr) {
-		head.setDefaultValue(currentSize, instanceAddr);
+	public void setDefaultValues(TEMP instanceAddr) {
+		head.setDefaultValue(instanceAddr);
 		if (tail != null) {
-			currentSize += (head instanceof AST_CFIELD_VARDEC) ? 1 : 0;
-			tail.setDefaultValues(currentSize, instanceAddr);
+			tail.setDefaultValues(instanceAddr);
 		}
 	}
 

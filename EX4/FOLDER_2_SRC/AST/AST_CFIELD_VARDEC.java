@@ -5,6 +5,7 @@ import UTILS.Context;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -23,10 +24,12 @@ public class AST_CFIELD_VARDEC extends AST_CFIELD {
 		System.out.print("====================== CFIELD -> VARDEC\n");
 	}
 	
-	public void setDefaultValue(int currentSize, TEMP instanceAddr) {
+	public void setDefaultValue(TEMP instanceAddr) {
 		TEMP value = TEMP_FACTORY.getInstance().getFreshTEMP();
 		IR.getInstance().Add_IRcommand(new IRcommand_Move(value, vardec.IRme()));
-		IR.getInstance().Add_IRcommand(new IRcommand_Field_Set(instanceAddr, currentSize, value));
+		List<String> fieldList = new ArrayList<>(Context.classFields.get(Context.currentClassBuilder));
+		int fieldNumber = fieldList.indexOf(vardec.name);
+		IR.getInstance().Add_IRcommand(new IRcommand_Field_Set(instanceAddr, fieldNumber, value));
 	}
 
 	public TYPE_CLASS_VAR_DEC SemantMe() {

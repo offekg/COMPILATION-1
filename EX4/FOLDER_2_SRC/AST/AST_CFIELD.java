@@ -16,7 +16,7 @@ public abstract class AST_CFIELD extends AST_Node {
 		return null;
 	}
 	
-	public void setDefaultValue(int currentSize, TEMP instanceAddr) {
+	public void setDefaultValue(TEMP instanceAddr) {
 		return;
 	}
 }

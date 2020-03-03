@@ -82,9 +82,11 @@ public class AST_EXP_BINOP extends AST_EXP {
 		if ((t1 == TYPE_INT.getInstance()) && (t2 == TYPE_INT.getInstance())) {
 			// add check for zero devision
 			if (this.OP.OP == 3) {
-				AST_EXP_INT mechane = (AST_EXP_INT) this.right;
-				if (mechane.value == 0) {
-					OutputFileWriter.writeError(this.lineNumber, "Binop error : zero division\n");
+				if (this.right instanceof AST_EXP_INT) {					
+					AST_EXP_INT mechane = (AST_EXP_INT) this.right;
+					if (mechane.value == 0) {
+						OutputFileWriter.writeError(this.lineNumber, "Binop error : zero division\n");
+					}
 				}
 			}
 			return TYPE_INT.getInstance();
