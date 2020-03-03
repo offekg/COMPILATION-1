@@ -3,6 +3,7 @@ package AST;
 import TYPES.*;
 import UTILS.Context;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.SortedMap;
 
@@ -56,7 +57,7 @@ public class AST_CFIELD_FUNCDEC extends AST_CFIELD {
 	
 	public TEMP IRme() {
 		String myClass = Context.currentClassBuilder;
-		SortedMap<String, String> methods = Context.classMethods.get(myClass);
+		LinkedHashMap<String, String> methods = Context.classMethods.get(myClass);
 		methods.put(funcdec.funcName, myClass);
 		funcdec.IRme();
 		return null;

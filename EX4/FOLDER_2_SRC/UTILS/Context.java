@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.LinkedHashMap;
 
 import AST.AST_DEC_CLASSDEC;
 import TEMP.TEMP;
@@ -29,7 +30,7 @@ public class Context {
 	// class A {foo(){} bar(){}}; class B {foo(){} baz(){}};
 	// will result in the map -
 	// A: (foo: A, bar: A), B: (foo: B, bar: A, baz: B)
-	public static HashMap<String, SortedMap<String, String>> classMethods = new HashMap<>();
+	public static HashMap<String, LinkedHashMap<String, String>> classMethods = new LinkedHashMap<>();
 
 	// classFields: The keys of the map are class names. Each entry contains
 	// a set (sorted by insertion order) with the name of the fields in the class.

@@ -4,6 +4,7 @@ import TYPES.*;
 import UTILS.Context;
 
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedMap;
@@ -195,7 +196,7 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 	
 	public int findFunctionIndexInVtable(String className) {
 		int count = 0;
-		SortedMap<String, String> funcs = Context.classMethods.get(className);
+		LinkedHashMap<String, String> funcs = Context.classMethods.get(className);
 		
 		for (String funcNameInVtable : funcs.keySet()) {
 			if (funcNameInVtable.equals(this.funcName)) {

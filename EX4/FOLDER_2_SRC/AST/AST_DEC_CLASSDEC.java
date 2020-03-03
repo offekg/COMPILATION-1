@@ -4,6 +4,7 @@ import TYPES.*;
 import IR.*;
 import UTILS.Context;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.SortedMap;
@@ -157,7 +158,7 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 	}
 	
 	public TEMP IRme() {
-		SortedMap<String, String> methods = new TreeMap<>();
+		LinkedHashMap<String, String> methods = new LinkedHashMap<>();
 		LinkedHashSet<String> fields = new LinkedHashSet<>();
 		Context.classMethods.put(name, methods);
 		Context.classFields.put(name, fields);
