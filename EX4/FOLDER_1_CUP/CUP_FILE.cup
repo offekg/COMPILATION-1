@@ -256,17 +256,11 @@ precedence left ASSIGN;
 
 precedence left EQ;
 
-precedence left LT;	
+precedence left LT, GT;
 
-precedence left GT;
+precedence left PLUS, MINUS;
 
-precedence left PLUS;
-
-precedence left MINUS;
-
-precedence left TIMES;
-
-precedence left DIVIDE;
+precedence left TIMES, DIVIDE;
 
 precedence left LBRACK;
 
