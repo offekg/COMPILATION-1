@@ -17,7 +17,7 @@ public class Context {
 	// Provider for information used through the recursion (without passing it directly).
 	public static String currentClassBuilder;
 	public static String epilogueLabel;
-	public static TEMP currentObject;
+	public static int currentObjectIndex;
 	// Each element in the list is the set of variables available in the current frame.
 	public static LinkedList<LinkedHashSet<String>> varStack = new LinkedList<>(Arrays.asList(new LinkedHashSet<>(), new LinkedHashSet<>()));
 	

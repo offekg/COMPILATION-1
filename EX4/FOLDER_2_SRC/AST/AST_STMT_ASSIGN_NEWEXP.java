@@ -9,10 +9,12 @@ import java.util.List;
 import IR.IR;
 import IR.IRcommand_Array_Set;
 import IR.IRcommand_Field_Set;
+import IR.IRcommand_Get_Input_Var;
 import IR.IRcommand_StoreLocalVar;
 import IR.IRcommand_StoreGlobal;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
+import TEMP.TEMP_FACTORY;
 
 public class AST_STMT_ASSIGN_NEWEXP extends AST_STMT {
 	public AST_VAR var;
@@ -97,7 +99,8 @@ public class AST_STMT_ASSIGN_NEWEXP extends AST_STMT {
 			AST_VAR_SIMPLE varSimple = (AST_VAR_SIMPLE) var;
 			if (Context.currentClassBuilder != null) {
 				if (Context.classFields.get(Context.currentClassBuilder).contains(varSimple.name)) {
-					TEMP objTemp = Context.currentObject;
+					TEMP objTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
+					IR.getInstance().Add_IRcommand(new IRcommand_Get_Input_Var(objTemp, Context.currentObjectIndex));
 					List<String> fieldList = new ArrayList<>(Context.classFields.get(Context.currentClassBuilder));
 					int fieldNumber = fieldList.indexOf(varSimple.name);
 					expTemp = exp.IRme();

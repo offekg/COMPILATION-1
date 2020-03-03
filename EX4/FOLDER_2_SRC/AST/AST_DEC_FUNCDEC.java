@@ -153,10 +153,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		}
 		int index = Context.varStack.getLast().size();
 		if (Context.currentClassBuilder != null) {
-			TEMP objTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
-			IR.getInstance().Add_IRcommand(new IRcommand_Get_Input_Var(objTemp, index));
-			index++;
-			Context.currentObject = objTemp;
+			Context.currentObjectIndex = index;
 		}
 		if (this.funcBody != null) {
 			this.funcBody.IRme();

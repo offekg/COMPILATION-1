@@ -12,6 +12,7 @@ import java.util.SortedMap;
 import IR.*;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
+import TEMP.TEMP_FACTORY;
 
 public class AST_STMT_FUNC_CALL extends AST_STMT {
 	public AST_VAR var;
@@ -153,7 +154,8 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 		if (!this.isGlobal) {
 			String className = Context.currentClassBuilder;
 			offset = findFunctionIndexInVtable(className);
-			TEMP currentObject = Context.currentObject;
+			TEMP currentObject = TEMP_FACTORY.getInstance().getFreshTEMP();
+			IR.getInstance().Add_IRcommand(new IRcommand_Get_Input_Var(currentObject, Context.currentObjectIndex));
 			IR.getInstance().Add_IRcommand(new IRcommand_Push(currentObject));
 			pushArgs();
 			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(currentObject, offset));

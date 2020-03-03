@@ -12,6 +12,7 @@ import java.util.SortedMap;
 import IR.IR;
 import IR.IRcommand_Call_Global_Function;
 import IR.IRcommand_Call_Virtual_Function;
+import IR.IRcommand_Get_Input_Var;
 import IR.IRcommand_LoadReturnValue;
 import IR.IRcommand_PrintInt;
 import IR.IRcommand_PrintString;
@@ -166,7 +167,8 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 		if (!this.isGlobal) {
 			String className = Context.currentClassBuilder;
 			offset = findFunctionIndexInVtable(className);
-			TEMP currentObject = Context.currentObject;
+			TEMP currentObject = TEMP_FACTORY.getInstance().getFreshTEMP();
+			IR.getInstance().Add_IRcommand(new IRcommand_Get_Input_Var(currentObject, Context.currentObjectIndex));
 			IR.getInstance().Add_IRcommand(new IRcommand_Push(currentObject));
 			pushArgs();
 			IR.getInstance().Add_IRcommand(new IRcommand_Call_Virtual_Function(currentObject, offset));

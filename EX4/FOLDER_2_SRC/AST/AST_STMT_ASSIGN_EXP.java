@@ -84,7 +84,8 @@ public class AST_STMT_ASSIGN_EXP extends AST_STMT {
 		if (var.isVarSimple()) {
 			AST_VAR_SIMPLE varSimple = (AST_VAR_SIMPLE) var;
 			if (Context.currentClassBuilder != null && Context.classFields.get(Context.currentClassBuilder).contains(varSimple.name)) {
-					TEMP objTemp = Context.currentObject;
+					TEMP objTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
+					IR.getInstance().Add_IRcommand(new IRcommand_Get_Input_Var(objTemp, Context.currentObjectIndex));
 					List<String> fieldList = new ArrayList<>(Context.classFields.get(Context.currentClassBuilder));
 					int fieldNumber = fieldList.indexOf(varSimple.name);
 					expTemp = exp.IRme();
