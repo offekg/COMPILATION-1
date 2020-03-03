@@ -36,7 +36,6 @@ public class IRcommand_StoreLocalVar extends IRcommand
 		}
 		else{ //new local var
 			var_offset =  Context.localFrameVarsList.getLast().size() + 1;
-			sir_MIPS_a_lot.getInstance().allocate_stack(1); //update $sp to new bottom of frame 
 		}
 		Context.localFrameVarsList.getLast().put(var_name, var_offset);
 		sir_MIPS_a_lot.getInstance().storeLocalVar(var_offset,src);

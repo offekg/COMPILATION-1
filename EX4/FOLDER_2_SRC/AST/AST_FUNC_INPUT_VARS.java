@@ -52,7 +52,8 @@ public class AST_FUNC_INPUT_VARS extends AST_Node {
 		}
 
 		SYMBOL_TABLE.getInstance().enter(paramName, typeOfParam);
-
+		
+		Context.varsInFunc.add(paramName);
 		return typeOfParam;
 	}
 

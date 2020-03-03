@@ -16,6 +16,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 	public String funcName;
 	public AST_FUNC_INPUT_VARS_LIST params;
 	public AST_STMT_LIST funcBody;
+	public int maxVarsCount;
 
 	public AST_DEC_FUNCDEC(String returnType, String funcName, AST_FUNC_INPUT_VARS_LIST params,
 			AST_STMT_LIST funcBody) {
@@ -23,6 +24,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		this.funcName = funcName;
 		this.params = params;
 		this.funcBody = funcBody;
+		this.maxVarsCount = 0;
 		SerialNumber = AST_Node_Serial_Number.getFresh();
 		/***************************************/
 		/* PRINT CORRESPONDING DERIVATION RULE */
@@ -34,7 +36,8 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		/*************************/
 		/* [1] Begin Class Scope */
 		/*************************/
-
+		Context.varsInFunc.clear();
+		
 		// Check return type exists
 		TYPE typeOfReturn = SYMBOL_TABLE.getInstance().find(returnType);
 
@@ -88,6 +91,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 			OutputFileWriter.writeError(this.lineNumber,
 					String.format("No return statement for a function that should return %s %s", returnType, funcName));
 
+		maxVarsCount = Context.varsInFunc.size();
 		/*****************/
 		/* [3] End Scope */
 		/*****************/
@@ -145,7 +149,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		}
 		Context.epilogueLabel = label + "_epilogue";
 		IR.getInstance().Add_IRcommand(new IRcommand_Label(label));
-		IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue());
+		IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue(maxVarsCount));
 		// Adding a new stack of local variables.
 		Context.varStack.addLast(new LinkedHashSet<>());
 		if (this.params != null) {

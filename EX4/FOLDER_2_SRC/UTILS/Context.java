@@ -57,4 +57,7 @@ public class Context {
 	
 	// Each element in the list is the set of variables available in the current frame.
 	public static LinkedList<HashMap<String, Integer>> localFrameVarsList = new LinkedList<>(Arrays.asList(new HashMap<>()));
+
+	// 
+	public static HashSet<String> varsInFunc = new HashSet<>();
 }

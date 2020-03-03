@@ -178,7 +178,7 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 		Context.globalFunctions.put(label, label);
 		Context.epilogueLabel = label + "_epilogue";
 		IR.getInstance().Add_IRcommand(new IRcommand_Label(label));
-		IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue());
+		IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue(0));
 		int sizeToAllocate = Context.classFields.get(Context.currentClassBuilder).size() + 1;
 		TEMP t = TEMP_FACTORY.getInstance().getFreshTEMP();
 		IR.getInstance().Add_IRcommand(new IRcommand_Malloc(t, sizeToAllocate));
