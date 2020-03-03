@@ -19,7 +19,7 @@ public class Context {
 	public static String epilogueLabel;
 	public static int currentObjectIndex;
 	// Each element in the list is the set of variables available in the current frame.
-	public static LinkedList<LinkedHashSet<String>> varStack = new LinkedList<>(Arrays.asList(new LinkedHashSet<>(), new LinkedHashSet<>()));
+	public static LinkedList<LinkedHashSet<String>> varStack = new LinkedList<>(Arrays.asList(new LinkedHashSet<>()));
 	
 	// Details of each class in the program:
 	//

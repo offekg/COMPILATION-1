@@ -83,16 +83,19 @@ public class AST_STMT_ASSIGN_EXP extends AST_STMT {
 		TEMP expTemp; // left hand side should be evaluated first.
 		if (var.isVarSimple()) {
 			AST_VAR_SIMPLE varSimple = (AST_VAR_SIMPLE) var;
-			if (Context.currentClassBuilder != null && Context.classFields.get(Context.currentClassBuilder).contains(varSimple.name)) {
-					TEMP objTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
-					IR.getInstance().Add_IRcommand(new IRcommand_Get_Input_Var(objTemp, Context.currentObjectIndex));
-					List<String> fieldList = new ArrayList<>(Context.classFields.get(Context.currentClassBuilder));
-					int fieldNumber = fieldList.indexOf(varSimple.name);
-					expTemp = exp.IRme();
-					IR.getInstance().Add_IRcommand(new IRcommand_Field_Set(objTemp, fieldNumber, expTemp)); 
+			if (Context.currentClassBuilder != null
+					&& Context.classFields.get(Context.currentClassBuilder).contains(varSimple.name)) {
+				TEMP objTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
+				IR.getInstance().Add_IRcommand(new IRcommand_Get_Input_Var(objTemp, Context.currentObjectIndex));
+				List<String> fieldList = new ArrayList<>(Context.classFields.get(Context.currentClassBuilder));
+				int fieldNumber = fieldList.indexOf(varSimple.name);
+				expTemp = exp.IRme();
+				IR.getInstance().Add_IRcommand(new IRcommand_Field_Set(objTemp, fieldNumber, expTemp));
 			} else {
 				expTemp = exp.IRme();
-				if (!Context.varStack.getLast().contains(varSimple.name) && Context.globals.contains(varSimple.name)) {
+				if ((!Context.varStack.getLast().contains(varSimple.name)
+						|| Context.varStack.getLast().equals(Context.globals))
+						&& Context.globals.contains(varSimple.name)) {
 					IR.getInstance().Add_IRcommand(new IRcommand_StoreGlobal(varSimple.name, expTemp));
 					return expTemp;
 				}

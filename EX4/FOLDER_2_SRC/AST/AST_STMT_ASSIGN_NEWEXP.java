@@ -108,7 +108,8 @@ public class AST_STMT_ASSIGN_NEWEXP extends AST_STMT {
 				}
 			} else {
 				expTemp = exp.IRme();
-				if (!Context.varStack.getLast().contains(varSimple.name) && Context.globals.contains(varSimple.name)) {
+				if ((!Context.varStack.getLast().contains(varSimple.name)
+						|| Context.varStack.getLast().equals(Context.globals)) && Context.globals.contains(varSimple.name)) {
 					IR.getInstance().Add_IRcommand(new IRcommand_StoreGlobal(varSimple.name, expTemp));
 					return expTemp;
 				}

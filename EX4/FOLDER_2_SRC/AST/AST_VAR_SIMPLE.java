@@ -62,7 +62,7 @@ public class AST_VAR_SIMPLE extends AST_VAR {
 		className = varType.name;
 		return varType;
 	}
-	
+
 	public TEMP IRme() {
 		if (Context.currentClassBuilder != null) {
 			if (Context.classFields.get(Context.currentClassBuilder).contains(name)) {
@@ -72,11 +72,12 @@ public class AST_VAR_SIMPLE extends AST_VAR {
 			}
 		}
 		TEMP temp = TEMP_FACTORY.getInstance().getFreshTEMP();
-		if (!Context.varStack.getLast().contains(name) && Context.globals.contains(name)) {			
-			IR.getInstance().Add_IRcommand(new IRcommand_LoadGlobal(temp,name));
+		if ((!Context.varStack.getLast().contains(name) || Context.varStack.getLast().equals(Context.globals))
+				&& Context.globals.contains(name)) {
+			IR.getInstance().Add_IRcommand(new IRcommand_LoadGlobal(temp, name));
 			return temp;
 		}
-		IR.getInstance().Add_IRcommand(new IRcommand_LoadLocalVar(temp,name));
+		IR.getInstance().Add_IRcommand(new IRcommand_LoadLocalVar(temp, name));
 		return temp;
 	}
 }

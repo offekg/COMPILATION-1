@@ -24,10 +24,8 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 		Context.varStack.getLast().add(name);
 		TEMP expTemp = this.newExp.IRme();
 		if (this.isGlobal) {
-			Context.globals.add(name);
 			IR.getInstance().Add_IRcommand(new IRcommand_StoreGlobal(name, expTemp));
 		} else {			
-			Context.varStack.getLast().add(name);
 			IR.getInstance().Add_IRcommand(new IRcommand_StoreLocalVar(name, expTemp));
 		}
 		return expTemp;
