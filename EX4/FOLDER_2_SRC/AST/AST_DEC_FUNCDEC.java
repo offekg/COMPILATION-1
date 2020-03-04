@@ -104,6 +104,80 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 
 		return t;
 	}
+	
+	//for adding methods to TYPE_CLASS
+	public TYPE SemantMe(TYPE_CLASS_VAR_DEC shell) {
+		/*************************/
+		/* [1] Begin Class Scope */
+		/*************************/
+		Context.varsInFunc.clear();
+		
+		// Check return type exists
+		TYPE typeOfReturn = SYMBOL_TABLE.getInstance().find(returnType);
+
+		if (typeOfReturn == null) {
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("bad return type dec_funcdec %s %s", returnType, funcName));
+		}
+
+		// Check that we are in scope global or CLASS
+		ScopeType currentScope = SYMBOL_TABLE.getInstance().getCurrentScopeType();
+
+		if (currentScope != ScopeType.GLOBAL_SCOPE && currentScope != ScopeType.CLASS_SCOPE)
+			OutputFileWriter.writeError(this.lineNumber, String.format("not global or class scope dec_funcdec %s %s %s",
+					returnType, funcName, String.valueOf(currentScope)));
+
+		// check that no other function/class/etc has the same name
+		// TYPE typeOfName = SYMBOL_TABLE.getInstance().find(funcName);
+		if (SYMBOL_TABLE.getInstance().isInScope(funcName))
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("duplicate name dec_funcdec %s %s", returnType, funcName));
+
+		// check that function name doesn't exist as a type
+		TYPE temp = SYMBOL_TABLE.getInstance().find(funcName);
+		if (temp != null && !(temp instanceof TYPE_FUNCTION) && temp.name.equals(funcName)) {
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("wanted function name %s already exists as a type\n", funcName));
+		}
+
+		// check also basic primitive functions
+		if (temp != null && SYMBOL_TABLE.getInstance().isNameOutsideScopes(funcName)) {
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("wanted function name %s already exists as a primitive function\n", funcName));
+		}
+
+		SYMBOL_TABLE.getInstance().beginScope(ScopeType.FUNCTION_SCOPE, funcName, typeOfReturn);
+		/***************************/
+		/* [2] Semant Data Members */
+		/***************************/
+		shell.name = funcName;
+		TYPE_FUNCTION t = (TYPE_FUNCTION) shell.t;
+		t.returnType = typeOfReturn;
+		t.name = funcName;
+		if (params != null) 
+			t.paramTypes = params.SemantMe(); // #!@!has null pointer exception
+
+		SYMBOL_TABLE.getInstance().enter(funcName, t); // for use of the funcBody - for recursion
+
+		funcBody.SemantMe();
+		if (!t.isReturnStatemntInside && typeOfReturn != TYPE_VOID.getInstance())
+			OutputFileWriter.writeError(this.lineNumber,
+					String.format("No return statement for a function that should return %s %s", returnType, funcName));
+
+		maxVarsCount = Context.varsInFunc.size();
+		/*****************/
+		/* [3] End Scope */
+		/*****************/
+		SYMBOL_TABLE.getInstance().endScope();
+
+		/************************************************/
+		/* [4] Enter the Class Type to the Symbol Table */
+		/************************************************/
+		SYMBOL_TABLE.getInstance().enter(funcName, t);
+
+		return t;
+	}
+
 
 	/******************************************************/
 	/* The printing message for a statement list AST node */

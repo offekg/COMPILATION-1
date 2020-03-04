@@ -110,7 +110,16 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 				}
 			}
 			// The data member declaration is does not throw an error, adding the data member.
-			t.addDataMember(field.head.SemantMe());
+			if (field.head instanceof AST_CFIELD_FUNCDEC) {
+				TYPE_FUNCTION newMethodType = new TYPE_FUNCTION(null, null, null);
+				TYPE_CLASS_VAR_DEC shell = new TYPE_CLASS_VAR_DEC(newMethodType, null);
+				t.addDataMember(shell);
+				((AST_CFIELD_FUNCDEC)field.head).SemantMe(shell);
+				//t.addDataMember(((AST_CFIELD_FUNCDEC)field.head).SemantMe(newMethodType));
+			}
+			else {
+				t.addDataMember(field.head.SemantMe());
+			}
 		}
 		SYMBOL_TABLE.getInstance().endScope();
 		Context.classAST.put(name, this);

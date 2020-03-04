@@ -27,6 +27,11 @@ public class AST_CFIELD_FUNCDEC extends AST_CFIELD {
 		TYPE t = funcdec.SemantMe();
 		return new TYPE_CLASS_VAR_DEC(t, funcdec.funcName);
 	}
+	
+	public TYPE_CLASS_VAR_DEC SemantMe(TYPE_CLASS_VAR_DEC shellType) {
+		TYPE t = funcdec.SemantMe(shellType);
+		return shellType;
+	}
 
 	/******************************************************/
 	/* The printing message for a CFIELD_FUNCDEC AST node */
