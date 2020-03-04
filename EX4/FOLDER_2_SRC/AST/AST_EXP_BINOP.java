@@ -145,7 +145,7 @@ public class AST_EXP_BINOP extends AST_EXP {
 			break;
 
 		case 6:
-			if (this.binopType == TYPE_INT.getInstance() || this.binopType instanceof TYPE_CLASS)
+			if (this.binopType == TYPE_INT.getInstance() || this.binopType instanceof TYPE_CLASS || this.binopType == TYPE_NILL.getInstance())
 				IR.getInstance().Add_IRcommand(new IRcommand_Binop_EQ_Integers(dst, t1, t2));
 			else
 				IR.getInstance().Add_IRcommand(new IRcommand_Binop_EQ_Strings(dst, t1, t2));
