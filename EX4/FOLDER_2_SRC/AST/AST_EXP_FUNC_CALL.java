@@ -153,7 +153,7 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 
 		int offset;
 		if (this.var != null) {
-			String className = ((AST_VAR_SIMPLE) var).className;
+			String className = this.var.type.name;
 			offset = findFunctionIndexInVtable(className);
 
 			TEMP temp = this.var.IRme();

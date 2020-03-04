@@ -60,7 +60,8 @@ public class AST_VAR_SIMPLE extends AST_VAR {
 			OutputFileWriter.writeError(this.lineNumber, String.format("tried using undeclaired val %s\n", name));
 		}
 		className = varType.name;
-		return varType;
+		this.type = varType;
+		return this.type;
 	}
 
 	public TEMP IRme() {

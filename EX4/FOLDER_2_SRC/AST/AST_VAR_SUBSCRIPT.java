@@ -44,7 +44,8 @@ public class AST_VAR_SUBSCRIPT extends AST_VAR {
 		if (subscript.SemantMe() != TYPE_INT.getInstance()) {
 			OutputFileWriter.writeError(this.lineNumber, "Used non integer subscript on array\n");
 		}
-		return ((TYPE_ARRAY) varType).arrayType;
+		this.type = ((TYPE_ARRAY) varType).arrayType;
+		return this.type;
 	}
 
 	/*****************************************************/
