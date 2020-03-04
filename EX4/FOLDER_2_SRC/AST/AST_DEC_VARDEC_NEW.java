@@ -105,7 +105,7 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 		/**************************************/
 		/* AST NODE TYPE = AST STATEMENT LIST */
 		/**************************************/
-		System.out.print("AST NODE VAR DEC NEW\n");
+		System.out.print(String.format("AST NODE VAR DEC NEW. %s isGlobal: %s\n",name,isGlobal));
 
 		/*************************************/
 		/* RECURSIVELY PRINT HEAD + TAIL ... */

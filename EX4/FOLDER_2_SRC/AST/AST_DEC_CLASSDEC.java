@@ -158,6 +158,7 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 	}
 	
 	public TEMP IRme() {
+		Context.varStack.addLast(new LinkedHashSet<>());
 		LinkedHashMap<String, String> methods = new LinkedHashMap<>();
 		LinkedHashSet<String> fields = new LinkedHashSet<>();
 		Context.classMethods.put(name, methods);
@@ -170,6 +171,7 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 		cFieldList.IRme();
 		createClassConstructorIR();
 		Context.currentClassBuilder = null;
+		Context.varStack.removeLast();
 		return null;
 	}
 	
