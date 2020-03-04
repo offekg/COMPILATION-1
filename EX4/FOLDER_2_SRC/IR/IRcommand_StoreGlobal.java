@@ -30,7 +30,8 @@ public class IRcommand_StoreGlobal extends IRcommand
 	public void MIPSme()
 	{
 		TEMP t1 = TEMP_FACTORY.getInstance().getFreshTEMP();
-		sir_MIPS_a_lot.getInstance().la(t1, var_name);
+		String global_label = "global_" + var_name;
+		sir_MIPS_a_lot.getInstance().la(t1, global_label);
 		sir_MIPS_a_lot.getInstance().sw(src, t1, 0);
 	}
 	

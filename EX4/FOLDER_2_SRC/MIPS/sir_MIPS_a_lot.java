@@ -442,7 +442,8 @@ public class sir_MIPS_a_lot {
 	// Adding all the global variables as labels in the data section.
 	public static void add_global_variables_to_data_list() {
 		for (String global : Context.globals) {
-			add_to_global_data_list(global, ".word", "0");
+			String global_label = "global_" + global;
+			add_to_global_data_list(global_label, ".word", "0");
 		}
 	}
 
