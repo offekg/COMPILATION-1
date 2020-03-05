@@ -13,13 +13,13 @@ package IR;
 import TEMP.*;
 import MIPS.*;
 
-public class IRcommand_Allocate extends IRcommand
+public class IRcommand_Allocate_Stack extends IRcommand
 {
-	String var_name;
+	int numCells;
 	
-	public IRcommand_Allocate(String var_name)
+	public IRcommand_Allocate_Stack(int numCells)
 	{
-		this.var_name = var_name;
+		this.numCells = numCells;
 	}
 	
 	/***************/
@@ -27,11 +27,11 @@ public class IRcommand_Allocate extends IRcommand
 	/***************/
 	public void MIPSme()
 	{
-		sir_MIPS_a_lot.getInstance().allocate(var_name);
+		sir_MIPS_a_lot.getInstance().allocate_stack(numCells);
 	}
 
 	@Override
 	public void printMe() {
-		System.out.println("Allocate " + var_name);
+		System.out.println("Allocate " + numCells);
 	}
 }
