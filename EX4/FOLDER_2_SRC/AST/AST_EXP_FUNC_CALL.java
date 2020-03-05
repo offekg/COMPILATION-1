@@ -196,6 +196,7 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 		}
 		IR.getInstance().Add_IRcommand(new IRcommand_Allocate_Stack(count));
 		
+		cur = expList;
 		count = 0;
 		while (cur != null) {
 			IR.getInstance().Add_IRcommand(new IRcommand_StoreOnStack(cur.head.IRme(), count++));

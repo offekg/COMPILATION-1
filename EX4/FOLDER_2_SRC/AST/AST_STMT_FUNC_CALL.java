@@ -177,6 +177,7 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 		}
 		IR.getInstance().Add_IRcommand(new IRcommand_Allocate_Stack(count));
 		
+		cur = args;
 		count = 0;
 		while (cur != null) {
 			IR.getInstance().Add_IRcommand(new IRcommand_StoreOnStack(cur.head.IRme(), count++));

@@ -346,7 +346,7 @@ public class sir_MIPS_a_lot {
 
 	public void storeOnStack(TEMP t, int offset) {
 		int idxt = t.getSerialNumber();
-		fileWriter.format("\tsw Temp_%d,$d($sp)\n", idxt, offset*WORD_SIZE);// save register value in stack, above sp
+		fileWriter.format("\tsw Temp_%d,%d($sp)\n", idxt, offset*WORD_SIZE);// save register value in stack, above sp
 	}	
 	
 	public void push(TEMP t) {
