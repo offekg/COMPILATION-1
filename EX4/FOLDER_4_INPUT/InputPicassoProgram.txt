@@ -1,33 +1,19 @@
-
-class MyClass
-{	
-	
-	void printExteriorBlockVarAndInnerBlockVar()
-	{
-		
-		
-		if (1 < 3)
-		{
-			int x := 5;
-			PrintInt(x); // should print 5
-			
-			if (1 < 2)
-			{
-				int x := 10;
-				PrintInt(x); // should print 10
-			}
-			
-			PrintInt(x); // should print 5
-			
-			x := 7;
-			PrintInt(x); // should print 7
-		}
-	}
+void func (int a, int b, int c, int d, int e, int f, int g, int h, int i, int j)
+{
+	PrintInt(a);
+	PrintInt(b);
+	PrintInt(c);
+	PrintInt(d);
+	PrintInt(e);
+	PrintInt(f);
+	PrintInt(g);
+	PrintInt(h);
+	PrintInt(i);
+	PrintInt(j);
+	return;
 }
 
-
-	void main()
-	{
-		MyClass obj := new MyClass;
-		obj.printExteriorBlockVarAndInnerBlockVar(); // should print 5 10 5 7 
-	}
+void main() {
+	func(0 + 1,2,3,4,10 - 5,6,7,2 * 4, 27/3 ,10);
+	return;
+}

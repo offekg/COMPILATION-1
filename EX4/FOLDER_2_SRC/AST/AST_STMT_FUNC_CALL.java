@@ -168,15 +168,19 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 	
 	public void pushArgs() {
 		// push all args to stack
-		AST_EXP_LIST cur = args;
-		LinkedList<TEMP> argList = new LinkedList<>();
+		AST_EXP_LIST cur = expList;
+		int count = 0;
+		
 		while (cur != null) {
-			argList.addFirst(cur.head.IRme());
+			count++;
 			cur = cur.tail;
 		}
-		argList.forEach(t1 -> {			
-			IR.getInstance().Add_IRcommand(new IRcommand_Push(t1));
-		});
+		IR.getInstance().Add_IRcommand(new IRcommand_Allocate_Stack(count));
+		
+		while (cur != null) {
+			IR.getInstance().Add_IRcommand(new IRcommand_StoreOnStack(cur.head.IRme(), count--));
+			cur = cur.tail;
+		}
 	}
 
 	public int findFunctionIndexInVtable(String className) {
