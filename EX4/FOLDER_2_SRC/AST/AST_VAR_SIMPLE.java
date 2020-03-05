@@ -73,7 +73,7 @@ public class AST_VAR_SIMPLE extends AST_VAR {
 			}
 		}
 		TEMP temp = TEMP_FACTORY.getInstance().getFreshTEMP();
-		if ((!Context.varStack.getLast().contains(name) || Context.varStack.getLast().equals(Context.globals))
+		if ((!Context.varStack.getLast().contains(name) || Context.varStack.getLast() == Context.globals)
 				&& Context.globals.contains(name)) {
 			IR.getInstance().Add_IRcommand(new IRcommand_LoadGlobal(temp, name));
 			return temp;
