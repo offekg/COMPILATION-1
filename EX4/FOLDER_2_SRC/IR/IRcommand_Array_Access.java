@@ -35,8 +35,12 @@ public class IRcommand_Array_Access extends IRcommand
 		String abort_label = "Access_Violation";
 		sir_MIPS_a_lot.getInstance().bltz(subscriptTemp,abort_label);
 		TEMP arraySize = TEMP_FACTORY.getInstance().getFreshTEMP();
+		// add check that array adrdress is not null
+		sir_MIPS_a_lot.getInstance().beqz(arrTemp, "Invalid_Ptr_Dref");
+		//check array index < array size
 		sir_MIPS_a_lot.getInstance().lw(arraySize,arrTemp,0);
 		sir_MIPS_a_lot.getInstance().bge(subscriptTemp,arraySize,abort_label);
+
 		
 		//get pointer to wanted cell
 		TEMP arrayPointer = TEMP_FACTORY.getInstance().getFreshTEMP(); //how to use s registers?
