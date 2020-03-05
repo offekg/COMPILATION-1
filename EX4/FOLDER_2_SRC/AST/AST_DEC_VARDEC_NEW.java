@@ -94,7 +94,7 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 		/*********************************************************/
 		/* [5] Return value is irrelevant for class declarations */
 		/*********************************************************/
-		Context.varsInFunc.add(name);
+		Context.varsInFunc +=1;
 		return declaredType;
 	}
 
