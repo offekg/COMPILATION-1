@@ -100,7 +100,7 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 		/*********************************************************/
 		/* [5] Return value is irrelevant for variable declarations */
 		/*********************************************************/
-		Context.varsInFunc.add(name);
+		Context.varsInFunc += 1;
 		return t;
 	}
 	

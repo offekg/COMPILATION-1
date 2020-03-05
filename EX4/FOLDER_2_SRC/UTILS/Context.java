@@ -59,5 +59,5 @@ public class Context {
 	public static LinkedList<HashMap<String, Integer>> localFrameVarsList = new LinkedList<>(Arrays.asList(new HashMap<>()));
 
 	// 
-	public static HashSet<String> varsInFunc = new HashSet<>();
+	public static int varsInFunc = 0;
 }

@@ -36,7 +36,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		/*************************/
 		/* [1] Begin Class Scope */
 		/*************************/
-		Context.varsInFunc.clear();
+		Context.varsInFunc = 0;
 		
 		// Check return type exists
 		TYPE typeOfReturn = SYMBOL_TABLE.getInstance().find(returnType);
@@ -91,7 +91,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 			OutputFileWriter.writeError(this.lineNumber,
 					String.format("No return statement for a function that should return %s %s", returnType, funcName));
 
-		maxVarsCount = Context.varsInFunc.size();
+		maxVarsCount = Context.varsInFunc;
 		/*****************/
 		/* [3] End Scope */
 		/*****************/
@@ -110,7 +110,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 		/*************************/
 		/* [1] Begin Class Scope */
 		/*************************/
-		Context.varsInFunc.clear();
+		Context.varsInFunc = 0;
 		
 		// Check return type exists
 		TYPE typeOfReturn = SYMBOL_TABLE.getInstance().find(returnType);
@@ -164,7 +164,7 @@ public class AST_DEC_FUNCDEC extends AST_DEC {
 			OutputFileWriter.writeError(this.lineNumber,
 					String.format("No return statement for a function that should return %s %s", returnType, funcName));
 
-		maxVarsCount = Context.varsInFunc.size();
+		maxVarsCount = Context.varsInFunc;
 		/*****************/
 		/* [3] End Scope */
 		/*****************/
