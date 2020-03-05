@@ -65,6 +65,11 @@ public class AST_VAR_SIMPLE extends AST_VAR {
 	}
 
 	public TEMP IRme() {
+		if (Context.varStack.getLast().contains(name)) {
+			TEMP temp = TEMP_FACTORY.getInstance().getFreshTEMP();
+			IR.getInstance().Add_IRcommand(new IRcommand_LoadLocalVar(temp, name));
+			return temp;
+		}
 		if (Context.currentClassBuilder != null) {
 			if (Context.classFields.get(Context.currentClassBuilder).contains(name)) {
 				TEMP objTemp = TEMP_FACTORY.getInstance().getFreshTEMP();

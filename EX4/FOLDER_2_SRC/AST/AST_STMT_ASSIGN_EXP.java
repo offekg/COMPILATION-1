@@ -83,6 +83,11 @@ public class AST_STMT_ASSIGN_EXP extends AST_STMT {
 		TEMP expTemp; // left hand side should be evaluated first.
 		if (var.isVarSimple()) {
 			AST_VAR_SIMPLE varSimple = (AST_VAR_SIMPLE) var;
+			if (Context.varStack.getLast().contains(varSimple.name)) {
+				expTemp = exp.IRme();
+				IR.getInstance().Add_IRcommand(new IRcommand_StoreLocalVar(varSimple.name, expTemp));
+				return null;
+			}
 			if (Context.currentClassBuilder != null
 					&& Context.classFields.get(Context.currentClassBuilder).contains(varSimple.name)) {
 				TEMP objTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
