@@ -16,11 +16,11 @@ public class IRcommand_StoreOnStack extends IRcommand{
 	
 	public void MIPSme() 
 	{
-		sir_MIPS_a_lot.getInstance().storeROnStack(t, offset);
+		sir_MIPS_a_lot.getInstance().storeOnStack(t, offset);
 	}
 	
 	@Override
 	public void printMe() {
-		System.out.println("store on stack " + t.getSymbol() + " offset " + offest);
+		System.out.println("store on stack " + t.getSymbol() + " offset " + offset);
 	}
 }

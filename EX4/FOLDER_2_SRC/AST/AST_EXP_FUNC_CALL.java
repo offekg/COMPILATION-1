@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.SortedMap;
 
 import IR.IR;
+import IR.IRcommand_Allocate_Stack;
 import IR.IRcommand_Call_Global_Function;
 import IR.IRcommand_Call_Virtual_Function;
 import IR.IRcommand_Get_Input_Var;
@@ -17,6 +18,7 @@ import IR.IRcommand_LoadReturnValue;
 import IR.IRcommand_PrintInt;
 import IR.IRcommand_PrintString;
 import IR.IRcommand_Push;
+import IR.IRcommand_StoreOnStack;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
 import TEMP.TEMP_FACTORY;
@@ -194,8 +196,9 @@ public class AST_EXP_FUNC_CALL extends AST_EXP {
 		}
 		IR.getInstance().Add_IRcommand(new IRcommand_Allocate_Stack(count));
 		
+		count = 0;
 		while (cur != null) {
-			IR.getInstance().Add_IRcommand(new IRcommand_StoreOnStack(cur.head.IRme(), count--));
+			IR.getInstance().Add_IRcommand(new IRcommand_StoreOnStack(cur.head.IRme(), count++));
 			cur = cur.tail;
 		}
 	}

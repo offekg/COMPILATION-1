@@ -282,7 +282,7 @@ public class sir_MIPS_a_lot {
 	}
 
 	public void allocate_stack(int size) {
-		fileWriter.format("\taddi $sp, $sp, %d\n", -4 * size);
+		fileWriter.format("\taddi $sp, $sp, %d\n", -(WORD_SIZE * size));
 	}
 
 	public void function_prolog() {
@@ -344,6 +344,11 @@ public class sir_MIPS_a_lot {
 		addi(len, len, -1);
 	}
 
+	public void storeOnStack(TEMP t, int offset) {
+		int idxt = t.getSerialNumber();
+		fileWriter.format("\tsw Temp_%d,$d($sp)\n", idxt, offset*WORD_SIZE);// save register value in stack, above sp
+	}	
+	
 	public void push(TEMP t) {
 		int idxt = t.getSerialNumber();
 		fileWriter.format("\taddi $sp, $sp, %d\n", -WORD_SIZE); // move stack pointer down

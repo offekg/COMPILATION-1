@@ -168,7 +168,7 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 	
 	public void pushArgs() {
 		// push all args to stack
-		AST_EXP_LIST cur = expList;
+		AST_EXP_LIST cur = args;
 		int count = 0;
 		
 		while (cur != null) {
@@ -177,8 +177,9 @@ public class AST_STMT_FUNC_CALL extends AST_STMT {
 		}
 		IR.getInstance().Add_IRcommand(new IRcommand_Allocate_Stack(count));
 		
+		count = 0;
 		while (cur != null) {
-			IR.getInstance().Add_IRcommand(new IRcommand_StoreOnStack(cur.head.IRme(), count--));
+			IR.getInstance().Add_IRcommand(new IRcommand_StoreOnStack(cur.head.IRme(), count++));
 			cur = cur.tail;
 		}
 	}
