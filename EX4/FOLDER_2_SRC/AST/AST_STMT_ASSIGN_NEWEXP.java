@@ -98,6 +98,11 @@ public class AST_STMT_ASSIGN_NEWEXP extends AST_STMT {
 		if (var.isVarSimple()) {
 			AST_VAR_SIMPLE varSimple = (AST_VAR_SIMPLE) var;
 			if (Context.currentClassBuilder != null) {
+				if (Context.varStack.getLast().contains(varSimple.name)) {
+					expTemp = exp.IRme();
+					IR.getInstance().Add_IRcommand(new IRcommand_StoreLocalVar(varSimple.name, expTemp));
+					return null;
+				}
 				if (Context.classFields.get(Context.currentClassBuilder).contains(varSimple.name)) {
 					TEMP objTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
 					IR.getInstance().Add_IRcommand(new IRcommand_Get_Input_Var(objTemp, Context.currentObjectIndex));
