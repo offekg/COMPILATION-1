@@ -66,9 +66,6 @@ public class AST_VAR_SIMPLE extends AST_VAR {
 	}
 
 	public TEMP IRme() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-
 		if (Context.currentClassBuilder != null) {
 			if (Context.varStack.getLast().contains(name)) {
 				TEMP temp = TEMP_FACTORY.getInstance().getFreshTEMP();
@@ -76,20 +73,6 @@ public class AST_VAR_SIMPLE extends AST_VAR {
 				return temp;
 			}
 			if (Context.classFields.get(Context.currentClassBuilder).contains(name)) {
-=======
-=======
->>>>>>> 0f64fc429da4b676c0e746f88a781637693924db
-		if (Context.varStack.getLast().contains(uniqueId)) {
-			TEMP temp = TEMP_FACTORY.getInstance().getFreshTEMP();
-			IR.getInstance().Add_IRcommand(new IRcommand_LoadLocalVar(temp, uniqueId));
-			return temp;
-		}
-		if (Context.currentClassBuilder != null) {
-			if (Context.classFields.get(Context.currentClassBuilder).contains(uniqueId)) {
-<<<<<<< HEAD
->>>>>>> testing
-=======
->>>>>>> 0f64fc429da4b676c0e746f88a781637693924db
 				TEMP objTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
 				IR.getInstance().Add_IRcommand(new IRcommand_Get_Input_Var(objTemp, Context.currentObjectIndex));
 				return AST_VAR_FIELD.fieldAccessIR(objTemp, Context.currentClassBuilder, uniqueId);
