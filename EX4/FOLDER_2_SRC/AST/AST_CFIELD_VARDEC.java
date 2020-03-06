@@ -46,7 +46,9 @@ public class AST_CFIELD_VARDEC extends AST_CFIELD {
 			}
 		}
 		TYPE t = vardec.SemantMe();
-		return new TYPE_CLASS_VAR_DEC(t, vardec.name);
+		TYPE_CLASS_VAR_DEC t2 = new TYPE_CLASS_VAR_DEC(t, vardec.name);
+		t2.uniqueId = vardec.uniqueId;
+		return t2;
 	}
 
 	/******************************************************/

@@ -12,6 +12,7 @@ import TEMP.TEMP_FACTORY;
 public class AST_FUNC_INPUT_VARS extends AST_Node {
 	public String paramType;
 	public String paramName;
+	public String uniqueId;
 
 	public AST_FUNC_INPUT_VARS(String paramType, String paramName) {
 		this.paramType = paramType;
@@ -24,8 +25,8 @@ public class AST_FUNC_INPUT_VARS extends AST_Node {
 		TEMP paramTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
 		int index = Context.varStack.getLast().size();
 		IR.getInstance().Add_IRcommand(new IRcommand_Get_Input_Var(paramTemp, index));
-		Context.varStack.getLast().add(paramName);
-		IR.getInstance().Add_IRcommand(new IRcommand_StoreLocalVar(this.paramName, paramTemp));
+		Context.varStack.getLast().add(uniqueId);
+		IR.getInstance().Add_IRcommand(new IRcommand_StoreLocalVar(uniqueId, paramTemp));
 		return paramTemp;
 	}
 
@@ -51,7 +52,7 @@ public class AST_FUNC_INPUT_VARS extends AST_Node {
 			OutputFileWriter.writeError(this.lineNumber, String.format("param %s already exists as a type\n", paramName));
 		}
 
-		SYMBOL_TABLE.getInstance().enter(paramName, typeOfParam);
+		this.uniqueId = SYMBOL_TABLE.getInstance().enter(paramName, typeOfParam);
 		
 		Context.varsInFunc += 1;
 		return typeOfParam;

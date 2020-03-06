@@ -93,6 +93,7 @@ public class AST_VAR_FIELD extends AST_VAR {
 		TYPE ancestorField = tc.getOverriddenDataMemember(fieldName); 
 		if (ancestorField != null) {
 			this.type = ((TYPE_CLASS_VAR_DEC)ancestorField).t; 
+			this.uniqueId = ((TYPE_CLASS_VAR_DEC)ancestorField).uniqueId;
 			return this.type;
 		}
 
