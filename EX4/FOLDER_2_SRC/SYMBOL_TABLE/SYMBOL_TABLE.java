@@ -33,11 +33,15 @@ public class SYMBOL_TABLE {
 	private int hash(String s) {
 		return Math.abs(s.hashCode()) % 13;
 	}
+	
+	public String enter(String name, TYPE t) {
+		return enter(name, t, null);
+	}
 
 	/****************************************************************************/
 	/* Enter a variable, function, class type or array type to the symbol table */
 	/****************************************************************************/
-	public String enter(String name, TYPE t) {
+	public String enter(String name, TYPE t, String uniqueId) {
 		System.out.println("~~entering into table: " + name);
 		/*************************************************/
 		/* [1] Compute the hash value for this new entry */
@@ -53,7 +57,7 @@ public class SYMBOL_TABLE {
 		/**************************************************************************/
 		/* [3] Prepare a new symbol table entry with name, type, next and prevtop */
 		/**************************************************************************/
-		SYMBOL_TABLE_ENTRY e = new SYMBOL_TABLE_ENTRY(name, t, hashValue, next, top, top_index++);
+		SYMBOL_TABLE_ENTRY e = new SYMBOL_TABLE_ENTRY(name, t, hashValue, next, top, top_index++, uniqueId);
 
 		/**********************************************/
 		/* [4] Update the top of the symbol table ... */
@@ -70,7 +74,7 @@ public class SYMBOL_TABLE {
 		/**************************/
 		PrintMe();
 		
-		return e.uniqueId;
+		return e.getUniqueId();
 	}
 
 	/***********************************************/
@@ -90,10 +94,10 @@ public class SYMBOL_TABLE {
 
 	public String getUniqueId(String name) {
 		SYMBOL_TABLE_ENTRY e = this.top;
-
+		int counter = 0;
 		while (e != null) {
 			if (e.name.equals(name)) {
-				return e.uniqueId;
+				return e.getUniqueId();
 			}
 			// if reached class scope, check if name is a field of the father class:
 			if (e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES) {

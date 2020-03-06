@@ -28,7 +28,7 @@ public class AST_CFIELD_VARDEC extends AST_CFIELD {
 		TEMP value = TEMP_FACTORY.getInstance().getFreshTEMP();
 		IR.getInstance().Add_IRcommand(new IRcommand_Move(value, vardec.IRme()));
 		List<String> fieldList = new ArrayList<>(Context.classFields.get(Context.currentClassBuilder));
-		int fieldNumber = fieldList.indexOf(vardec.name);
+		int fieldNumber = fieldList.indexOf(vardec.uniqueId);
 		IR.getInstance().Add_IRcommand(new IRcommand_Field_Set(instanceAddr, fieldNumber, value));
 	}
 
@@ -81,7 +81,7 @@ public class AST_CFIELD_VARDEC extends AST_CFIELD {
 	public TEMP IRme() {
 		String myClass = Context.currentClassBuilder;
 		LinkedHashSet<String> fields = Context.classFields.get(myClass);
-		fields.add(vardec.name);
+		fields.add(vardec.uniqueId);
 		return null;
 	}
 }

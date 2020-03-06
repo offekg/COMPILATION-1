@@ -28,6 +28,7 @@ public class IRcommand_LoadLocalVar extends IRcommand {
 	/* MIPS me !!! */
 	/***************/
 	public void MIPSme() {
+		
 		int var_offset = Context.localFrameVarsList.getLast().get(var_name);
 		sir_MIPS_a_lot.getInstance().loadLocalVar(dst, var_offset);
 	}

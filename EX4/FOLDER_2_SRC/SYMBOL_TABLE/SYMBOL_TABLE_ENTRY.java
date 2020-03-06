@@ -6,8 +6,10 @@ package SYMBOL_TABLE;
 /*******************/
 /* PROJECT IMPORTS */
 /*******************/
+
 import TYPES.*;
 import UTILS.Context;
+import sun.swing.UIAction;
 
 /**********************/
 /* SYMBOL TABLE ENTRY */
@@ -38,24 +40,30 @@ public class SYMBOL_TABLE_ENTRY {
 	/* The prevtop_index is just for debug purposes ... */
 	/****************************************************/
 	public int prevtop_index;
-	
-	public String uniqueId;
+
+	private String uniqueId;
 
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
 	public SYMBOL_TABLE_ENTRY(String name, TYPE type, int index, SYMBOL_TABLE_ENTRY next, SYMBOL_TABLE_ENTRY prevtop,
 			int prevtop_index) {
+		this(name, type, index, next, prevtop, prevtop_index, null);
+	}
+	
+	public SYMBOL_TABLE_ENTRY(String name, TYPE type, int index, SYMBOL_TABLE_ENTRY next, SYMBOL_TABLE_ENTRY prevtop,
+			int prevtop_index, String uniqueId) {
 		this.index = index;
 		this.name = name;
 		this.type = type;
 		this.next = next;
 		this.prevtop = prevtop;
 		this.prevtop_index = prevtop_index;
-		this.uniqueId = generateUniqueId(name);
-		if (type instanceof TYPE_CLASS_VAR_DEC) {
-			((TYPE_CLASS_VAR_DEC)type).uniqueId = this.uniqueId;
-		}
+		this.uniqueId = uniqueId == null ? generateUniqueId(name) : uniqueId;
+	}
+
+	public String getUniqueId() {
+		return uniqueId;
 	}
 
 	private static String generateUniqueId(String name) {

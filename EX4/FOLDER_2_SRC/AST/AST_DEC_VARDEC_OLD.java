@@ -95,7 +95,7 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 		/*****************************************************/
 		/* [4] Enter the new Variable in to the Symbol Table */
 		/*****************************************************/
-		String id = SYMBOL_TABLE.getInstance().enter(name, t);
+		String id = SYMBOL_TABLE.getInstance().enter(name, t, uniqueId);
 		if (this.uniqueId == null)
 			this.uniqueId = id;
 
