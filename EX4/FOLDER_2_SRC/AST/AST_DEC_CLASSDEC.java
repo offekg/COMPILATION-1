@@ -106,6 +106,7 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
 						}
 						if (!fieldType.equalsOrSubclass(overriddenDataMember.t))
 							OutputFileWriter.writeError(currentField.lineNumber, "Wrong field type for overridden field");
+						currentField.vardec.uniqueId = overriddenDataMember.uniqueId;
 					}
 				}
 			}

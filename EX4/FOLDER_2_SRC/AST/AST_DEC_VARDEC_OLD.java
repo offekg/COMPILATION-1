@@ -95,7 +95,9 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 		/*****************************************************/
 		/* [4] Enter the new Variable in to the Symbol Table */
 		/*****************************************************/
-		SYMBOL_TABLE.getInstance().enter(name, t);
+		String id = SYMBOL_TABLE.getInstance().enter(name, t);
+		if (this.uniqueId == null)
+			this.uniqueId = id;
 
 		/*********************************************************/
 		/* [5] Return value is irrelevant for variable declarations */
@@ -113,11 +115,11 @@ public class AST_DEC_VARDEC_OLD extends AST_DEC_VARDEC {
 			IR.getInstance().Add_IRcommand(new IRcommandConstInt(t,0));
 		}
 		if (this.isGlobal) {
-			Context.globals.add(name);
-			IR.getInstance().Add_IRcommand(new IRcommand_StoreGlobal(name, t));
+			Context.globals.add(uniqueId);
+			IR.getInstance().Add_IRcommand(new IRcommand_StoreGlobal(uniqueId, t));
 		} else {			
-			Context.varStack.getLast().add(name);
-			IR.getInstance().Add_IRcommand(new IRcommand_StoreLocalVar(name, t));
+			Context.varStack.getLast().add(uniqueId);
+			IR.getInstance().Add_IRcommand(new IRcommand_StoreLocalVar(uniqueId, t));
 		}
 		return t;
 	}

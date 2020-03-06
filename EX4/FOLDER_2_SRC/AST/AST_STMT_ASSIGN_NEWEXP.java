@@ -98,29 +98,29 @@ public class AST_STMT_ASSIGN_NEWEXP extends AST_STMT {
 		if (var.isVarSimple()) {
 			AST_VAR_SIMPLE varSimple = (AST_VAR_SIMPLE) var;
 			if (Context.currentClassBuilder != null) {
-				if (Context.classFields.get(Context.currentClassBuilder).contains(varSimple.name)) {
+				if (Context.classFields.get(Context.currentClassBuilder).contains(varSimple.uniqueId)) {
 					TEMP objTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
 					IR.getInstance().Add_IRcommand(new IRcommand_Get_Input_Var(objTemp, Context.currentObjectIndex));
 					List<String> fieldList = new ArrayList<>(Context.classFields.get(Context.currentClassBuilder));
-					int fieldNumber = fieldList.indexOf(varSimple.name);
+					int fieldNumber = fieldList.indexOf(varSimple.uniqueId);
 					expTemp = exp.IRme();
 					IR.getInstance().Add_IRcommand(new IRcommand_Field_Set(objTemp, fieldNumber, expTemp));
 				}
 			} else {
 				expTemp = exp.IRme();
-				if ((!Context.varStack.getLast().contains(varSimple.name)
-						|| Context.varStack.getLast().equals(Context.globals)) && Context.globals.contains(varSimple.name)) {
-					IR.getInstance().Add_IRcommand(new IRcommand_StoreGlobal(varSimple.name, expTemp));
+				if ((!Context.varStack.getLast().contains(varSimple.uniqueId)
+						|| Context.varStack.getLast().equals(Context.globals)) && Context.globals.contains(varSimple.uniqueId)) {
+					IR.getInstance().Add_IRcommand(new IRcommand_StoreGlobal(varSimple.uniqueId, expTemp));
 					return expTemp;
 				}
-				IR.getInstance().Add_IRcommand(new IRcommand_StoreLocalVar(varSimple.name, expTemp));
+				IR.getInstance().Add_IRcommand(new IRcommand_StoreLocalVar(varSimple.uniqueId, expTemp));
 			}
 		} else if (var.isVarField()) {
 			AST_VAR_FIELD varField = (AST_VAR_FIELD) var;
 			TEMP objTemp = varField.var.IRme();
 			expTemp = exp.IRme();
 			List<String> fieldList = new ArrayList<>(Context.classFields.get(varField.objectStaticClassName));
-			int fieldNumber = fieldList.indexOf(varField.fieldName);
+			int fieldNumber = fieldList.indexOf(varField.uniqueId);
 			IR.getInstance().Add_IRcommand(new IRcommand_Field_Set(objTemp, fieldNumber, expTemp));
 		} else if (var.isVarSubscrip()) {
 			AST_VAR_SUBSCRIPT varSubscript = (AST_VAR_SUBSCRIPT) var;

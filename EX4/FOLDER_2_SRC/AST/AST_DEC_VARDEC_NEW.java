@@ -21,12 +21,12 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 	
 	@Override
 	public TEMP IRme() {
-		Context.varStack.getLast().add(name);
+		Context.varStack.getLast().add(uniqueId);
 		TEMP expTemp = this.newExp.IRme();
 		if (this.isGlobal) {
-			IR.getInstance().Add_IRcommand(new IRcommand_StoreGlobal(name, expTemp));
+			IR.getInstance().Add_IRcommand(new IRcommand_StoreGlobal(uniqueId, expTemp));
 		} else {			
-			IR.getInstance().Add_IRcommand(new IRcommand_StoreLocalVar(name, expTemp));
+			IR.getInstance().Add_IRcommand(new IRcommand_StoreLocalVar(uniqueId, expTemp));
 		}
 		return expTemp;
 	}
@@ -89,8 +89,10 @@ public class AST_DEC_VARDEC_NEW extends AST_DEC_VARDEC {
 		/***************************************************/
 		/* [4] Enter the Function Type to the Symbol Table */
 		/***************************************************/
-		SYMBOL_TABLE.getInstance().enter(name, declaredType);
-
+		String id = SYMBOL_TABLE.getInstance().enter(name, declaredType);
+		if (this.uniqueId == null)
+			this.uniqueId = id;
+		
 		/*********************************************************/
 		/* [5] Return value is irrelevant for class declarations */
 		/*********************************************************/
