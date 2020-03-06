@@ -484,7 +484,7 @@ public class sir_MIPS_a_lot {
 				 */
 				/*********************************************************************************/
 				String dirname = "./FOLDER_5_OUTPUT/";
-				String filename = String.format(Globals.outputFileForMips);
+				String filename = String.format("MIPS.txt");
 
 				/***************************************/
 				/* [2] Open MIPS text file for writing */

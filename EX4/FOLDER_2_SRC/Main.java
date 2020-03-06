@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import UTILS.RA_optimization;
 import java_cup.runtime.Symbol;
 import SYMBOL_TABLE.OutputFileWriter;
-import UTILS.Globals;
 
 public class Main {
 	static public void main(String argv[]) {
@@ -19,7 +18,6 @@ public class Main {
 		PrintWriter file_writer;
 		String inputFilename = argv[0];
 		String outputFilename = argv[1];
-		Globals.outputFileForMips = outputFilename;
 
 		try {
 			/********************************/
