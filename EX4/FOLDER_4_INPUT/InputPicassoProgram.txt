@@ -1,51 +1,43 @@
-int glob := 1;
+string nowplaying := "nothing";
 
-class A{
-
-	void reset(int y){
-		glob := y;
+class Music{
+	string intro := "NOWPLAYING";
+	string getIntro(){
+		return intro;
 	}
-
-	void inc(){
-		glob := glob + 1;
+	void stop(){
+		nowplaying := "nothing";
 	}
 }
 
-class B extends A{
-	void inc(){
-		glob := glob - 1;
+class Beatles extends Music{
+	void play(){
+		nowplaying := "LucyInTheSkyWithDiamonds";
 	}
+}
 
-	void boom(){
-		glob := 400*400*400;
+
+
+class Queen extends Music{
+	void play(){
+		nowplaying := "IsThisTheRealLifeIsItJustFantasy";
 	}
+}
+ 
+string whatsPlaying(Music m){
+	return m.intro + nowplaying;
 }
 
 void main(){
-	A a := new A;
-	B b := new B;
-	a.reset(1);
+	Beatles b := new Beatles;
+	Queen q := new Queen;
 
-	PrintInt(glob);
-	a.inc();
-
-	PrintInt(glob);
-	a.inc();
-
-	PrintInt(glob);
-	a.inc();
-
-	PrintInt(glob);
-
-	b.inc();
-	PrintInt(glob);
-
-	b.inc();
-	PrintInt(glob);
-
-	b.inc();
-	PrintInt(glob);
-
-	b.boom();
-	PrintInt(glob);
+	PrintString(whatsPlaying(b));
+	b.play();
+	PrintString(whatsPlaying(b));
+	q.play();
+	PrintString(whatsPlaying(q));
+	q.stop();
+	b.stop();
+	PrintString(whatsPlaying(b));
 }
