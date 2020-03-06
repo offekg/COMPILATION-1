@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class RA_optimization {
 	static int tempsCount = TEMP_FACTORY.getCounter();
-	static String inputFilePath = "FOLDER_5_OUTPUT/MIPS.txt";
+	static String inputFilePath = "./FOLDER_5_OUTPUT/MIPS.txt";
 	static Pattern tempsRegex = Pattern.compile("Temp_(\\d+)");
 
 	static String mipsFileContent = "";
