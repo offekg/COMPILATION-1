@@ -1,11 +1,7 @@
 class Father { int i; int j; }
-int foo() {
-	return 5;
-}
-int x := foo();
-
+Father f;
+int i := f.i;
 void main()
 {
     int i;
-    PrintInt(x);
 }

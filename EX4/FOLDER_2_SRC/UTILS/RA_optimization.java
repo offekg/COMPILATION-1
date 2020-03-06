@@ -17,9 +17,9 @@ public class RA_optimization {
 
 	static String mipsFileContent = "";
 
-	private static TempContext[] livenessMarking(String mipsFilePath) throws IOException {
+	private static TempContext[] livenessMarking() throws IOException {
 		TempContext tempContexts[] = new TempContext[tempsCount];
-		BufferedReader mipsFileReader = new BufferedReader(new FileReader(mipsFilePath));
+		BufferedReader mipsFileReader = new BufferedReader(new FileReader(inputFilePath));
 
 		String lineContent;
 		int lineNumber = 0;
@@ -47,7 +47,7 @@ public class RA_optimization {
 	}
 
 	private static void buildInterferenceGraph(GraphManager graph) throws IOException {
-		TempContext tempContexts[] = livenessMarking(inputFilePath);
+		TempContext tempContexts[] = livenessMarking();
 
 		for (int i = 0; i < tempContexts.length; i++) {
 			TempContext temp1 = tempContexts[i];
@@ -74,7 +74,7 @@ public class RA_optimization {
 			mipsFileContent = mipsFileContent.replaceAll("Temp_" + String.valueOf(i), "\\$t" + colored.get(i));
 		}
 		
-		FileWriter outputWriter = new FileWriter(inputFilePath);
+		FileWriter outputWriter = new FileWriter(outputFilePath);
 		outputWriter.write(mipsFileContent);
 		outputWriter.close();
 

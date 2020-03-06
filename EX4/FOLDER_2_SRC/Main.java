@@ -80,12 +80,13 @@ public class Main {
 			/************************/
 			/* [11] RA optimization */
 			/************************/
+			file_writer.close();
+			
 			RA_optimization.optimize(outputFilename);
 
 			/**************************/
 			/* [12] Close output file */
 			/**************************/
-			file_writer.close();
 		}
 
 		catch (Exception e) {
