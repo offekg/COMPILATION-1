@@ -207,12 +207,7 @@ public class sir_MIPS_a_lot {
 	}
 
 	public void label(String inlabel) {
-		if (inlabel.equals("main")) {
-			fileWriter.format(".text\n");
-			fileWriter.format("%s:\n", inlabel);
-		} else {
-			fileWriter.format("%s:\n", inlabel);
-		}
+		fileWriter.format("%s:\n", inlabel);
 	}
 
 	public void jump(String inlabel) {
@@ -510,7 +505,7 @@ public class sir_MIPS_a_lot {
 			add_VTs_to_data_list();
 			add_global_variables_to_data_list();
 			instance.writeGlobalData();
-			instance.label("main");
+			instance.fileWriter.format(".text\n");
 		}
 		return instance;
 	}

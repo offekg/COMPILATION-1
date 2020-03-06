@@ -87,21 +87,30 @@ public class AST_DEC_LIST extends AST_Node {
 		return this.tail == null ? null : this.tail.IRme();
 	}
 	
-	public void IRmeOnlyGlobals() {
+	public void IRmeOnlyClasses() {
+        if(head instanceof AST_DEC_CLASSDEC) {
+            head.IRme();
+        }
+        if(tail != null){
+            tail.IRmeOnlyClasses();
+        }
+    }
+	
+	public void IRmeOnlyGlobalVariables() {
         if(head instanceof AST_DEC_VARDEC){
             head.IRme();
         }
         if(tail != null){
-            tail.IRmeOnlyGlobals();
+            tail.IRmeOnlyGlobalVariables();
         }
     }
 	
-	public void IRmeWithoutGlobals() {
-        if(!(head instanceof AST_DEC_VARDEC)){
+	public void IRmeWithoutGlobalVariablesAndClasses() {
+        if(!(head instanceof AST_DEC_VARDEC || head instanceof AST_DEC_CLASSDEC)){
             head.IRme();
         }
         if(tail != null){
-            tail.IRmeWithoutGlobals();
+            tail.IRmeWithoutGlobalVariablesAndClasses();
         }
     }
 }
