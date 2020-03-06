@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedMap;
-import UTILS.Globals;
+
 
 import IR.IRcommand;
 /*******************/
