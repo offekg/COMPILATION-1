@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedMap;
+import UTILS.Globals;
 
 import IR.IRcommand;
 /*******************/
@@ -483,7 +484,7 @@ public class sir_MIPS_a_lot {
 				 */
 				/*********************************************************************************/
 				String dirname = "./FOLDER_5_OUTPUT/";
-				String filename = String.format("MIPS.txt");
+				String filename = String.format(Globals.outputFileForMips);
 
 				/***************************************/
 				/* [2] Open MIPS text file for writing */
