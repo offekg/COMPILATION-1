@@ -1,9 +1,7 @@
 package AST;
 
 import TYPES.*;
-import IR.IR;
-import IR.IRcommand;
-import IR.IRcommand_Jump_Main;
+import IR.*;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
 
@@ -65,9 +63,12 @@ public class AST_PROGRAM extends AST_Node {
 	}
 	
 	public TEMP IRme() {
-		decList.IRmeOnlyGlobals();
+		IR.getInstance().Add_IRcommand(new IRcommand_Jump_Label("main"));
+		decList.IRmeOnlyClasses();
+		IR.getInstance().Add_IRcommand(new IRcommand_Label("main"));
+		decList.IRmeOnlyGlobalVariables();
 		IR.getInstance().Add_IRcommand(new IRcommand_Jump_Main());
-		decList.IRmeWithoutGlobals();;
+		decList.IRmeWithoutGlobalVariablesAndClasses();;
 		return null;
 	}
 }
