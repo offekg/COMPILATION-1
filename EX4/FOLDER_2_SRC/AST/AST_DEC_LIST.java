@@ -3,6 +3,7 @@ package AST;
 import TYPES.*;
 import SYMBOL_TABLE.*;
 import TEMP.TEMP;
+import IR.*;
 
 public class AST_DEC_LIST extends AST_Node {
 	/****************/
@@ -87,23 +88,21 @@ public class AST_DEC_LIST extends AST_Node {
 		return this.tail == null ? null : this.tail.IRme();
 	}
 	
-	public void IRmeOnlyClasses() {
-        if(head instanceof AST_DEC_CLASSDEC) {
+	public void IRmeOnlyClassesAndVariables() {
+        if(head instanceof AST_DEC_VARDEC) {
             head.IRme();
         }
+        if(head instanceof AST_DEC_CLASSDEC) {
+        	String label = IRcommand.getFreshLabel("after_constructor");
+        	IR.getInstance().Add_IRcommand(new IRcommand_Jump_Label(label));
+        	head.IRme();
+    		IR.getInstance().Add_IRcommand(new IRcommand_Label(label));
+        }
         if(tail != null){
-            tail.IRmeOnlyClasses();
+            tail.IRmeOnlyClassesAndVariables();
         }
     }
 	
-	public void IRmeOnlyGlobalVariables() {
-        if(head instanceof AST_DEC_VARDEC){
-            head.IRme();
-        }
-        if(tail != null){
-            tail.IRmeOnlyGlobalVariables();
-        }
-    }
 	
 	public void IRmeWithoutGlobalVariablesAndClasses() {
         if(!(head instanceof AST_DEC_VARDEC || head instanceof AST_DEC_CLASSDEC)){

@@ -63,10 +63,8 @@ public class AST_PROGRAM extends AST_Node {
 	}
 	
 	public TEMP IRme() {
-		IR.getInstance().Add_IRcommand(new IRcommand_Jump_Label("main"));
-		decList.IRmeOnlyClasses();
 		IR.getInstance().Add_IRcommand(new IRcommand_Label("main"));
-		decList.IRmeOnlyGlobalVariables();
+		decList.IRmeOnlyClassesAndVariables();
 		IR.getInstance().Add_IRcommand(new IRcommand_Jump_Main());
 		decList.IRmeWithoutGlobalVariablesAndClasses();;
 		return null;
