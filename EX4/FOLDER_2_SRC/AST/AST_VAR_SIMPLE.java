@@ -61,10 +61,12 @@ public class AST_VAR_SIMPLE extends AST_VAR {
 		}
 		className = varType.name;
 		this.type = varType;
+		this.uniqueId = SYMBOL_TABLE.getInstance().getUniqueId(name);
 		return this.type;
 	}
 
 	public TEMP IRme() {
+<<<<<<< HEAD
 
 		if (Context.currentClassBuilder != null) {
 			if (Context.varStack.getLast().contains(name)) {
@@ -73,18 +75,27 @@ public class AST_VAR_SIMPLE extends AST_VAR {
 				return temp;
 			}
 			if (Context.classFields.get(Context.currentClassBuilder).contains(name)) {
+=======
+		if (Context.varStack.getLast().contains(uniqueId)) {
+			TEMP temp = TEMP_FACTORY.getInstance().getFreshTEMP();
+			IR.getInstance().Add_IRcommand(new IRcommand_LoadLocalVar(temp, uniqueId));
+			return temp;
+		}
+		if (Context.currentClassBuilder != null) {
+			if (Context.classFields.get(Context.currentClassBuilder).contains(uniqueId)) {
+>>>>>>> testing
 				TEMP objTemp = TEMP_FACTORY.getInstance().getFreshTEMP();
 				IR.getInstance().Add_IRcommand(new IRcommand_Get_Input_Var(objTemp, Context.currentObjectIndex));
-				return AST_VAR_FIELD.fieldAccessIR(objTemp, Context.currentClassBuilder, name);
+				return AST_VAR_FIELD.fieldAccessIR(objTemp, Context.currentClassBuilder, uniqueId);
 			}
 		}
 		TEMP temp = TEMP_FACTORY.getInstance().getFreshTEMP();
-		if ((!Context.varStack.getLast().contains(name) || Context.varStack.getLast() == Context.globals)
-				&& Context.globals.contains(name)) {
-			IR.getInstance().Add_IRcommand(new IRcommand_LoadGlobal(temp, name));
+		if ((!Context.varStack.getLast().contains(uniqueId) || Context.varStack.getLast() == Context.globals)
+				&& Context.globals.contains(uniqueId)) {
+			IR.getInstance().Add_IRcommand(new IRcommand_LoadGlobal(temp, uniqueId));
 			return temp;
 		}
-		IR.getInstance().Add_IRcommand(new IRcommand_LoadLocalVar(temp, name));
+		IR.getInstance().Add_IRcommand(new IRcommand_LoadLocalVar(temp, uniqueId));
 		return temp;
 	}
 }

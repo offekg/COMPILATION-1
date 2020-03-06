@@ -37,7 +37,7 @@ public class SYMBOL_TABLE {
 	/****************************************************************************/
 	/* Enter a variable, function, class type or array type to the symbol table */
 	/****************************************************************************/
-	public void enter(String name, TYPE t) {
+	public String enter(String name, TYPE t) {
 		System.out.println("~~entering into table: " + name);
 		/*************************************************/
 		/* [1] Compute the hash value for this new entry */
@@ -69,6 +69,8 @@ public class SYMBOL_TABLE {
 		/* [6] Print Symbol Table */
 		/**************************/
 		PrintMe();
+		
+		return e.uniqueId;
 	}
 
 	/***********************************************/
@@ -86,6 +88,30 @@ public class SYMBOL_TABLE {
 		return null;
 	}
 
+	public String getUniqueId(String name) {
+		SYMBOL_TABLE_ENTRY e = this.top;
+
+		while (e != null) {
+			if (e.name.equals(name)) {
+				return e.uniqueId;
+			}
+			// if reached class scope, check if name is a field of the father class:
+			if (e.type instanceof TYPE_FOR_SCOPE_BOUNDARIES) {
+				TYPE_FOR_SCOPE_BOUNDARIES eScope = (TYPE_FOR_SCOPE_BOUNDARIES) e.type;
+				if (eScope.scopeType == ScopeType.CLASS_SCOPE) {
+					TYPE_CLASS classEntry = (TYPE_CLASS) classFind(eScope.name);
+					TYPE_CLASS_VAR_DEC classVar = classEntry.getOverriddenDataMemember(name);
+					if (classVar != null) {
+						return classVar.uniqueId;
+					}
+				}
+			}
+
+			e = e.prevtop;
+		}
+		return null;
+	}
+	
 	/***********************************************/
 	/* Find the inner-most class element with name */
 	/***********************************************/

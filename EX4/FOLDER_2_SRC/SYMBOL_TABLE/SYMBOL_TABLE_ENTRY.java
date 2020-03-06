@@ -7,6 +7,7 @@ package SYMBOL_TABLE;
 /* PROJECT IMPORTS */
 /*******************/
 import TYPES.*;
+import UTILS.Context;
 
 /**********************/
 /* SYMBOL TABLE ENTRY */
@@ -37,6 +38,8 @@ public class SYMBOL_TABLE_ENTRY {
 	/* The prevtop_index is just for debug purposes ... */
 	/****************************************************/
 	public int prevtop_index;
+	
+	public String uniqueId;
 
 	/******************/
 	/* CONSTRUCTOR(S) */
@@ -49,5 +52,19 @@ public class SYMBOL_TABLE_ENTRY {
 		this.next = next;
 		this.prevtop = prevtop;
 		this.prevtop_index = prevtop_index;
+		this.uniqueId = generateUniqueId(name);
+		if (type instanceof TYPE_CLASS_VAR_DEC) {
+			((TYPE_CLASS_VAR_DEC)type).uniqueId = this.uniqueId;
+		}
+	}
+
+	private static String generateUniqueId(String name) {
+		if (Context.nameCounter.containsKey(name)) {
+			int count = Context.nameCounter.get(name);
+			Context.nameCounter.put(name, ++count);
+			return name + count;
+		}
+		Context.nameCounter.put(name, 1);
+		return name;
 	}
 }

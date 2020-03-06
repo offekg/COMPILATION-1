@@ -60,4 +60,6 @@ public class Context {
 
 	// 
 	public static int varsInFunc = 0;
+	
+	public static HashMap<String, Integer> nameCounter = new HashMap<>();
 }
