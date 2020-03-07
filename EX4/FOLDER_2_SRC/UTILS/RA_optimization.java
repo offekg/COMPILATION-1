@@ -74,7 +74,7 @@ public class RA_optimization {
 			mipsFileContent = mipsFileContent.replaceAll("Temp_" + String.valueOf(i), "\\$t" + colored.get(i));
 		}
 		
-		FileWriter outputWriter = new FileWriter("./FOLDER_5_OUTPUT/"+outputFilePath);
+		FileWriter outputWriter = new FileWriter(outputFilePath);
 		outputWriter.write(mipsFileContent);
 		outputWriter.close();
 
