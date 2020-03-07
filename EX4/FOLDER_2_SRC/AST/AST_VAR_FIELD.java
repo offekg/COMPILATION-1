@@ -106,7 +106,7 @@ public class AST_VAR_FIELD extends AST_VAR {
 	
 	public TEMP IRme() {
 		TEMP objTemp = var.IRme();
-		return fieldAccessIR(objTemp, objectStaticClassName, fieldName);
+		return fieldAccessIR(objTemp, objectStaticClassName, uniqueId);
 	}
 	
 	public static TEMP fieldAccessIR(TEMP objTemp, String objectClass, String objectField) {
