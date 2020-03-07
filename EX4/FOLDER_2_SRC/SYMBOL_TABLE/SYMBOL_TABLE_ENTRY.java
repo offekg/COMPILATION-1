@@ -70,7 +70,7 @@ public class SYMBOL_TABLE_ENTRY {
 		if (Context.nameCounter.containsKey(name)) {
 			int count = Context.nameCounter.get(name);
 			Context.nameCounter.put(name, ++count);
-			return name + count;
+			return name + "_" + count;
 		}
 		Context.nameCounter.put(name, 1);
 		return name;
