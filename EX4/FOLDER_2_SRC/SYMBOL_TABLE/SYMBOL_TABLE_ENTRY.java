@@ -9,7 +9,6 @@ package SYMBOL_TABLE;
 
 import TYPES.*;
 import UTILS.Context;
-import sun.swing.UIAction;
 
 /**********************/
 /* SYMBOL TABLE ENTRY */
